@@ -37,6 +37,20 @@ entire world, respectively.
 
 import "strings"
 
+/*
+The IdentifierResolver interface with func
+
+# Resolve(identifier string) any
+
+... is what transforms an identifier raw string like
+
+self
+bow
+mind.focusedChest<locked>
+bb.village.huntingParty.position
+
+... into *whatever it resolves to* according to the object(accessor)? notation
+*/
 type IdentifierResolver interface {
 	Resolve(identifier string) any
 }

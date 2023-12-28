@@ -7,6 +7,10 @@ import (
 )
 
 func TestDSLBasic(t *testing.T) {
+
+	//
+	// PREPARE WORLD
+	//
 	w := testingWorld()
 	ps := NewPhysicsSystem()
 	items := NewItemSystem(nil)
@@ -73,35 +77,34 @@ func TestDSLBasic(t *testing.T) {
 	w.Blackboard("somebb").Set("field", field)
 
 	//
-	// entity
+	// TEST
 	//
 
-	// Test Entity.DSLFilter
 	Logger.Println("1")
-	entities, err := e.DSLFilter("HasTag(ox)")
+	entities, err := e.EFDSLFilter("HasTag(ox)")
 	assert.NoError(t, err)
 	assert.ElementsMatch(t, oxen, entities)
 
 	Logger.Println("2")
-	entities, err = e.DSLFilter("HasComponent(position)")
+	entities, err = e.EFDSLFilter("HasComponent(position)")
 	assert.NoError(t, err)
 	assert.Equal(t, 5, len(entities)) // e, item.yoke, 2 oxen, field
 
 	Logger.Println("3")
-	entities, err = e.DSLFilter("WithinDistance(self, 15)")
+	entities, err = e.EFDSLFilter("WithinDistance(self, 15)")
 	assert.NoError(t, err)
 	assert.Equal(t, 3, len(entities)) // e, item.yoke, close ox
 
 	Logger.Println("4")
 	oxen[0].GetIntMap(STATE).Set("yoked", 1)
-	entities, err = e.DSLFilter("State(yoked, 1)")
+	entities, err = e.EFDSLFilter("State(yoked, 1)")
 	assert.NoError(t, err)
 	assert.Equal(t, 1, len(entities))
 	assert.Equal(t, oxen[0], entities[0])
 
 	// Test Entity.DSLFilterSort
 	Logger.Println("5")
-	filterSortEntities, err := e.DSLFilterSort("HasTag(ox); Closest(self)")
+	filterSortEntities, err := e.EFDSLFilterSort("HasTag(ox); Closest(self)")
 	assert.NoError(t, err)
 	assert.Equal(t, oxen[0], filterSortEntities[0]) // a close
 	assert.Equal(t, oxen[1], filterSortEntities[1]) // b far
@@ -112,12 +115,12 @@ func TestDSLBasic(t *testing.T) {
 
 	// Test World.DSLFilter
 	Logger.Println("6")
-	worldEntities, err := w.DSLFilter("HasTag(ox)")
+	worldEntities, err := w.EFDSLFilter("HasTag(ox)")
 	assert.NoError(t, err)
 	assert.ElementsMatch(t, oxen, worldEntities)
 	// Test World.DSLFilterSort
 	Logger.Println("7")
-	worldFilterSortEntities, err := w.DSLFilterSort("HasTag(ox); Closest(bb.somebb.field)")
+	worldFilterSortEntities, err := w.EFDSLFilterSort("HasTag(ox); Closest(bb.somebb.field)")
 	assert.NoError(t, err)
 	assert.Equal(t, oxen[1], worldFilterSortEntities[0]) // b close
 	assert.Equal(t, oxen[0], worldFilterSortEntities[1]) // a far

@@ -1,36 +1,33 @@
 package sameriver
 
-// given the Identifier strings as args,
-// the resolver strategy
-// , we return a func(*Entity) bool, a "predicate", or "filter"
 func EFDSLPredicatesBase(e *EFDSLEvaluator) EFDSLPredicateMap {
 
-	return map[string](func(args []string, resolver IdentifierResolver) func(*Entity) bool){
-
+	return EFDSLPredicateMap{
 
 		//TODO
 		// generic Eq
 		// generic Lt, Le, Gt, Ge
 		/*
-signature IdentResolve<int>,IdentResolve<int>
-"Gt(self<martialarts.skill>, mind.martialarts.prospectiveOpponent<martialarts.skill>)"
+			signature IdentResolve<int>,IdentResolve<int>
+			"Gt(self<martialarts.skill>, mind.martialarts.prospectiveOpponent<martialarts.skill>)"
 
-signature IdentResolve<int>,IdentResolve<int>
-Lt(mind.trading.lowestBargain, mind.trading.other.offer)
+			signature IdentResolve<int>,IdentResolve<int>
+			Lt(mind.trading.lowestBargain, mind.trading.other.offer)
 		*/
-
 
 		// we want to be able to do something like:
 		// Eq(self<martialarts.skill>, <martialarts.skill>)
 		// and overload for whether these are bool,bool, int,int, etc.
-		"Eq": e.Predicate(
-			"what EFDSL signature string goes here?"
-			func(/* what func signature goes here? */) func(*Entity) bool {
-				return func(x *Entity) bool {
-					// what code happens in here?
-				}
-			},
-		),
+		/*
+			"Eq": e.Predicate(
+				"what EFDSL signature string goes here?"
+				func(    TODO: what func signature goes here?     ) func(*Entity) bool {
+					return func(x *Entity) bool {
+						// what code happens in here?
+					}
+				},
+			),
+		*/
 
 		"CanBe": e.Predicate(
 			"string, int",

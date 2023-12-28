@@ -11,7 +11,7 @@ package sameriver
 // that's just the way sort.Slice() goes kid
 func EFDSLSortsBase(e *EFDSLEvaluator) EFDSLSortMap {
 
-	return map[string](func(args []string, resolver IdentifierResolver) func(xs []*Entity) func(i, j int) bool){
+	return EFDSLSortMap{
 
 		"Closest": func(args []string, resolver IdentifierResolver) func(xs []*Entity) func(i, j int) bool {
 			argsTyped, err := DSLAssertArgTypes("Closest(IdentResolve<*Entity>)", args, resolver)

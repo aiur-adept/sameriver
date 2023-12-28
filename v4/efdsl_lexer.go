@@ -7,7 +7,7 @@ import (
 	"unicode"
 )
 
-var DSLIdentRuneRe = regexp.MustCompile("[A-Za-z0-9.<>\\[\\]{}]")
+var DSLIdentRuneRe = regexp.MustCompile("A-Za-z0-9.<>\\[\\]{}]")
 
 func DSLIdentRune(r rune) bool {
 	return DSLIdentRuneRe.MatchString(string(r))

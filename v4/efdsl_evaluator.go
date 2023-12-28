@@ -1,7 +1,10 @@
 package sameriver
 
-type EFDSLPredicateMap map[string](func(args []string, resolver IdentifierResolver) func(*Entity) bool)
-type EFDSLSortMap map[string](func(args []string, resolver IdentifierResolver) func(xs []*Entity) func(i, j int) bool)
+type EFDSLPredicate func(args []string, resolver IdentifierResolver) func(*Entity) bool
+type EFDSLPredicateMap map[string](EFDSLPredicate)
+
+type EFDSLSort func(args []string, resolver IdentifierResolver) func(xs []*Entity) func(i, j int) bool
+type EFDSLSortMap map[string](EFDSLSort)
 
 type EFDSLEvaluator struct {
 	predicates EFDSLPredicateMap
@@ -12,6 +15,9 @@ type EFDSLEvaluator struct {
 	userPredicateSignatureAsserter func(f any, argsTyped []any) func(*Entity) bool
 	userSortSignatureAsserter      func(f any, argsTyped []any) func(xs []*Entity) func(i, j int) int
 }
+
+// global singleton
+var EFDSL = NewEFDSLEvaluator()
 
 func NewEFDSLEvaluator() *EFDSLEvaluator {
 	e := &EFDSLEvaluator{

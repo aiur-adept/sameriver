@@ -5,10 +5,11 @@ import (
 	"sort"
 )
 
-var EFDSL = NewEFDSLEvaluator()
-
 // notice the sortf returned by Evaluate() is a closure that wants the result string so it can actually use i, j int
-
+// params: EFDSLEval takes the expression and a resolver (for identifiers)
+// returns: an entity predicate and an entity sort function and possibly an error
+//
+//	aka (p, q, err)
 func EFDSLEval(expr string, resolver IdentifierResolver) (func(*Entity) bool, func(xs []*Entity) func(i, j int) bool, error) {
 	parser := &EFDSLParser{}
 
