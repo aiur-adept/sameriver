@@ -106,7 +106,7 @@ func EFDSLPredicatesBase(e *EFDSLEvaluator) EFDSLPredicateMap {
 		),
 
 		"RectOverlap": func(args []string, resolver IdentifierResolver) func(*Entity) bool {
-			argsTyped, err := DSLAssertArgTypes("RectOverlap", args, resolver)
+			argsTyped, err := DSLAssertArgTypes("Vec2D, Vec2D, Vec2D, Vec2D", args, resolver)
 			if err != nil {
 				logDSLError("%s", err)
 			}

@@ -14,7 +14,7 @@ func EFDSLSortsBase(e *EFDSLEvaluator) EFDSLSortMap {
 	return EFDSLSortMap{
 
 		"Closest": func(args []string, resolver IdentifierResolver) func(xs []*Entity) func(i, j int) bool {
-			argsTyped, err := DSLAssertArgTypes("Closest(IdentResolve<*Entity>)", args, resolver)
+			argsTyped, err := DSLAssertArgTypes("IdentResolve<*Entity>", args, resolver)
 			if err != nil {
 				logDSLError("%s", err)
 			}
