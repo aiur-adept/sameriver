@@ -3,5 +3,36 @@
     // Hover to view descriptions of existing attributes.
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
-    "configurations": []
+    "configurations": [
+        {
+            "name": "EFDSL-gen",
+            "type": "go",
+            "request": "launch",
+            "mode": "debug",
+            "program": "${workspaceFolder}/v4/cmd/sameriver-efdsl-gen/main.go"
+        },
+        {
+            "name": "TestEFDSLParser",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/v4/",
+            "args": [
+                "-test.run",
+                "TestEFDSLParser"
+            ]
+        },
+        {
+            "name": "TestDSLBasic",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/v4/",
+            "args": [
+                "-test.run",
+                "TestDSLBasic"
+            ]
+        }
+
+    ]
 }

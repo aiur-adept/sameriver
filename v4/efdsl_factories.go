@@ -36,11 +36,13 @@ func (e *EFDSLEvaluator) Predicate(args ...any) func(args []string, resolver Ide
 		}
 
 		// check if type signature is user-defined
-		result := e.userPredicateSignatureAsserter(funcs[i], argsTyped)
-		if result != nil {
-			return result
+		if e.userPredicateSignatureAsserter != nil {
+			result := e.userPredicateSignatureAsserter(funcs[i], argsTyped)
+			if result != nil {
+				return result
+			}
 		}
-		// else, we handle a finite set of signatures
+		// else, we handle a finite set of signatures (from generated)
 		return e.predicateSignatureAssertSwitch(funcs[i], argsTyped)
 	}
 }
@@ -66,11 +68,13 @@ func (e *EFDSLEvaluator) Sort(args ...any) func(args []string, resolver Identifi
 		}
 
 		// check if type signature is user-defined
-		result := e.userSortSignatureAsserter(funcs[i], argsTyped)
-		if result != nil {
-			return result
+		if e.userSortSignatureAsserter != nil {
+			result := e.userSortSignatureAsserter(funcs[i], argsTyped)
+			if result != nil {
+				return result
+			}
 		}
-		// else, we handle a finite set of signatures
+		// else, we handle a finite set of signatures from generated
 		return e.sortSignatureAssertSwitch(funcs[i], argsTyped)
 	}
 }

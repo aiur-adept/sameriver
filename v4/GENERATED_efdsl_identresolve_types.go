@@ -11,8 +11,14 @@ var IdentResolveTypeAssertMap = map[string]DSLArgTypeAssertionFunc{
 	"int": func(arg string, resolver IdentifierResolver) (any, error) {
 		return AssertT[int](resolver.Resolve(arg), "int")
 	},
+	"float64": func(arg string, resolver IdentifierResolver) (any, error) {
+		return AssertT[float64](resolver.Resolve(arg), "float64")
+	},
 	"string": func(arg string, resolver IdentifierResolver) (any, error) {
 		return AssertT[string](resolver.Resolve(arg), "string")
+	},
+	"[]string": func(arg string, resolver IdentifierResolver) (any, error) {
+		return AssertT[[]string](resolver.Resolve(arg), "[]string")
 	},
 	"*Entity": func(arg string, resolver IdentifierResolver) (any, error) {
 		return AssertT[*Entity](resolver.Resolve(arg), "*Entity")
@@ -25,8 +31,5 @@ var IdentResolveTypeAssertMap = map[string]DSLArgTypeAssertionFunc{
 	},
 	"[]*Vec2D": func(arg string, resolver IdentifierResolver) (any, error) {
 		return AssertT[[]*Vec2D](resolver.Resolve(arg), "[]*Vec2D")
-	},
-	"*EventPredicate": func(arg string, resolver IdentifierResolver) (any, error) {
-		return AssertT[*EventPredicate](resolver.Resolve(arg), "*EventPredicate")
 	},
 }

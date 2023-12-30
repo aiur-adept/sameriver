@@ -153,7 +153,7 @@ func genCodeSigAssertSwitchCore(funcReturnType, switchFuncName, userRegisterFunc
 		cases = append(cases, caseStr)
 	}
 
-	return fmt.Sprintf(`func (e *EntityFilterDSLEvaluator) %s(f any, argsTyped []any) %s {
+	return fmt.Sprintf(`func (e *EFDSLEvaluator) %s(f any, argsTyped []any) %s {
 	var result %s
 	switch fTyped := f.(type) {
 %s

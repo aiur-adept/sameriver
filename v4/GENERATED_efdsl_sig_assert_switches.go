@@ -11,8 +11,12 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(bool))
 	case func(int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int))
+	case func(float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64))
 	case func(string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string))
+	case func([]string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string))
 	case func(*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity))
 	case func([]*Entity) func(*Entity) bool:
@@ -21,14 +25,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D))
 	case func([]*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D))
-	case func(*EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate))
 	case func(bool, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(bool))
 	case func(int, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(bool))
+	case func(float64, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(bool))
 	case func(string, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(bool))
+	case func([]string, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(bool))
 	case func(*Entity, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(bool))
 	case func([]*Entity, bool) func(*Entity) bool:
@@ -37,14 +43,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(bool))
 	case func([]*Vec2D, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(bool))
-	case func(*EventPredicate, bool) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(bool))
 	case func(bool, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(int))
 	case func(int, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(int))
+	case func(float64, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(int))
 	case func(string, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(int))
+	case func([]string, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(int))
 	case func(*Entity, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(int))
 	case func([]*Entity, int) func(*Entity) bool:
@@ -53,14 +61,34 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(int))
 	case func([]*Vec2D, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(int))
-	case func(*EventPredicate, int) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(int))
+	case func(bool, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(float64))
+	case func(int, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(float64))
+	case func(float64, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(float64))
+	case func(string, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(float64))
+	case func([]string, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(float64))
+	case func(*Entity, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(float64))
+	case func([]*Entity, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(float64))
+	case func(*Vec2D, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(float64))
+	case func([]*Vec2D, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(float64))
 	case func(bool, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(string))
 	case func(int, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(string))
+	case func(float64, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(string))
 	case func(string, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(string))
+	case func([]string, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(string))
 	case func(*Entity, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(string))
 	case func([]*Entity, string) func(*Entity) bool:
@@ -69,14 +97,34 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(string))
 	case func([]*Vec2D, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(string))
-	case func(*EventPredicate, string) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(string))
+	case func(bool, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]string))
+	case func(int, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]string))
+	case func(float64, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]string))
+	case func(string, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]string))
+	case func([]string, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]string))
+	case func(*Entity, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]string))
+	case func([]*Entity, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]string))
+	case func(*Vec2D, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]string))
+	case func([]*Vec2D, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]string))
 	case func(bool, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Entity))
 	case func(int, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Entity))
+	case func(float64, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Entity))
 	case func(string, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Entity))
+	case func([]string, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Entity))
 	case func(*Entity, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Entity))
 	case func([]*Entity, *Entity) func(*Entity) bool:
@@ -85,14 +133,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Entity))
 	case func([]*Vec2D, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Entity))
-	case func(*EventPredicate, *Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Entity))
 	case func(bool, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Entity))
 	case func(int, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Entity))
+	case func(float64, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Entity))
 	case func(string, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Entity))
+	case func([]string, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Entity))
 	case func(*Entity, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Entity))
 	case func([]*Entity, []*Entity) func(*Entity) bool:
@@ -101,14 +151,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Entity))
 	case func([]*Vec2D, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Entity))
-	case func(*EventPredicate, []*Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Entity))
 	case func(bool, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Vec2D))
 	case func(int, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Vec2D))
+	case func(float64, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Vec2D))
 	case func(string, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Vec2D))
+	case func([]string, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Vec2D))
 	case func(*Entity, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Vec2D))
 	case func([]*Entity, *Vec2D) func(*Entity) bool:
@@ -117,14 +169,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Vec2D))
 	case func([]*Vec2D, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Vec2D))
-	case func(*EventPredicate, *Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Vec2D))
 	case func(bool, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Vec2D))
 	case func(int, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Vec2D))
+	case func(float64, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Vec2D))
 	case func(string, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Vec2D))
+	case func([]string, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Vec2D))
 	case func(*Entity, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Vec2D))
 	case func([]*Entity, []*Vec2D) func(*Entity) bool:
@@ -133,30 +187,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Vec2D))
 	case func([]*Vec2D, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Vec2D))
-	case func(*EventPredicate, []*Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Vec2D))
-	case func(bool, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*EventPredicate))
-	case func(int, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(*EventPredicate))
-	case func(string, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(*EventPredicate))
-	case func(*Entity, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*EventPredicate))
-	case func([]*Entity, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*EventPredicate))
-	case func(*Vec2D, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*EventPredicate))
-	case func([]*Vec2D, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*EventPredicate))
-	case func(*EventPredicate, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*EventPredicate))
 	case func(bool, bool, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(bool), argsTyped[2].(bool))
 	case func(int, bool, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(bool), argsTyped[2].(bool))
+	case func(float64, bool, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(bool), argsTyped[2].(bool))
 	case func(string, bool, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(bool), argsTyped[2].(bool))
+	case func([]string, bool, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(bool), argsTyped[2].(bool))
 	case func(*Entity, bool, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(bool), argsTyped[2].(bool))
 	case func([]*Entity, bool, bool) func(*Entity) bool:
@@ -165,14 +205,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(bool), argsTyped[2].(bool))
 	case func([]*Vec2D, bool, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(bool), argsTyped[2].(bool))
-	case func(*EventPredicate, bool, bool) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(bool), argsTyped[2].(bool))
 	case func(bool, int, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(int), argsTyped[2].(bool))
 	case func(int, int, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(int), argsTyped[2].(bool))
+	case func(float64, int, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(int), argsTyped[2].(bool))
 	case func(string, int, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(int), argsTyped[2].(bool))
+	case func([]string, int, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(int), argsTyped[2].(bool))
 	case func(*Entity, int, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(int), argsTyped[2].(bool))
 	case func([]*Entity, int, bool) func(*Entity) bool:
@@ -181,14 +223,34 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(int), argsTyped[2].(bool))
 	case func([]*Vec2D, int, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(int), argsTyped[2].(bool))
-	case func(*EventPredicate, int, bool) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(int), argsTyped[2].(bool))
+	case func(bool, float64, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(float64), argsTyped[2].(bool))
+	case func(int, float64, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(float64), argsTyped[2].(bool))
+	case func(float64, float64, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(float64), argsTyped[2].(bool))
+	case func(string, float64, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(float64), argsTyped[2].(bool))
+	case func([]string, float64, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(float64), argsTyped[2].(bool))
+	case func(*Entity, float64, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(float64), argsTyped[2].(bool))
+	case func([]*Entity, float64, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(float64), argsTyped[2].(bool))
+	case func(*Vec2D, float64, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(float64), argsTyped[2].(bool))
+	case func([]*Vec2D, float64, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(float64), argsTyped[2].(bool))
 	case func(bool, string, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(string), argsTyped[2].(bool))
 	case func(int, string, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(string), argsTyped[2].(bool))
+	case func(float64, string, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(string), argsTyped[2].(bool))
 	case func(string, string, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(string), argsTyped[2].(bool))
+	case func([]string, string, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(string), argsTyped[2].(bool))
 	case func(*Entity, string, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(string), argsTyped[2].(bool))
 	case func([]*Entity, string, bool) func(*Entity) bool:
@@ -197,14 +259,34 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(string), argsTyped[2].(bool))
 	case func([]*Vec2D, string, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(string), argsTyped[2].(bool))
-	case func(*EventPredicate, string, bool) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(string), argsTyped[2].(bool))
+	case func(bool, []string, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]string), argsTyped[2].(bool))
+	case func(int, []string, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]string), argsTyped[2].(bool))
+	case func(float64, []string, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]string), argsTyped[2].(bool))
+	case func(string, []string, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]string), argsTyped[2].(bool))
+	case func([]string, []string, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]string), argsTyped[2].(bool))
+	case func(*Entity, []string, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]string), argsTyped[2].(bool))
+	case func([]*Entity, []string, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]string), argsTyped[2].(bool))
+	case func(*Vec2D, []string, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]string), argsTyped[2].(bool))
+	case func([]*Vec2D, []string, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]string), argsTyped[2].(bool))
 	case func(bool, *Entity, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Entity), argsTyped[2].(bool))
 	case func(int, *Entity, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Entity), argsTyped[2].(bool))
+	case func(float64, *Entity, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Entity), argsTyped[2].(bool))
 	case func(string, *Entity, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Entity), argsTyped[2].(bool))
+	case func([]string, *Entity, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Entity), argsTyped[2].(bool))
 	case func(*Entity, *Entity, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Entity), argsTyped[2].(bool))
 	case func([]*Entity, *Entity, bool) func(*Entity) bool:
@@ -213,14 +295,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(bool))
 	case func([]*Vec2D, *Entity, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(bool))
-	case func(*EventPredicate, *Entity, bool) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Entity), argsTyped[2].(bool))
 	case func(bool, []*Entity, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Entity), argsTyped[2].(bool))
 	case func(int, []*Entity, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Entity), argsTyped[2].(bool))
+	case func(float64, []*Entity, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Entity), argsTyped[2].(bool))
 	case func(string, []*Entity, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Entity), argsTyped[2].(bool))
+	case func([]string, []*Entity, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Entity), argsTyped[2].(bool))
 	case func(*Entity, []*Entity, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Entity), argsTyped[2].(bool))
 	case func([]*Entity, []*Entity, bool) func(*Entity) bool:
@@ -229,14 +313,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(bool))
 	case func([]*Vec2D, []*Entity, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(bool))
-	case func(*EventPredicate, []*Entity, bool) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Entity), argsTyped[2].(bool))
 	case func(bool, *Vec2D, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Vec2D), argsTyped[2].(bool))
 	case func(int, *Vec2D, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Vec2D), argsTyped[2].(bool))
+	case func(float64, *Vec2D, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Vec2D), argsTyped[2].(bool))
 	case func(string, *Vec2D, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Vec2D), argsTyped[2].(bool))
+	case func([]string, *Vec2D, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Vec2D), argsTyped[2].(bool))
 	case func(*Entity, *Vec2D, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Vec2D), argsTyped[2].(bool))
 	case func([]*Entity, *Vec2D, bool) func(*Entity) bool:
@@ -245,14 +331,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(bool))
 	case func([]*Vec2D, *Vec2D, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(bool))
-	case func(*EventPredicate, *Vec2D, bool) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Vec2D), argsTyped[2].(bool))
 	case func(bool, []*Vec2D, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Vec2D), argsTyped[2].(bool))
 	case func(int, []*Vec2D, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Vec2D), argsTyped[2].(bool))
+	case func(float64, []*Vec2D, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Vec2D), argsTyped[2].(bool))
 	case func(string, []*Vec2D, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Vec2D), argsTyped[2].(bool))
+	case func([]string, []*Vec2D, bool) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Vec2D), argsTyped[2].(bool))
 	case func(*Entity, []*Vec2D, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Vec2D), argsTyped[2].(bool))
 	case func([]*Entity, []*Vec2D, bool) func(*Entity) bool:
@@ -261,30 +349,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(bool))
 	case func([]*Vec2D, []*Vec2D, bool) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(bool))
-	case func(*EventPredicate, []*Vec2D, bool) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Vec2D), argsTyped[2].(bool))
-	case func(bool, *EventPredicate, bool) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*EventPredicate), argsTyped[2].(bool))
-	case func(int, *EventPredicate, bool) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(*EventPredicate), argsTyped[2].(bool))
-	case func(string, *EventPredicate, bool) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(*EventPredicate), argsTyped[2].(bool))
-	case func(*Entity, *EventPredicate, bool) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].(bool))
-	case func([]*Entity, *EventPredicate, bool) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].(bool))
-	case func(*Vec2D, *EventPredicate, bool) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].(bool))
-	case func([]*Vec2D, *EventPredicate, bool) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].(bool))
-	case func(*EventPredicate, *EventPredicate, bool) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*EventPredicate), argsTyped[2].(bool))
 	case func(bool, bool, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(bool), argsTyped[2].(int))
 	case func(int, bool, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(bool), argsTyped[2].(int))
+	case func(float64, bool, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(bool), argsTyped[2].(int))
 	case func(string, bool, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(bool), argsTyped[2].(int))
+	case func([]string, bool, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(bool), argsTyped[2].(int))
 	case func(*Entity, bool, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(bool), argsTyped[2].(int))
 	case func([]*Entity, bool, int) func(*Entity) bool:
@@ -293,14 +367,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(bool), argsTyped[2].(int))
 	case func([]*Vec2D, bool, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(bool), argsTyped[2].(int))
-	case func(*EventPredicate, bool, int) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(bool), argsTyped[2].(int))
 	case func(bool, int, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(int), argsTyped[2].(int))
 	case func(int, int, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(int), argsTyped[2].(int))
+	case func(float64, int, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(int), argsTyped[2].(int))
 	case func(string, int, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(int), argsTyped[2].(int))
+	case func([]string, int, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(int), argsTyped[2].(int))
 	case func(*Entity, int, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(int), argsTyped[2].(int))
 	case func([]*Entity, int, int) func(*Entity) bool:
@@ -309,14 +385,34 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(int), argsTyped[2].(int))
 	case func([]*Vec2D, int, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(int), argsTyped[2].(int))
-	case func(*EventPredicate, int, int) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(int), argsTyped[2].(int))
+	case func(bool, float64, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(float64), argsTyped[2].(int))
+	case func(int, float64, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(float64), argsTyped[2].(int))
+	case func(float64, float64, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(float64), argsTyped[2].(int))
+	case func(string, float64, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(float64), argsTyped[2].(int))
+	case func([]string, float64, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(float64), argsTyped[2].(int))
+	case func(*Entity, float64, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(float64), argsTyped[2].(int))
+	case func([]*Entity, float64, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(float64), argsTyped[2].(int))
+	case func(*Vec2D, float64, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(float64), argsTyped[2].(int))
+	case func([]*Vec2D, float64, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(float64), argsTyped[2].(int))
 	case func(bool, string, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(string), argsTyped[2].(int))
 	case func(int, string, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(string), argsTyped[2].(int))
+	case func(float64, string, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(string), argsTyped[2].(int))
 	case func(string, string, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(string), argsTyped[2].(int))
+	case func([]string, string, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(string), argsTyped[2].(int))
 	case func(*Entity, string, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(string), argsTyped[2].(int))
 	case func([]*Entity, string, int) func(*Entity) bool:
@@ -325,14 +421,34 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(string), argsTyped[2].(int))
 	case func([]*Vec2D, string, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(string), argsTyped[2].(int))
-	case func(*EventPredicate, string, int) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(string), argsTyped[2].(int))
+	case func(bool, []string, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]string), argsTyped[2].(int))
+	case func(int, []string, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]string), argsTyped[2].(int))
+	case func(float64, []string, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]string), argsTyped[2].(int))
+	case func(string, []string, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]string), argsTyped[2].(int))
+	case func([]string, []string, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]string), argsTyped[2].(int))
+	case func(*Entity, []string, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]string), argsTyped[2].(int))
+	case func([]*Entity, []string, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]string), argsTyped[2].(int))
+	case func(*Vec2D, []string, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]string), argsTyped[2].(int))
+	case func([]*Vec2D, []string, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]string), argsTyped[2].(int))
 	case func(bool, *Entity, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Entity), argsTyped[2].(int))
 	case func(int, *Entity, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Entity), argsTyped[2].(int))
+	case func(float64, *Entity, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Entity), argsTyped[2].(int))
 	case func(string, *Entity, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Entity), argsTyped[2].(int))
+	case func([]string, *Entity, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Entity), argsTyped[2].(int))
 	case func(*Entity, *Entity, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Entity), argsTyped[2].(int))
 	case func([]*Entity, *Entity, int) func(*Entity) bool:
@@ -341,14 +457,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(int))
 	case func([]*Vec2D, *Entity, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(int))
-	case func(*EventPredicate, *Entity, int) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Entity), argsTyped[2].(int))
 	case func(bool, []*Entity, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Entity), argsTyped[2].(int))
 	case func(int, []*Entity, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Entity), argsTyped[2].(int))
+	case func(float64, []*Entity, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Entity), argsTyped[2].(int))
 	case func(string, []*Entity, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Entity), argsTyped[2].(int))
+	case func([]string, []*Entity, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Entity), argsTyped[2].(int))
 	case func(*Entity, []*Entity, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Entity), argsTyped[2].(int))
 	case func([]*Entity, []*Entity, int) func(*Entity) bool:
@@ -357,14 +475,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(int))
 	case func([]*Vec2D, []*Entity, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(int))
-	case func(*EventPredicate, []*Entity, int) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Entity), argsTyped[2].(int))
 	case func(bool, *Vec2D, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Vec2D), argsTyped[2].(int))
 	case func(int, *Vec2D, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Vec2D), argsTyped[2].(int))
+	case func(float64, *Vec2D, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Vec2D), argsTyped[2].(int))
 	case func(string, *Vec2D, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Vec2D), argsTyped[2].(int))
+	case func([]string, *Vec2D, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Vec2D), argsTyped[2].(int))
 	case func(*Entity, *Vec2D, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Vec2D), argsTyped[2].(int))
 	case func([]*Entity, *Vec2D, int) func(*Entity) bool:
@@ -373,14 +493,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(int))
 	case func([]*Vec2D, *Vec2D, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(int))
-	case func(*EventPredicate, *Vec2D, int) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Vec2D), argsTyped[2].(int))
 	case func(bool, []*Vec2D, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Vec2D), argsTyped[2].(int))
 	case func(int, []*Vec2D, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Vec2D), argsTyped[2].(int))
+	case func(float64, []*Vec2D, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Vec2D), argsTyped[2].(int))
 	case func(string, []*Vec2D, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Vec2D), argsTyped[2].(int))
+	case func([]string, []*Vec2D, int) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Vec2D), argsTyped[2].(int))
 	case func(*Entity, []*Vec2D, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Vec2D), argsTyped[2].(int))
 	case func([]*Entity, []*Vec2D, int) func(*Entity) bool:
@@ -389,30 +511,178 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(int))
 	case func([]*Vec2D, []*Vec2D, int) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(int))
-	case func(*EventPredicate, []*Vec2D, int) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Vec2D), argsTyped[2].(int))
-	case func(bool, *EventPredicate, int) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*EventPredicate), argsTyped[2].(int))
-	case func(int, *EventPredicate, int) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(*EventPredicate), argsTyped[2].(int))
-	case func(string, *EventPredicate, int) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(*EventPredicate), argsTyped[2].(int))
-	case func(*Entity, *EventPredicate, int) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].(int))
-	case func([]*Entity, *EventPredicate, int) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].(int))
-	case func(*Vec2D, *EventPredicate, int) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].(int))
-	case func([]*Vec2D, *EventPredicate, int) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].(int))
-	case func(*EventPredicate, *EventPredicate, int) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*EventPredicate), argsTyped[2].(int))
+	case func(bool, bool, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(bool), argsTyped[2].(float64))
+	case func(int, bool, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(bool), argsTyped[2].(float64))
+	case func(float64, bool, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(bool), argsTyped[2].(float64))
+	case func(string, bool, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(bool), argsTyped[2].(float64))
+	case func([]string, bool, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(bool), argsTyped[2].(float64))
+	case func(*Entity, bool, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(bool), argsTyped[2].(float64))
+	case func([]*Entity, bool, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(bool), argsTyped[2].(float64))
+	case func(*Vec2D, bool, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(bool), argsTyped[2].(float64))
+	case func([]*Vec2D, bool, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(bool), argsTyped[2].(float64))
+	case func(bool, int, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(int), argsTyped[2].(float64))
+	case func(int, int, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(int), argsTyped[2].(float64))
+	case func(float64, int, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(int), argsTyped[2].(float64))
+	case func(string, int, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(int), argsTyped[2].(float64))
+	case func([]string, int, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(int), argsTyped[2].(float64))
+	case func(*Entity, int, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(int), argsTyped[2].(float64))
+	case func([]*Entity, int, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(int), argsTyped[2].(float64))
+	case func(*Vec2D, int, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(int), argsTyped[2].(float64))
+	case func([]*Vec2D, int, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(int), argsTyped[2].(float64))
+	case func(bool, float64, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(float64), argsTyped[2].(float64))
+	case func(int, float64, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(float64), argsTyped[2].(float64))
+	case func(float64, float64, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(float64), argsTyped[2].(float64))
+	case func(string, float64, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(float64), argsTyped[2].(float64))
+	case func([]string, float64, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(float64), argsTyped[2].(float64))
+	case func(*Entity, float64, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(float64), argsTyped[2].(float64))
+	case func([]*Entity, float64, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(float64), argsTyped[2].(float64))
+	case func(*Vec2D, float64, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(float64), argsTyped[2].(float64))
+	case func([]*Vec2D, float64, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(float64), argsTyped[2].(float64))
+	case func(bool, string, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(string), argsTyped[2].(float64))
+	case func(int, string, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(string), argsTyped[2].(float64))
+	case func(float64, string, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(string), argsTyped[2].(float64))
+	case func(string, string, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(string), argsTyped[2].(float64))
+	case func([]string, string, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(string), argsTyped[2].(float64))
+	case func(*Entity, string, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(string), argsTyped[2].(float64))
+	case func([]*Entity, string, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(string), argsTyped[2].(float64))
+	case func(*Vec2D, string, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(string), argsTyped[2].(float64))
+	case func([]*Vec2D, string, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(string), argsTyped[2].(float64))
+	case func(bool, []string, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]string), argsTyped[2].(float64))
+	case func(int, []string, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]string), argsTyped[2].(float64))
+	case func(float64, []string, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]string), argsTyped[2].(float64))
+	case func(string, []string, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]string), argsTyped[2].(float64))
+	case func([]string, []string, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]string), argsTyped[2].(float64))
+	case func(*Entity, []string, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]string), argsTyped[2].(float64))
+	case func([]*Entity, []string, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]string), argsTyped[2].(float64))
+	case func(*Vec2D, []string, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]string), argsTyped[2].(float64))
+	case func([]*Vec2D, []string, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]string), argsTyped[2].(float64))
+	case func(bool, *Entity, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Entity), argsTyped[2].(float64))
+	case func(int, *Entity, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Entity), argsTyped[2].(float64))
+	case func(float64, *Entity, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Entity), argsTyped[2].(float64))
+	case func(string, *Entity, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Entity), argsTyped[2].(float64))
+	case func([]string, *Entity, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Entity), argsTyped[2].(float64))
+	case func(*Entity, *Entity, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Entity), argsTyped[2].(float64))
+	case func([]*Entity, *Entity, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*Entity), argsTyped[2].(float64))
+	case func(*Vec2D, *Entity, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(float64))
+	case func([]*Vec2D, *Entity, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(float64))
+	case func(bool, []*Entity, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Entity), argsTyped[2].(float64))
+	case func(int, []*Entity, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Entity), argsTyped[2].(float64))
+	case func(float64, []*Entity, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Entity), argsTyped[2].(float64))
+	case func(string, []*Entity, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Entity), argsTyped[2].(float64))
+	case func([]string, []*Entity, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Entity), argsTyped[2].(float64))
+	case func(*Entity, []*Entity, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Entity), argsTyped[2].(float64))
+	case func([]*Entity, []*Entity, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]*Entity), argsTyped[2].(float64))
+	case func(*Vec2D, []*Entity, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(float64))
+	case func([]*Vec2D, []*Entity, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(float64))
+	case func(bool, *Vec2D, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Vec2D), argsTyped[2].(float64))
+	case func(int, *Vec2D, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Vec2D), argsTyped[2].(float64))
+	case func(float64, *Vec2D, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Vec2D), argsTyped[2].(float64))
+	case func(string, *Vec2D, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Vec2D), argsTyped[2].(float64))
+	case func([]string, *Vec2D, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Vec2D), argsTyped[2].(float64))
+	case func(*Entity, *Vec2D, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Vec2D), argsTyped[2].(float64))
+	case func([]*Entity, *Vec2D, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*Vec2D), argsTyped[2].(float64))
+	case func(*Vec2D, *Vec2D, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(float64))
+	case func([]*Vec2D, *Vec2D, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(float64))
+	case func(bool, []*Vec2D, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Vec2D), argsTyped[2].(float64))
+	case func(int, []*Vec2D, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Vec2D), argsTyped[2].(float64))
+	case func(float64, []*Vec2D, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Vec2D), argsTyped[2].(float64))
+	case func(string, []*Vec2D, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Vec2D), argsTyped[2].(float64))
+	case func([]string, []*Vec2D, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Vec2D), argsTyped[2].(float64))
+	case func(*Entity, []*Vec2D, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Vec2D), argsTyped[2].(float64))
+	case func([]*Entity, []*Vec2D, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]*Vec2D), argsTyped[2].(float64))
+	case func(*Vec2D, []*Vec2D, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(float64))
+	case func([]*Vec2D, []*Vec2D, float64) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(float64))
 	case func(bool, bool, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(bool), argsTyped[2].(string))
 	case func(int, bool, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(bool), argsTyped[2].(string))
+	case func(float64, bool, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(bool), argsTyped[2].(string))
 	case func(string, bool, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(bool), argsTyped[2].(string))
+	case func([]string, bool, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(bool), argsTyped[2].(string))
 	case func(*Entity, bool, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(bool), argsTyped[2].(string))
 	case func([]*Entity, bool, string) func(*Entity) bool:
@@ -421,14 +691,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(bool), argsTyped[2].(string))
 	case func([]*Vec2D, bool, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(bool), argsTyped[2].(string))
-	case func(*EventPredicate, bool, string) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(bool), argsTyped[2].(string))
 	case func(bool, int, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(int), argsTyped[2].(string))
 	case func(int, int, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(int), argsTyped[2].(string))
+	case func(float64, int, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(int), argsTyped[2].(string))
 	case func(string, int, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(int), argsTyped[2].(string))
+	case func([]string, int, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(int), argsTyped[2].(string))
 	case func(*Entity, int, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(int), argsTyped[2].(string))
 	case func([]*Entity, int, string) func(*Entity) bool:
@@ -437,14 +709,34 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(int), argsTyped[2].(string))
 	case func([]*Vec2D, int, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(int), argsTyped[2].(string))
-	case func(*EventPredicate, int, string) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(int), argsTyped[2].(string))
+	case func(bool, float64, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(float64), argsTyped[2].(string))
+	case func(int, float64, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(float64), argsTyped[2].(string))
+	case func(float64, float64, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(float64), argsTyped[2].(string))
+	case func(string, float64, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(float64), argsTyped[2].(string))
+	case func([]string, float64, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(float64), argsTyped[2].(string))
+	case func(*Entity, float64, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(float64), argsTyped[2].(string))
+	case func([]*Entity, float64, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(float64), argsTyped[2].(string))
+	case func(*Vec2D, float64, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(float64), argsTyped[2].(string))
+	case func([]*Vec2D, float64, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(float64), argsTyped[2].(string))
 	case func(bool, string, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(string), argsTyped[2].(string))
 	case func(int, string, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(string), argsTyped[2].(string))
+	case func(float64, string, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(string), argsTyped[2].(string))
 	case func(string, string, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(string), argsTyped[2].(string))
+	case func([]string, string, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(string), argsTyped[2].(string))
 	case func(*Entity, string, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(string), argsTyped[2].(string))
 	case func([]*Entity, string, string) func(*Entity) bool:
@@ -453,14 +745,34 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(string), argsTyped[2].(string))
 	case func([]*Vec2D, string, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(string), argsTyped[2].(string))
-	case func(*EventPredicate, string, string) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(string), argsTyped[2].(string))
+	case func(bool, []string, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]string), argsTyped[2].(string))
+	case func(int, []string, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]string), argsTyped[2].(string))
+	case func(float64, []string, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]string), argsTyped[2].(string))
+	case func(string, []string, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]string), argsTyped[2].(string))
+	case func([]string, []string, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]string), argsTyped[2].(string))
+	case func(*Entity, []string, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]string), argsTyped[2].(string))
+	case func([]*Entity, []string, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]string), argsTyped[2].(string))
+	case func(*Vec2D, []string, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]string), argsTyped[2].(string))
+	case func([]*Vec2D, []string, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]string), argsTyped[2].(string))
 	case func(bool, *Entity, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Entity), argsTyped[2].(string))
 	case func(int, *Entity, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Entity), argsTyped[2].(string))
+	case func(float64, *Entity, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Entity), argsTyped[2].(string))
 	case func(string, *Entity, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Entity), argsTyped[2].(string))
+	case func([]string, *Entity, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Entity), argsTyped[2].(string))
 	case func(*Entity, *Entity, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Entity), argsTyped[2].(string))
 	case func([]*Entity, *Entity, string) func(*Entity) bool:
@@ -469,14 +781,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(string))
 	case func([]*Vec2D, *Entity, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(string))
-	case func(*EventPredicate, *Entity, string) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Entity), argsTyped[2].(string))
 	case func(bool, []*Entity, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Entity), argsTyped[2].(string))
 	case func(int, []*Entity, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Entity), argsTyped[2].(string))
+	case func(float64, []*Entity, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Entity), argsTyped[2].(string))
 	case func(string, []*Entity, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Entity), argsTyped[2].(string))
+	case func([]string, []*Entity, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Entity), argsTyped[2].(string))
 	case func(*Entity, []*Entity, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Entity), argsTyped[2].(string))
 	case func([]*Entity, []*Entity, string) func(*Entity) bool:
@@ -485,14 +799,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(string))
 	case func([]*Vec2D, []*Entity, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(string))
-	case func(*EventPredicate, []*Entity, string) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Entity), argsTyped[2].(string))
 	case func(bool, *Vec2D, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Vec2D), argsTyped[2].(string))
 	case func(int, *Vec2D, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Vec2D), argsTyped[2].(string))
+	case func(float64, *Vec2D, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Vec2D), argsTyped[2].(string))
 	case func(string, *Vec2D, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Vec2D), argsTyped[2].(string))
+	case func([]string, *Vec2D, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Vec2D), argsTyped[2].(string))
 	case func(*Entity, *Vec2D, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Vec2D), argsTyped[2].(string))
 	case func([]*Entity, *Vec2D, string) func(*Entity) bool:
@@ -501,14 +817,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(string))
 	case func([]*Vec2D, *Vec2D, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(string))
-	case func(*EventPredicate, *Vec2D, string) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Vec2D), argsTyped[2].(string))
 	case func(bool, []*Vec2D, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Vec2D), argsTyped[2].(string))
 	case func(int, []*Vec2D, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Vec2D), argsTyped[2].(string))
+	case func(float64, []*Vec2D, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Vec2D), argsTyped[2].(string))
 	case func(string, []*Vec2D, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Vec2D), argsTyped[2].(string))
+	case func([]string, []*Vec2D, string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Vec2D), argsTyped[2].(string))
 	case func(*Entity, []*Vec2D, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Vec2D), argsTyped[2].(string))
 	case func([]*Entity, []*Vec2D, string) func(*Entity) bool:
@@ -517,30 +835,178 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(string))
 	case func([]*Vec2D, []*Vec2D, string) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(string))
-	case func(*EventPredicate, []*Vec2D, string) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Vec2D), argsTyped[2].(string))
-	case func(bool, *EventPredicate, string) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*EventPredicate), argsTyped[2].(string))
-	case func(int, *EventPredicate, string) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(*EventPredicate), argsTyped[2].(string))
-	case func(string, *EventPredicate, string) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(*EventPredicate), argsTyped[2].(string))
-	case func(*Entity, *EventPredicate, string) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].(string))
-	case func([]*Entity, *EventPredicate, string) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].(string))
-	case func(*Vec2D, *EventPredicate, string) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].(string))
-	case func([]*Vec2D, *EventPredicate, string) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].(string))
-	case func(*EventPredicate, *EventPredicate, string) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*EventPredicate), argsTyped[2].(string))
+	case func(bool, bool, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(bool), argsTyped[2].([]string))
+	case func(int, bool, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(bool), argsTyped[2].([]string))
+	case func(float64, bool, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(bool), argsTyped[2].([]string))
+	case func(string, bool, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(bool), argsTyped[2].([]string))
+	case func([]string, bool, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(bool), argsTyped[2].([]string))
+	case func(*Entity, bool, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(bool), argsTyped[2].([]string))
+	case func([]*Entity, bool, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(bool), argsTyped[2].([]string))
+	case func(*Vec2D, bool, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(bool), argsTyped[2].([]string))
+	case func([]*Vec2D, bool, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(bool), argsTyped[2].([]string))
+	case func(bool, int, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(int), argsTyped[2].([]string))
+	case func(int, int, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(int), argsTyped[2].([]string))
+	case func(float64, int, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(int), argsTyped[2].([]string))
+	case func(string, int, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(int), argsTyped[2].([]string))
+	case func([]string, int, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(int), argsTyped[2].([]string))
+	case func(*Entity, int, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(int), argsTyped[2].([]string))
+	case func([]*Entity, int, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(int), argsTyped[2].([]string))
+	case func(*Vec2D, int, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(int), argsTyped[2].([]string))
+	case func([]*Vec2D, int, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(int), argsTyped[2].([]string))
+	case func(bool, float64, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(float64), argsTyped[2].([]string))
+	case func(int, float64, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(float64), argsTyped[2].([]string))
+	case func(float64, float64, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(float64), argsTyped[2].([]string))
+	case func(string, float64, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(float64), argsTyped[2].([]string))
+	case func([]string, float64, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(float64), argsTyped[2].([]string))
+	case func(*Entity, float64, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(float64), argsTyped[2].([]string))
+	case func([]*Entity, float64, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(float64), argsTyped[2].([]string))
+	case func(*Vec2D, float64, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(float64), argsTyped[2].([]string))
+	case func([]*Vec2D, float64, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(float64), argsTyped[2].([]string))
+	case func(bool, string, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(string), argsTyped[2].([]string))
+	case func(int, string, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(string), argsTyped[2].([]string))
+	case func(float64, string, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(string), argsTyped[2].([]string))
+	case func(string, string, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(string), argsTyped[2].([]string))
+	case func([]string, string, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(string), argsTyped[2].([]string))
+	case func(*Entity, string, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(string), argsTyped[2].([]string))
+	case func([]*Entity, string, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(string), argsTyped[2].([]string))
+	case func(*Vec2D, string, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(string), argsTyped[2].([]string))
+	case func([]*Vec2D, string, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(string), argsTyped[2].([]string))
+	case func(bool, []string, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]string), argsTyped[2].([]string))
+	case func(int, []string, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]string), argsTyped[2].([]string))
+	case func(float64, []string, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]string), argsTyped[2].([]string))
+	case func(string, []string, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]string), argsTyped[2].([]string))
+	case func([]string, []string, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]string), argsTyped[2].([]string))
+	case func(*Entity, []string, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]string), argsTyped[2].([]string))
+	case func([]*Entity, []string, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]string), argsTyped[2].([]string))
+	case func(*Vec2D, []string, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]string), argsTyped[2].([]string))
+	case func([]*Vec2D, []string, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]string), argsTyped[2].([]string))
+	case func(bool, *Entity, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Entity), argsTyped[2].([]string))
+	case func(int, *Entity, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Entity), argsTyped[2].([]string))
+	case func(float64, *Entity, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Entity), argsTyped[2].([]string))
+	case func(string, *Entity, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Entity), argsTyped[2].([]string))
+	case func([]string, *Entity, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Entity), argsTyped[2].([]string))
+	case func(*Entity, *Entity, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Entity), argsTyped[2].([]string))
+	case func([]*Entity, *Entity, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*Entity), argsTyped[2].([]string))
+	case func(*Vec2D, *Entity, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Entity), argsTyped[2].([]string))
+	case func([]*Vec2D, *Entity, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Entity), argsTyped[2].([]string))
+	case func(bool, []*Entity, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Entity), argsTyped[2].([]string))
+	case func(int, []*Entity, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Entity), argsTyped[2].([]string))
+	case func(float64, []*Entity, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Entity), argsTyped[2].([]string))
+	case func(string, []*Entity, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Entity), argsTyped[2].([]string))
+	case func([]string, []*Entity, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Entity), argsTyped[2].([]string))
+	case func(*Entity, []*Entity, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Entity), argsTyped[2].([]string))
+	case func([]*Entity, []*Entity, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]*Entity), argsTyped[2].([]string))
+	case func(*Vec2D, []*Entity, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].([]string))
+	case func([]*Vec2D, []*Entity, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].([]string))
+	case func(bool, *Vec2D, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Vec2D), argsTyped[2].([]string))
+	case func(int, *Vec2D, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Vec2D), argsTyped[2].([]string))
+	case func(float64, *Vec2D, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Vec2D), argsTyped[2].([]string))
+	case func(string, *Vec2D, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Vec2D), argsTyped[2].([]string))
+	case func([]string, *Vec2D, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Vec2D), argsTyped[2].([]string))
+	case func(*Entity, *Vec2D, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Vec2D), argsTyped[2].([]string))
+	case func([]*Entity, *Vec2D, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*Vec2D), argsTyped[2].([]string))
+	case func(*Vec2D, *Vec2D, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].([]string))
+	case func([]*Vec2D, *Vec2D, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].([]string))
+	case func(bool, []*Vec2D, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Vec2D), argsTyped[2].([]string))
+	case func(int, []*Vec2D, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Vec2D), argsTyped[2].([]string))
+	case func(float64, []*Vec2D, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Vec2D), argsTyped[2].([]string))
+	case func(string, []*Vec2D, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Vec2D), argsTyped[2].([]string))
+	case func([]string, []*Vec2D, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Vec2D), argsTyped[2].([]string))
+	case func(*Entity, []*Vec2D, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Vec2D), argsTyped[2].([]string))
+	case func([]*Entity, []*Vec2D, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]*Vec2D), argsTyped[2].([]string))
+	case func(*Vec2D, []*Vec2D, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].([]string))
+	case func([]*Vec2D, []*Vec2D, []string) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].([]string))
 	case func(bool, bool, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(bool), argsTyped[2].(*Entity))
 	case func(int, bool, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(bool), argsTyped[2].(*Entity))
+	case func(float64, bool, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(bool), argsTyped[2].(*Entity))
 	case func(string, bool, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(bool), argsTyped[2].(*Entity))
+	case func([]string, bool, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(bool), argsTyped[2].(*Entity))
 	case func(*Entity, bool, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(bool), argsTyped[2].(*Entity))
 	case func([]*Entity, bool, *Entity) func(*Entity) bool:
@@ -549,14 +1015,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(bool), argsTyped[2].(*Entity))
 	case func([]*Vec2D, bool, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(bool), argsTyped[2].(*Entity))
-	case func(*EventPredicate, bool, *Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(bool), argsTyped[2].(*Entity))
 	case func(bool, int, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(int), argsTyped[2].(*Entity))
 	case func(int, int, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(int), argsTyped[2].(*Entity))
+	case func(float64, int, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(int), argsTyped[2].(*Entity))
 	case func(string, int, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(int), argsTyped[2].(*Entity))
+	case func([]string, int, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(int), argsTyped[2].(*Entity))
 	case func(*Entity, int, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(int), argsTyped[2].(*Entity))
 	case func([]*Entity, int, *Entity) func(*Entity) bool:
@@ -565,14 +1033,34 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(int), argsTyped[2].(*Entity))
 	case func([]*Vec2D, int, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(int), argsTyped[2].(*Entity))
-	case func(*EventPredicate, int, *Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(int), argsTyped[2].(*Entity))
+	case func(bool, float64, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(float64), argsTyped[2].(*Entity))
+	case func(int, float64, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(float64), argsTyped[2].(*Entity))
+	case func(float64, float64, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(float64), argsTyped[2].(*Entity))
+	case func(string, float64, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(float64), argsTyped[2].(*Entity))
+	case func([]string, float64, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(float64), argsTyped[2].(*Entity))
+	case func(*Entity, float64, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(float64), argsTyped[2].(*Entity))
+	case func([]*Entity, float64, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(float64), argsTyped[2].(*Entity))
+	case func(*Vec2D, float64, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(float64), argsTyped[2].(*Entity))
+	case func([]*Vec2D, float64, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(float64), argsTyped[2].(*Entity))
 	case func(bool, string, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(string), argsTyped[2].(*Entity))
 	case func(int, string, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(string), argsTyped[2].(*Entity))
+	case func(float64, string, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(string), argsTyped[2].(*Entity))
 	case func(string, string, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(string), argsTyped[2].(*Entity))
+	case func([]string, string, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(string), argsTyped[2].(*Entity))
 	case func(*Entity, string, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(string), argsTyped[2].(*Entity))
 	case func([]*Entity, string, *Entity) func(*Entity) bool:
@@ -581,14 +1069,34 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(string), argsTyped[2].(*Entity))
 	case func([]*Vec2D, string, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(string), argsTyped[2].(*Entity))
-	case func(*EventPredicate, string, *Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(string), argsTyped[2].(*Entity))
+	case func(bool, []string, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]string), argsTyped[2].(*Entity))
+	case func(int, []string, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]string), argsTyped[2].(*Entity))
+	case func(float64, []string, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]string), argsTyped[2].(*Entity))
+	case func(string, []string, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]string), argsTyped[2].(*Entity))
+	case func([]string, []string, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]string), argsTyped[2].(*Entity))
+	case func(*Entity, []string, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]string), argsTyped[2].(*Entity))
+	case func([]*Entity, []string, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]string), argsTyped[2].(*Entity))
+	case func(*Vec2D, []string, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]string), argsTyped[2].(*Entity))
+	case func([]*Vec2D, []string, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]string), argsTyped[2].(*Entity))
 	case func(bool, *Entity, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Entity), argsTyped[2].(*Entity))
 	case func(int, *Entity, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Entity), argsTyped[2].(*Entity))
+	case func(float64, *Entity, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Entity), argsTyped[2].(*Entity))
 	case func(string, *Entity, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Entity), argsTyped[2].(*Entity))
+	case func([]string, *Entity, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Entity), argsTyped[2].(*Entity))
 	case func(*Entity, *Entity, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Entity), argsTyped[2].(*Entity))
 	case func([]*Entity, *Entity, *Entity) func(*Entity) bool:
@@ -597,14 +1105,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(*Entity))
 	case func([]*Vec2D, *Entity, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(*Entity))
-	case func(*EventPredicate, *Entity, *Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Entity), argsTyped[2].(*Entity))
 	case func(bool, []*Entity, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Entity), argsTyped[2].(*Entity))
 	case func(int, []*Entity, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Entity), argsTyped[2].(*Entity))
+	case func(float64, []*Entity, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Entity), argsTyped[2].(*Entity))
 	case func(string, []*Entity, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Entity), argsTyped[2].(*Entity))
+	case func([]string, []*Entity, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Entity), argsTyped[2].(*Entity))
 	case func(*Entity, []*Entity, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Entity), argsTyped[2].(*Entity))
 	case func([]*Entity, []*Entity, *Entity) func(*Entity) bool:
@@ -613,14 +1123,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(*Entity))
 	case func([]*Vec2D, []*Entity, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(*Entity))
-	case func(*EventPredicate, []*Entity, *Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Entity), argsTyped[2].(*Entity))
 	case func(bool, *Vec2D, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Vec2D), argsTyped[2].(*Entity))
 	case func(int, *Vec2D, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Vec2D), argsTyped[2].(*Entity))
+	case func(float64, *Vec2D, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Vec2D), argsTyped[2].(*Entity))
 	case func(string, *Vec2D, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Vec2D), argsTyped[2].(*Entity))
+	case func([]string, *Vec2D, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Vec2D), argsTyped[2].(*Entity))
 	case func(*Entity, *Vec2D, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Vec2D), argsTyped[2].(*Entity))
 	case func([]*Entity, *Vec2D, *Entity) func(*Entity) bool:
@@ -629,14 +1141,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(*Entity))
 	case func([]*Vec2D, *Vec2D, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(*Entity))
-	case func(*EventPredicate, *Vec2D, *Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Vec2D), argsTyped[2].(*Entity))
 	case func(bool, []*Vec2D, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Vec2D), argsTyped[2].(*Entity))
 	case func(int, []*Vec2D, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Vec2D), argsTyped[2].(*Entity))
+	case func(float64, []*Vec2D, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Vec2D), argsTyped[2].(*Entity))
 	case func(string, []*Vec2D, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Vec2D), argsTyped[2].(*Entity))
+	case func([]string, []*Vec2D, *Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Vec2D), argsTyped[2].(*Entity))
 	case func(*Entity, []*Vec2D, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Vec2D), argsTyped[2].(*Entity))
 	case func([]*Entity, []*Vec2D, *Entity) func(*Entity) bool:
@@ -645,30 +1159,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(*Entity))
 	case func([]*Vec2D, []*Vec2D, *Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(*Entity))
-	case func(*EventPredicate, []*Vec2D, *Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Vec2D), argsTyped[2].(*Entity))
-	case func(bool, *EventPredicate, *Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*EventPredicate), argsTyped[2].(*Entity))
-	case func(int, *EventPredicate, *Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(*EventPredicate), argsTyped[2].(*Entity))
-	case func(string, *EventPredicate, *Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(*EventPredicate), argsTyped[2].(*Entity))
-	case func(*Entity, *EventPredicate, *Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].(*Entity))
-	case func([]*Entity, *EventPredicate, *Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].(*Entity))
-	case func(*Vec2D, *EventPredicate, *Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].(*Entity))
-	case func([]*Vec2D, *EventPredicate, *Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].(*Entity))
-	case func(*EventPredicate, *EventPredicate, *Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*EventPredicate), argsTyped[2].(*Entity))
 	case func(bool, bool, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(bool), argsTyped[2].([]*Entity))
 	case func(int, bool, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(bool), argsTyped[2].([]*Entity))
+	case func(float64, bool, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(bool), argsTyped[2].([]*Entity))
 	case func(string, bool, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(bool), argsTyped[2].([]*Entity))
+	case func([]string, bool, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(bool), argsTyped[2].([]*Entity))
 	case func(*Entity, bool, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(bool), argsTyped[2].([]*Entity))
 	case func([]*Entity, bool, []*Entity) func(*Entity) bool:
@@ -677,14 +1177,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(bool), argsTyped[2].([]*Entity))
 	case func([]*Vec2D, bool, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(bool), argsTyped[2].([]*Entity))
-	case func(*EventPredicate, bool, []*Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(bool), argsTyped[2].([]*Entity))
 	case func(bool, int, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(int), argsTyped[2].([]*Entity))
 	case func(int, int, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(int), argsTyped[2].([]*Entity))
+	case func(float64, int, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(int), argsTyped[2].([]*Entity))
 	case func(string, int, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(int), argsTyped[2].([]*Entity))
+	case func([]string, int, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(int), argsTyped[2].([]*Entity))
 	case func(*Entity, int, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(int), argsTyped[2].([]*Entity))
 	case func([]*Entity, int, []*Entity) func(*Entity) bool:
@@ -693,14 +1195,34 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(int), argsTyped[2].([]*Entity))
 	case func([]*Vec2D, int, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(int), argsTyped[2].([]*Entity))
-	case func(*EventPredicate, int, []*Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(int), argsTyped[2].([]*Entity))
+	case func(bool, float64, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(float64), argsTyped[2].([]*Entity))
+	case func(int, float64, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(float64), argsTyped[2].([]*Entity))
+	case func(float64, float64, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(float64), argsTyped[2].([]*Entity))
+	case func(string, float64, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(float64), argsTyped[2].([]*Entity))
+	case func([]string, float64, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(float64), argsTyped[2].([]*Entity))
+	case func(*Entity, float64, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(float64), argsTyped[2].([]*Entity))
+	case func([]*Entity, float64, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(float64), argsTyped[2].([]*Entity))
+	case func(*Vec2D, float64, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(float64), argsTyped[2].([]*Entity))
+	case func([]*Vec2D, float64, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(float64), argsTyped[2].([]*Entity))
 	case func(bool, string, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(string), argsTyped[2].([]*Entity))
 	case func(int, string, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(string), argsTyped[2].([]*Entity))
+	case func(float64, string, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(string), argsTyped[2].([]*Entity))
 	case func(string, string, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(string), argsTyped[2].([]*Entity))
+	case func([]string, string, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(string), argsTyped[2].([]*Entity))
 	case func(*Entity, string, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(string), argsTyped[2].([]*Entity))
 	case func([]*Entity, string, []*Entity) func(*Entity) bool:
@@ -709,14 +1231,34 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(string), argsTyped[2].([]*Entity))
 	case func([]*Vec2D, string, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(string), argsTyped[2].([]*Entity))
-	case func(*EventPredicate, string, []*Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(string), argsTyped[2].([]*Entity))
+	case func(bool, []string, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]string), argsTyped[2].([]*Entity))
+	case func(int, []string, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]string), argsTyped[2].([]*Entity))
+	case func(float64, []string, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]string), argsTyped[2].([]*Entity))
+	case func(string, []string, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]string), argsTyped[2].([]*Entity))
+	case func([]string, []string, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]string), argsTyped[2].([]*Entity))
+	case func(*Entity, []string, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]string), argsTyped[2].([]*Entity))
+	case func([]*Entity, []string, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]string), argsTyped[2].([]*Entity))
+	case func(*Vec2D, []string, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]string), argsTyped[2].([]*Entity))
+	case func([]*Vec2D, []string, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]string), argsTyped[2].([]*Entity))
 	case func(bool, *Entity, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Entity), argsTyped[2].([]*Entity))
 	case func(int, *Entity, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Entity), argsTyped[2].([]*Entity))
+	case func(float64, *Entity, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Entity), argsTyped[2].([]*Entity))
 	case func(string, *Entity, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Entity), argsTyped[2].([]*Entity))
+	case func([]string, *Entity, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Entity), argsTyped[2].([]*Entity))
 	case func(*Entity, *Entity, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Entity), argsTyped[2].([]*Entity))
 	case func([]*Entity, *Entity, []*Entity) func(*Entity) bool:
@@ -725,14 +1267,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Entity), argsTyped[2].([]*Entity))
 	case func([]*Vec2D, *Entity, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Entity), argsTyped[2].([]*Entity))
-	case func(*EventPredicate, *Entity, []*Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Entity), argsTyped[2].([]*Entity))
 	case func(bool, []*Entity, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Entity), argsTyped[2].([]*Entity))
 	case func(int, []*Entity, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Entity), argsTyped[2].([]*Entity))
+	case func(float64, []*Entity, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Entity), argsTyped[2].([]*Entity))
 	case func(string, []*Entity, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Entity), argsTyped[2].([]*Entity))
+	case func([]string, []*Entity, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Entity), argsTyped[2].([]*Entity))
 	case func(*Entity, []*Entity, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Entity), argsTyped[2].([]*Entity))
 	case func([]*Entity, []*Entity, []*Entity) func(*Entity) bool:
@@ -741,14 +1285,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].([]*Entity))
 	case func([]*Vec2D, []*Entity, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].([]*Entity))
-	case func(*EventPredicate, []*Entity, []*Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Entity), argsTyped[2].([]*Entity))
 	case func(bool, *Vec2D, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Vec2D), argsTyped[2].([]*Entity))
 	case func(int, *Vec2D, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Vec2D), argsTyped[2].([]*Entity))
+	case func(float64, *Vec2D, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Vec2D), argsTyped[2].([]*Entity))
 	case func(string, *Vec2D, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Vec2D), argsTyped[2].([]*Entity))
+	case func([]string, *Vec2D, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Vec2D), argsTyped[2].([]*Entity))
 	case func(*Entity, *Vec2D, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Vec2D), argsTyped[2].([]*Entity))
 	case func([]*Entity, *Vec2D, []*Entity) func(*Entity) bool:
@@ -757,14 +1303,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].([]*Entity))
 	case func([]*Vec2D, *Vec2D, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].([]*Entity))
-	case func(*EventPredicate, *Vec2D, []*Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Vec2D), argsTyped[2].([]*Entity))
 	case func(bool, []*Vec2D, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Entity))
 	case func(int, []*Vec2D, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Entity))
+	case func(float64, []*Vec2D, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Entity))
 	case func(string, []*Vec2D, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Entity))
+	case func([]string, []*Vec2D, []*Entity) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Entity))
 	case func(*Entity, []*Vec2D, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Entity))
 	case func([]*Entity, []*Vec2D, []*Entity) func(*Entity) bool:
@@ -773,30 +1321,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Entity))
 	case func([]*Vec2D, []*Vec2D, []*Entity) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Entity))
-	case func(*EventPredicate, []*Vec2D, []*Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Entity))
-	case func(bool, *EventPredicate, []*Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Entity))
-	case func(int, *EventPredicate, []*Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Entity))
-	case func(string, *EventPredicate, []*Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Entity))
-	case func(*Entity, *EventPredicate, []*Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Entity))
-	case func([]*Entity, *EventPredicate, []*Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Entity))
-	case func(*Vec2D, *EventPredicate, []*Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Entity))
-	case func([]*Vec2D, *EventPredicate, []*Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Entity))
-	case func(*EventPredicate, *EventPredicate, []*Entity) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Entity))
 	case func(bool, bool, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(bool), argsTyped[2].(*Vec2D))
 	case func(int, bool, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(bool), argsTyped[2].(*Vec2D))
+	case func(float64, bool, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(bool), argsTyped[2].(*Vec2D))
 	case func(string, bool, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(bool), argsTyped[2].(*Vec2D))
+	case func([]string, bool, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(bool), argsTyped[2].(*Vec2D))
 	case func(*Entity, bool, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(bool), argsTyped[2].(*Vec2D))
 	case func([]*Entity, bool, *Vec2D) func(*Entity) bool:
@@ -805,14 +1339,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(bool), argsTyped[2].(*Vec2D))
 	case func([]*Vec2D, bool, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(bool), argsTyped[2].(*Vec2D))
-	case func(*EventPredicate, bool, *Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(bool), argsTyped[2].(*Vec2D))
 	case func(bool, int, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(int), argsTyped[2].(*Vec2D))
 	case func(int, int, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(int), argsTyped[2].(*Vec2D))
+	case func(float64, int, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(int), argsTyped[2].(*Vec2D))
 	case func(string, int, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(int), argsTyped[2].(*Vec2D))
+	case func([]string, int, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(int), argsTyped[2].(*Vec2D))
 	case func(*Entity, int, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(int), argsTyped[2].(*Vec2D))
 	case func([]*Entity, int, *Vec2D) func(*Entity) bool:
@@ -821,14 +1357,34 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(int), argsTyped[2].(*Vec2D))
 	case func([]*Vec2D, int, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(int), argsTyped[2].(*Vec2D))
-	case func(*EventPredicate, int, *Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(int), argsTyped[2].(*Vec2D))
+	case func(bool, float64, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(float64), argsTyped[2].(*Vec2D))
+	case func(int, float64, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(float64), argsTyped[2].(*Vec2D))
+	case func(float64, float64, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(float64), argsTyped[2].(*Vec2D))
+	case func(string, float64, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(float64), argsTyped[2].(*Vec2D))
+	case func([]string, float64, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(float64), argsTyped[2].(*Vec2D))
+	case func(*Entity, float64, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(float64), argsTyped[2].(*Vec2D))
+	case func([]*Entity, float64, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(float64), argsTyped[2].(*Vec2D))
+	case func(*Vec2D, float64, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(float64), argsTyped[2].(*Vec2D))
+	case func([]*Vec2D, float64, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(float64), argsTyped[2].(*Vec2D))
 	case func(bool, string, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(string), argsTyped[2].(*Vec2D))
 	case func(int, string, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(string), argsTyped[2].(*Vec2D))
+	case func(float64, string, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(string), argsTyped[2].(*Vec2D))
 	case func(string, string, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(string), argsTyped[2].(*Vec2D))
+	case func([]string, string, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(string), argsTyped[2].(*Vec2D))
 	case func(*Entity, string, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(string), argsTyped[2].(*Vec2D))
 	case func([]*Entity, string, *Vec2D) func(*Entity) bool:
@@ -837,14 +1393,34 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(string), argsTyped[2].(*Vec2D))
 	case func([]*Vec2D, string, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(string), argsTyped[2].(*Vec2D))
-	case func(*EventPredicate, string, *Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(string), argsTyped[2].(*Vec2D))
+	case func(bool, []string, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]string), argsTyped[2].(*Vec2D))
+	case func(int, []string, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]string), argsTyped[2].(*Vec2D))
+	case func(float64, []string, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]string), argsTyped[2].(*Vec2D))
+	case func(string, []string, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]string), argsTyped[2].(*Vec2D))
+	case func([]string, []string, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]string), argsTyped[2].(*Vec2D))
+	case func(*Entity, []string, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]string), argsTyped[2].(*Vec2D))
+	case func([]*Entity, []string, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]string), argsTyped[2].(*Vec2D))
+	case func(*Vec2D, []string, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]string), argsTyped[2].(*Vec2D))
+	case func([]*Vec2D, []string, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]string), argsTyped[2].(*Vec2D))
 	case func(bool, *Entity, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Entity), argsTyped[2].(*Vec2D))
 	case func(int, *Entity, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Entity), argsTyped[2].(*Vec2D))
+	case func(float64, *Entity, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Entity), argsTyped[2].(*Vec2D))
 	case func(string, *Entity, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Entity), argsTyped[2].(*Vec2D))
+	case func([]string, *Entity, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Entity), argsTyped[2].(*Vec2D))
 	case func(*Entity, *Entity, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Entity), argsTyped[2].(*Vec2D))
 	case func([]*Entity, *Entity, *Vec2D) func(*Entity) bool:
@@ -853,14 +1429,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(*Vec2D))
 	case func([]*Vec2D, *Entity, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(*Vec2D))
-	case func(*EventPredicate, *Entity, *Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Entity), argsTyped[2].(*Vec2D))
 	case func(bool, []*Entity, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Entity), argsTyped[2].(*Vec2D))
 	case func(int, []*Entity, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Entity), argsTyped[2].(*Vec2D))
+	case func(float64, []*Entity, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Entity), argsTyped[2].(*Vec2D))
 	case func(string, []*Entity, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Entity), argsTyped[2].(*Vec2D))
+	case func([]string, []*Entity, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Entity), argsTyped[2].(*Vec2D))
 	case func(*Entity, []*Entity, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Entity), argsTyped[2].(*Vec2D))
 	case func([]*Entity, []*Entity, *Vec2D) func(*Entity) bool:
@@ -869,14 +1447,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(*Vec2D))
 	case func([]*Vec2D, []*Entity, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(*Vec2D))
-	case func(*EventPredicate, []*Entity, *Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Entity), argsTyped[2].(*Vec2D))
 	case func(bool, *Vec2D, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Vec2D), argsTyped[2].(*Vec2D))
 	case func(int, *Vec2D, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Vec2D), argsTyped[2].(*Vec2D))
+	case func(float64, *Vec2D, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Vec2D), argsTyped[2].(*Vec2D))
 	case func(string, *Vec2D, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Vec2D), argsTyped[2].(*Vec2D))
+	case func([]string, *Vec2D, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Vec2D), argsTyped[2].(*Vec2D))
 	case func(*Entity, *Vec2D, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Vec2D), argsTyped[2].(*Vec2D))
 	case func([]*Entity, *Vec2D, *Vec2D) func(*Entity) bool:
@@ -885,14 +1465,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(*Vec2D))
 	case func([]*Vec2D, *Vec2D, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(*Vec2D))
-	case func(*EventPredicate, *Vec2D, *Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Vec2D), argsTyped[2].(*Vec2D))
 	case func(bool, []*Vec2D, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Vec2D), argsTyped[2].(*Vec2D))
 	case func(int, []*Vec2D, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Vec2D), argsTyped[2].(*Vec2D))
+	case func(float64, []*Vec2D, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Vec2D), argsTyped[2].(*Vec2D))
 	case func(string, []*Vec2D, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Vec2D), argsTyped[2].(*Vec2D))
+	case func([]string, []*Vec2D, *Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Vec2D), argsTyped[2].(*Vec2D))
 	case func(*Entity, []*Vec2D, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Vec2D), argsTyped[2].(*Vec2D))
 	case func([]*Entity, []*Vec2D, *Vec2D) func(*Entity) bool:
@@ -901,30 +1483,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(*Vec2D))
 	case func([]*Vec2D, []*Vec2D, *Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(*Vec2D))
-	case func(*EventPredicate, []*Vec2D, *Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Vec2D), argsTyped[2].(*Vec2D))
-	case func(bool, *EventPredicate, *Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*EventPredicate), argsTyped[2].(*Vec2D))
-	case func(int, *EventPredicate, *Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(*EventPredicate), argsTyped[2].(*Vec2D))
-	case func(string, *EventPredicate, *Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(*EventPredicate), argsTyped[2].(*Vec2D))
-	case func(*Entity, *EventPredicate, *Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].(*Vec2D))
-	case func([]*Entity, *EventPredicate, *Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].(*Vec2D))
-	case func(*Vec2D, *EventPredicate, *Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].(*Vec2D))
-	case func([]*Vec2D, *EventPredicate, *Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].(*Vec2D))
-	case func(*EventPredicate, *EventPredicate, *Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*EventPredicate), argsTyped[2].(*Vec2D))
 	case func(bool, bool, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(bool), argsTyped[2].([]*Vec2D))
 	case func(int, bool, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(bool), argsTyped[2].([]*Vec2D))
+	case func(float64, bool, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(bool), argsTyped[2].([]*Vec2D))
 	case func(string, bool, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(bool), argsTyped[2].([]*Vec2D))
+	case func([]string, bool, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(bool), argsTyped[2].([]*Vec2D))
 	case func(*Entity, bool, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(bool), argsTyped[2].([]*Vec2D))
 	case func([]*Entity, bool, []*Vec2D) func(*Entity) bool:
@@ -933,14 +1501,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(bool), argsTyped[2].([]*Vec2D))
 	case func([]*Vec2D, bool, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(bool), argsTyped[2].([]*Vec2D))
-	case func(*EventPredicate, bool, []*Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(bool), argsTyped[2].([]*Vec2D))
 	case func(bool, int, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(int), argsTyped[2].([]*Vec2D))
 	case func(int, int, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(int), argsTyped[2].([]*Vec2D))
+	case func(float64, int, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(int), argsTyped[2].([]*Vec2D))
 	case func(string, int, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(int), argsTyped[2].([]*Vec2D))
+	case func([]string, int, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(int), argsTyped[2].([]*Vec2D))
 	case func(*Entity, int, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(int), argsTyped[2].([]*Vec2D))
 	case func([]*Entity, int, []*Vec2D) func(*Entity) bool:
@@ -949,14 +1519,34 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(int), argsTyped[2].([]*Vec2D))
 	case func([]*Vec2D, int, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(int), argsTyped[2].([]*Vec2D))
-	case func(*EventPredicate, int, []*Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(int), argsTyped[2].([]*Vec2D))
+	case func(bool, float64, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(float64), argsTyped[2].([]*Vec2D))
+	case func(int, float64, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(float64), argsTyped[2].([]*Vec2D))
+	case func(float64, float64, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(float64), argsTyped[2].([]*Vec2D))
+	case func(string, float64, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(float64), argsTyped[2].([]*Vec2D))
+	case func([]string, float64, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(float64), argsTyped[2].([]*Vec2D))
+	case func(*Entity, float64, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(float64), argsTyped[2].([]*Vec2D))
+	case func([]*Entity, float64, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(float64), argsTyped[2].([]*Vec2D))
+	case func(*Vec2D, float64, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(float64), argsTyped[2].([]*Vec2D))
+	case func([]*Vec2D, float64, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(float64), argsTyped[2].([]*Vec2D))
 	case func(bool, string, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(string), argsTyped[2].([]*Vec2D))
 	case func(int, string, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(string), argsTyped[2].([]*Vec2D))
+	case func(float64, string, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(string), argsTyped[2].([]*Vec2D))
 	case func(string, string, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(string), argsTyped[2].([]*Vec2D))
+	case func([]string, string, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(string), argsTyped[2].([]*Vec2D))
 	case func(*Entity, string, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(string), argsTyped[2].([]*Vec2D))
 	case func([]*Entity, string, []*Vec2D) func(*Entity) bool:
@@ -965,14 +1555,34 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(string), argsTyped[2].([]*Vec2D))
 	case func([]*Vec2D, string, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(string), argsTyped[2].([]*Vec2D))
-	case func(*EventPredicate, string, []*Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(string), argsTyped[2].([]*Vec2D))
+	case func(bool, []string, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]string), argsTyped[2].([]*Vec2D))
+	case func(int, []string, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]string), argsTyped[2].([]*Vec2D))
+	case func(float64, []string, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]string), argsTyped[2].([]*Vec2D))
+	case func(string, []string, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]string), argsTyped[2].([]*Vec2D))
+	case func([]string, []string, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]string), argsTyped[2].([]*Vec2D))
+	case func(*Entity, []string, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]string), argsTyped[2].([]*Vec2D))
+	case func([]*Entity, []string, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]string), argsTyped[2].([]*Vec2D))
+	case func(*Vec2D, []string, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]string), argsTyped[2].([]*Vec2D))
+	case func([]*Vec2D, []string, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]string), argsTyped[2].([]*Vec2D))
 	case func(bool, *Entity, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Entity), argsTyped[2].([]*Vec2D))
 	case func(int, *Entity, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Entity), argsTyped[2].([]*Vec2D))
+	case func(float64, *Entity, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Entity), argsTyped[2].([]*Vec2D))
 	case func(string, *Entity, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Entity), argsTyped[2].([]*Vec2D))
+	case func([]string, *Entity, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Entity), argsTyped[2].([]*Vec2D))
 	case func(*Entity, *Entity, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Entity), argsTyped[2].([]*Vec2D))
 	case func([]*Entity, *Entity, []*Vec2D) func(*Entity) bool:
@@ -981,14 +1591,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Entity), argsTyped[2].([]*Vec2D))
 	case func([]*Vec2D, *Entity, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Entity), argsTyped[2].([]*Vec2D))
-	case func(*EventPredicate, *Entity, []*Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Entity), argsTyped[2].([]*Vec2D))
 	case func(bool, []*Entity, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Entity), argsTyped[2].([]*Vec2D))
 	case func(int, []*Entity, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Entity), argsTyped[2].([]*Vec2D))
+	case func(float64, []*Entity, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Entity), argsTyped[2].([]*Vec2D))
 	case func(string, []*Entity, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Entity), argsTyped[2].([]*Vec2D))
+	case func([]string, []*Entity, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Entity), argsTyped[2].([]*Vec2D))
 	case func(*Entity, []*Entity, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Entity), argsTyped[2].([]*Vec2D))
 	case func([]*Entity, []*Entity, []*Vec2D) func(*Entity) bool:
@@ -997,14 +1609,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].([]*Vec2D))
 	case func([]*Vec2D, []*Entity, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].([]*Vec2D))
-	case func(*EventPredicate, []*Entity, []*Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Entity), argsTyped[2].([]*Vec2D))
 	case func(bool, *Vec2D, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Vec2D), argsTyped[2].([]*Vec2D))
 	case func(int, *Vec2D, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Vec2D), argsTyped[2].([]*Vec2D))
+	case func(float64, *Vec2D, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Vec2D), argsTyped[2].([]*Vec2D))
 	case func(string, *Vec2D, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Vec2D), argsTyped[2].([]*Vec2D))
+	case func([]string, *Vec2D, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Vec2D), argsTyped[2].([]*Vec2D))
 	case func(*Entity, *Vec2D, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Vec2D), argsTyped[2].([]*Vec2D))
 	case func([]*Entity, *Vec2D, []*Vec2D) func(*Entity) bool:
@@ -1013,14 +1627,16 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].([]*Vec2D))
 	case func([]*Vec2D, *Vec2D, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].([]*Vec2D))
-	case func(*EventPredicate, *Vec2D, []*Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Vec2D), argsTyped[2].([]*Vec2D))
 	case func(bool, []*Vec2D, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Vec2D))
 	case func(int, []*Vec2D, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Vec2D))
+	case func(float64, []*Vec2D, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Vec2D))
 	case func(string, []*Vec2D, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Vec2D))
+	case func([]string, []*Vec2D, []*Vec2D) func(*Entity) bool:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Vec2D))
 	case func(*Entity, []*Vec2D, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Vec2D))
 	case func([]*Entity, []*Vec2D, []*Vec2D) func(*Entity) bool:
@@ -1029,152 +1645,6 @@ func (e *EFDSLEvaluator) predicateSignatureAssertSwitch(f any, argsTyped []any) 
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Vec2D))
 	case func([]*Vec2D, []*Vec2D, []*Vec2D) func(*Entity) bool:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Vec2D))
-	case func(*EventPredicate, []*Vec2D, []*Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Vec2D))
-	case func(bool, *EventPredicate, []*Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Vec2D))
-	case func(int, *EventPredicate, []*Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Vec2D))
-	case func(string, *EventPredicate, []*Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Vec2D))
-	case func(*Entity, *EventPredicate, []*Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Vec2D))
-	case func([]*Entity, *EventPredicate, []*Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Vec2D))
-	case func(*Vec2D, *EventPredicate, []*Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Vec2D))
-	case func([]*Vec2D, *EventPredicate, []*Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Vec2D))
-	case func(*EventPredicate, *EventPredicate, []*Vec2D) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Vec2D))
-	case func(bool, bool, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(bool), argsTyped[2].(*EventPredicate))
-	case func(int, bool, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(bool), argsTyped[2].(*EventPredicate))
-	case func(string, bool, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(bool), argsTyped[2].(*EventPredicate))
-	case func(*Entity, bool, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(bool), argsTyped[2].(*EventPredicate))
-	case func([]*Entity, bool, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(bool), argsTyped[2].(*EventPredicate))
-	case func(*Vec2D, bool, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(bool), argsTyped[2].(*EventPredicate))
-	case func([]*Vec2D, bool, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(bool), argsTyped[2].(*EventPredicate))
-	case func(*EventPredicate, bool, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(bool), argsTyped[2].(*EventPredicate))
-	case func(bool, int, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(int), argsTyped[2].(*EventPredicate))
-	case func(int, int, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(int), argsTyped[2].(*EventPredicate))
-	case func(string, int, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(int), argsTyped[2].(*EventPredicate))
-	case func(*Entity, int, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(int), argsTyped[2].(*EventPredicate))
-	case func([]*Entity, int, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(int), argsTyped[2].(*EventPredicate))
-	case func(*Vec2D, int, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(int), argsTyped[2].(*EventPredicate))
-	case func([]*Vec2D, int, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(int), argsTyped[2].(*EventPredicate))
-	case func(*EventPredicate, int, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(int), argsTyped[2].(*EventPredicate))
-	case func(bool, string, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(string), argsTyped[2].(*EventPredicate))
-	case func(int, string, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(string), argsTyped[2].(*EventPredicate))
-	case func(string, string, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(string), argsTyped[2].(*EventPredicate))
-	case func(*Entity, string, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(string), argsTyped[2].(*EventPredicate))
-	case func([]*Entity, string, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(string), argsTyped[2].(*EventPredicate))
-	case func(*Vec2D, string, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(string), argsTyped[2].(*EventPredicate))
-	case func([]*Vec2D, string, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(string), argsTyped[2].(*EventPredicate))
-	case func(*EventPredicate, string, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(string), argsTyped[2].(*EventPredicate))
-	case func(bool, *Entity, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Entity), argsTyped[2].(*EventPredicate))
-	case func(int, *Entity, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Entity), argsTyped[2].(*EventPredicate))
-	case func(string, *Entity, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Entity), argsTyped[2].(*EventPredicate))
-	case func(*Entity, *Entity, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Entity), argsTyped[2].(*EventPredicate))
-	case func([]*Entity, *Entity, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*Entity), argsTyped[2].(*EventPredicate))
-	case func(*Vec2D, *Entity, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(*EventPredicate))
-	case func([]*Vec2D, *Entity, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(*EventPredicate))
-	case func(*EventPredicate, *Entity, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Entity), argsTyped[2].(*EventPredicate))
-	case func(bool, []*Entity, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Entity), argsTyped[2].(*EventPredicate))
-	case func(int, []*Entity, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Entity), argsTyped[2].(*EventPredicate))
-	case func(string, []*Entity, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Entity), argsTyped[2].(*EventPredicate))
-	case func(*Entity, []*Entity, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Entity), argsTyped[2].(*EventPredicate))
-	case func([]*Entity, []*Entity, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]*Entity), argsTyped[2].(*EventPredicate))
-	case func(*Vec2D, []*Entity, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(*EventPredicate))
-	case func([]*Vec2D, []*Entity, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(*EventPredicate))
-	case func(*EventPredicate, []*Entity, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Entity), argsTyped[2].(*EventPredicate))
-	case func(bool, *Vec2D, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Vec2D), argsTyped[2].(*EventPredicate))
-	case func(int, *Vec2D, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Vec2D), argsTyped[2].(*EventPredicate))
-	case func(string, *Vec2D, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Vec2D), argsTyped[2].(*EventPredicate))
-	case func(*Entity, *Vec2D, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Vec2D), argsTyped[2].(*EventPredicate))
-	case func([]*Entity, *Vec2D, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*Vec2D), argsTyped[2].(*EventPredicate))
-	case func(*Vec2D, *Vec2D, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(*EventPredicate))
-	case func([]*Vec2D, *Vec2D, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(*EventPredicate))
-	case func(*EventPredicate, *Vec2D, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Vec2D), argsTyped[2].(*EventPredicate))
-	case func(bool, []*Vec2D, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Vec2D), argsTyped[2].(*EventPredicate))
-	case func(int, []*Vec2D, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Vec2D), argsTyped[2].(*EventPredicate))
-	case func(string, []*Vec2D, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Vec2D), argsTyped[2].(*EventPredicate))
-	case func(*Entity, []*Vec2D, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Vec2D), argsTyped[2].(*EventPredicate))
-	case func([]*Entity, []*Vec2D, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]*Vec2D), argsTyped[2].(*EventPredicate))
-	case func(*Vec2D, []*Vec2D, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(*EventPredicate))
-	case func([]*Vec2D, []*Vec2D, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(*EventPredicate))
-	case func(*EventPredicate, []*Vec2D, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Vec2D), argsTyped[2].(*EventPredicate))
-	case func(bool, *EventPredicate, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*EventPredicate), argsTyped[2].(*EventPredicate))
-	case func(int, *EventPredicate, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(*EventPredicate), argsTyped[2].(*EventPredicate))
-	case func(string, *EventPredicate, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(*EventPredicate), argsTyped[2].(*EventPredicate))
-	case func(*Entity, *EventPredicate, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].(*EventPredicate))
-	case func([]*Entity, *EventPredicate, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].(*EventPredicate))
-	case func(*Vec2D, *EventPredicate, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].(*EventPredicate))
-	case func([]*Vec2D, *EventPredicate, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].(*EventPredicate))
-	case func(*EventPredicate, *EventPredicate, *EventPredicate) func(*Entity) bool:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*EventPredicate), argsTyped[2].(*EventPredicate))
 	default:
 		panic("No case in either engine or user-registered signatures for the given func. Use EFDSL.RegisterUserPredicateSignatureAsserter()")
 	}
@@ -1189,8 +1659,12 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(bool))
 	case func(int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int))
+	case func(float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64))
 	case func(string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string))
+	case func([]string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string))
 	case func(*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity))
 	case func([]*Entity) func(xs []*Entity) func(i, j int) int:
@@ -1199,14 +1673,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D))
 	case func([]*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D))
-	case func(*EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate))
 	case func(bool, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(bool))
 	case func(int, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(bool))
+	case func(float64, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(bool))
 	case func(string, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(bool))
+	case func([]string, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(bool))
 	case func(*Entity, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(bool))
 	case func([]*Entity, bool) func(xs []*Entity) func(i, j int) int:
@@ -1215,14 +1691,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(bool))
 	case func([]*Vec2D, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(bool))
-	case func(*EventPredicate, bool) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(bool))
 	case func(bool, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(int))
 	case func(int, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(int))
+	case func(float64, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(int))
 	case func(string, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(int))
+	case func([]string, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(int))
 	case func(*Entity, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(int))
 	case func([]*Entity, int) func(xs []*Entity) func(i, j int) int:
@@ -1231,14 +1709,34 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(int))
 	case func([]*Vec2D, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(int))
-	case func(*EventPredicate, int) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(int))
+	case func(bool, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(float64))
+	case func(int, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(float64))
+	case func(float64, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(float64))
+	case func(string, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(float64))
+	case func([]string, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(float64))
+	case func(*Entity, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(float64))
+	case func([]*Entity, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(float64))
+	case func(*Vec2D, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(float64))
+	case func([]*Vec2D, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(float64))
 	case func(bool, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(string))
 	case func(int, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(string))
+	case func(float64, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(string))
 	case func(string, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(string))
+	case func([]string, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(string))
 	case func(*Entity, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(string))
 	case func([]*Entity, string) func(xs []*Entity) func(i, j int) int:
@@ -1247,14 +1745,34 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(string))
 	case func([]*Vec2D, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(string))
-	case func(*EventPredicate, string) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(string))
+	case func(bool, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]string))
+	case func(int, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]string))
+	case func(float64, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]string))
+	case func(string, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]string))
+	case func([]string, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]string))
+	case func(*Entity, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]string))
+	case func([]*Entity, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]string))
+	case func(*Vec2D, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]string))
+	case func([]*Vec2D, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]string))
 	case func(bool, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Entity))
 	case func(int, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Entity))
+	case func(float64, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Entity))
 	case func(string, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Entity))
+	case func([]string, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Entity))
 	case func(*Entity, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Entity))
 	case func([]*Entity, *Entity) func(xs []*Entity) func(i, j int) int:
@@ -1263,14 +1781,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Entity))
 	case func([]*Vec2D, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Entity))
-	case func(*EventPredicate, *Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Entity))
 	case func(bool, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Entity))
 	case func(int, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Entity))
+	case func(float64, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Entity))
 	case func(string, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Entity))
+	case func([]string, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Entity))
 	case func(*Entity, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Entity))
 	case func([]*Entity, []*Entity) func(xs []*Entity) func(i, j int) int:
@@ -1279,14 +1799,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Entity))
 	case func([]*Vec2D, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Entity))
-	case func(*EventPredicate, []*Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Entity))
 	case func(bool, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Vec2D))
 	case func(int, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Vec2D))
+	case func(float64, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Vec2D))
 	case func(string, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Vec2D))
+	case func([]string, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Vec2D))
 	case func(*Entity, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Vec2D))
 	case func([]*Entity, *Vec2D) func(xs []*Entity) func(i, j int) int:
@@ -1295,14 +1817,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Vec2D))
 	case func([]*Vec2D, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Vec2D))
-	case func(*EventPredicate, *Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Vec2D))
 	case func(bool, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Vec2D))
 	case func(int, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Vec2D))
+	case func(float64, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Vec2D))
 	case func(string, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Vec2D))
+	case func([]string, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Vec2D))
 	case func(*Entity, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Vec2D))
 	case func([]*Entity, []*Vec2D) func(xs []*Entity) func(i, j int) int:
@@ -1311,30 +1835,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Vec2D))
 	case func([]*Vec2D, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Vec2D))
-	case func(*EventPredicate, []*Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Vec2D))
-	case func(bool, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*EventPredicate))
-	case func(int, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(*EventPredicate))
-	case func(string, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(*EventPredicate))
-	case func(*Entity, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*EventPredicate))
-	case func([]*Entity, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*EventPredicate))
-	case func(*Vec2D, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*EventPredicate))
-	case func([]*Vec2D, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*EventPredicate))
-	case func(*EventPredicate, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*EventPredicate))
 	case func(bool, bool, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(bool), argsTyped[2].(bool))
 	case func(int, bool, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(bool), argsTyped[2].(bool))
+	case func(float64, bool, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(bool), argsTyped[2].(bool))
 	case func(string, bool, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(bool), argsTyped[2].(bool))
+	case func([]string, bool, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(bool), argsTyped[2].(bool))
 	case func(*Entity, bool, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(bool), argsTyped[2].(bool))
 	case func([]*Entity, bool, bool) func(xs []*Entity) func(i, j int) int:
@@ -1343,14 +1853,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(bool), argsTyped[2].(bool))
 	case func([]*Vec2D, bool, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(bool), argsTyped[2].(bool))
-	case func(*EventPredicate, bool, bool) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(bool), argsTyped[2].(bool))
 	case func(bool, int, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(int), argsTyped[2].(bool))
 	case func(int, int, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(int), argsTyped[2].(bool))
+	case func(float64, int, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(int), argsTyped[2].(bool))
 	case func(string, int, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(int), argsTyped[2].(bool))
+	case func([]string, int, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(int), argsTyped[2].(bool))
 	case func(*Entity, int, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(int), argsTyped[2].(bool))
 	case func([]*Entity, int, bool) func(xs []*Entity) func(i, j int) int:
@@ -1359,14 +1871,34 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(int), argsTyped[2].(bool))
 	case func([]*Vec2D, int, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(int), argsTyped[2].(bool))
-	case func(*EventPredicate, int, bool) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(int), argsTyped[2].(bool))
+	case func(bool, float64, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(float64), argsTyped[2].(bool))
+	case func(int, float64, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(float64), argsTyped[2].(bool))
+	case func(float64, float64, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(float64), argsTyped[2].(bool))
+	case func(string, float64, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(float64), argsTyped[2].(bool))
+	case func([]string, float64, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(float64), argsTyped[2].(bool))
+	case func(*Entity, float64, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(float64), argsTyped[2].(bool))
+	case func([]*Entity, float64, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(float64), argsTyped[2].(bool))
+	case func(*Vec2D, float64, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(float64), argsTyped[2].(bool))
+	case func([]*Vec2D, float64, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(float64), argsTyped[2].(bool))
 	case func(bool, string, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(string), argsTyped[2].(bool))
 	case func(int, string, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(string), argsTyped[2].(bool))
+	case func(float64, string, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(string), argsTyped[2].(bool))
 	case func(string, string, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(string), argsTyped[2].(bool))
+	case func([]string, string, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(string), argsTyped[2].(bool))
 	case func(*Entity, string, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(string), argsTyped[2].(bool))
 	case func([]*Entity, string, bool) func(xs []*Entity) func(i, j int) int:
@@ -1375,14 +1907,34 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(string), argsTyped[2].(bool))
 	case func([]*Vec2D, string, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(string), argsTyped[2].(bool))
-	case func(*EventPredicate, string, bool) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(string), argsTyped[2].(bool))
+	case func(bool, []string, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]string), argsTyped[2].(bool))
+	case func(int, []string, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]string), argsTyped[2].(bool))
+	case func(float64, []string, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]string), argsTyped[2].(bool))
+	case func(string, []string, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]string), argsTyped[2].(bool))
+	case func([]string, []string, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]string), argsTyped[2].(bool))
+	case func(*Entity, []string, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]string), argsTyped[2].(bool))
+	case func([]*Entity, []string, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]string), argsTyped[2].(bool))
+	case func(*Vec2D, []string, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]string), argsTyped[2].(bool))
+	case func([]*Vec2D, []string, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]string), argsTyped[2].(bool))
 	case func(bool, *Entity, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Entity), argsTyped[2].(bool))
 	case func(int, *Entity, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Entity), argsTyped[2].(bool))
+	case func(float64, *Entity, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Entity), argsTyped[2].(bool))
 	case func(string, *Entity, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Entity), argsTyped[2].(bool))
+	case func([]string, *Entity, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Entity), argsTyped[2].(bool))
 	case func(*Entity, *Entity, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Entity), argsTyped[2].(bool))
 	case func([]*Entity, *Entity, bool) func(xs []*Entity) func(i, j int) int:
@@ -1391,14 +1943,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(bool))
 	case func([]*Vec2D, *Entity, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(bool))
-	case func(*EventPredicate, *Entity, bool) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Entity), argsTyped[2].(bool))
 	case func(bool, []*Entity, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Entity), argsTyped[2].(bool))
 	case func(int, []*Entity, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Entity), argsTyped[2].(bool))
+	case func(float64, []*Entity, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Entity), argsTyped[2].(bool))
 	case func(string, []*Entity, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Entity), argsTyped[2].(bool))
+	case func([]string, []*Entity, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Entity), argsTyped[2].(bool))
 	case func(*Entity, []*Entity, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Entity), argsTyped[2].(bool))
 	case func([]*Entity, []*Entity, bool) func(xs []*Entity) func(i, j int) int:
@@ -1407,14 +1961,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(bool))
 	case func([]*Vec2D, []*Entity, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(bool))
-	case func(*EventPredicate, []*Entity, bool) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Entity), argsTyped[2].(bool))
 	case func(bool, *Vec2D, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Vec2D), argsTyped[2].(bool))
 	case func(int, *Vec2D, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Vec2D), argsTyped[2].(bool))
+	case func(float64, *Vec2D, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Vec2D), argsTyped[2].(bool))
 	case func(string, *Vec2D, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Vec2D), argsTyped[2].(bool))
+	case func([]string, *Vec2D, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Vec2D), argsTyped[2].(bool))
 	case func(*Entity, *Vec2D, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Vec2D), argsTyped[2].(bool))
 	case func([]*Entity, *Vec2D, bool) func(xs []*Entity) func(i, j int) int:
@@ -1423,14 +1979,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(bool))
 	case func([]*Vec2D, *Vec2D, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(bool))
-	case func(*EventPredicate, *Vec2D, bool) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Vec2D), argsTyped[2].(bool))
 	case func(bool, []*Vec2D, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Vec2D), argsTyped[2].(bool))
 	case func(int, []*Vec2D, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Vec2D), argsTyped[2].(bool))
+	case func(float64, []*Vec2D, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Vec2D), argsTyped[2].(bool))
 	case func(string, []*Vec2D, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Vec2D), argsTyped[2].(bool))
+	case func([]string, []*Vec2D, bool) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Vec2D), argsTyped[2].(bool))
 	case func(*Entity, []*Vec2D, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Vec2D), argsTyped[2].(bool))
 	case func([]*Entity, []*Vec2D, bool) func(xs []*Entity) func(i, j int) int:
@@ -1439,30 +1997,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(bool))
 	case func([]*Vec2D, []*Vec2D, bool) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(bool))
-	case func(*EventPredicate, []*Vec2D, bool) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Vec2D), argsTyped[2].(bool))
-	case func(bool, *EventPredicate, bool) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*EventPredicate), argsTyped[2].(bool))
-	case func(int, *EventPredicate, bool) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(*EventPredicate), argsTyped[2].(bool))
-	case func(string, *EventPredicate, bool) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(*EventPredicate), argsTyped[2].(bool))
-	case func(*Entity, *EventPredicate, bool) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].(bool))
-	case func([]*Entity, *EventPredicate, bool) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].(bool))
-	case func(*Vec2D, *EventPredicate, bool) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].(bool))
-	case func([]*Vec2D, *EventPredicate, bool) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].(bool))
-	case func(*EventPredicate, *EventPredicate, bool) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*EventPredicate), argsTyped[2].(bool))
 	case func(bool, bool, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(bool), argsTyped[2].(int))
 	case func(int, bool, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(bool), argsTyped[2].(int))
+	case func(float64, bool, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(bool), argsTyped[2].(int))
 	case func(string, bool, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(bool), argsTyped[2].(int))
+	case func([]string, bool, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(bool), argsTyped[2].(int))
 	case func(*Entity, bool, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(bool), argsTyped[2].(int))
 	case func([]*Entity, bool, int) func(xs []*Entity) func(i, j int) int:
@@ -1471,14 +2015,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(bool), argsTyped[2].(int))
 	case func([]*Vec2D, bool, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(bool), argsTyped[2].(int))
-	case func(*EventPredicate, bool, int) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(bool), argsTyped[2].(int))
 	case func(bool, int, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(int), argsTyped[2].(int))
 	case func(int, int, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(int), argsTyped[2].(int))
+	case func(float64, int, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(int), argsTyped[2].(int))
 	case func(string, int, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(int), argsTyped[2].(int))
+	case func([]string, int, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(int), argsTyped[2].(int))
 	case func(*Entity, int, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(int), argsTyped[2].(int))
 	case func([]*Entity, int, int) func(xs []*Entity) func(i, j int) int:
@@ -1487,14 +2033,34 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(int), argsTyped[2].(int))
 	case func([]*Vec2D, int, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(int), argsTyped[2].(int))
-	case func(*EventPredicate, int, int) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(int), argsTyped[2].(int))
+	case func(bool, float64, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(float64), argsTyped[2].(int))
+	case func(int, float64, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(float64), argsTyped[2].(int))
+	case func(float64, float64, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(float64), argsTyped[2].(int))
+	case func(string, float64, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(float64), argsTyped[2].(int))
+	case func([]string, float64, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(float64), argsTyped[2].(int))
+	case func(*Entity, float64, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(float64), argsTyped[2].(int))
+	case func([]*Entity, float64, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(float64), argsTyped[2].(int))
+	case func(*Vec2D, float64, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(float64), argsTyped[2].(int))
+	case func([]*Vec2D, float64, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(float64), argsTyped[2].(int))
 	case func(bool, string, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(string), argsTyped[2].(int))
 	case func(int, string, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(string), argsTyped[2].(int))
+	case func(float64, string, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(string), argsTyped[2].(int))
 	case func(string, string, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(string), argsTyped[2].(int))
+	case func([]string, string, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(string), argsTyped[2].(int))
 	case func(*Entity, string, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(string), argsTyped[2].(int))
 	case func([]*Entity, string, int) func(xs []*Entity) func(i, j int) int:
@@ -1503,14 +2069,34 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(string), argsTyped[2].(int))
 	case func([]*Vec2D, string, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(string), argsTyped[2].(int))
-	case func(*EventPredicate, string, int) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(string), argsTyped[2].(int))
+	case func(bool, []string, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]string), argsTyped[2].(int))
+	case func(int, []string, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]string), argsTyped[2].(int))
+	case func(float64, []string, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]string), argsTyped[2].(int))
+	case func(string, []string, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]string), argsTyped[2].(int))
+	case func([]string, []string, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]string), argsTyped[2].(int))
+	case func(*Entity, []string, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]string), argsTyped[2].(int))
+	case func([]*Entity, []string, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]string), argsTyped[2].(int))
+	case func(*Vec2D, []string, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]string), argsTyped[2].(int))
+	case func([]*Vec2D, []string, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]string), argsTyped[2].(int))
 	case func(bool, *Entity, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Entity), argsTyped[2].(int))
 	case func(int, *Entity, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Entity), argsTyped[2].(int))
+	case func(float64, *Entity, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Entity), argsTyped[2].(int))
 	case func(string, *Entity, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Entity), argsTyped[2].(int))
+	case func([]string, *Entity, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Entity), argsTyped[2].(int))
 	case func(*Entity, *Entity, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Entity), argsTyped[2].(int))
 	case func([]*Entity, *Entity, int) func(xs []*Entity) func(i, j int) int:
@@ -1519,14 +2105,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(int))
 	case func([]*Vec2D, *Entity, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(int))
-	case func(*EventPredicate, *Entity, int) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Entity), argsTyped[2].(int))
 	case func(bool, []*Entity, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Entity), argsTyped[2].(int))
 	case func(int, []*Entity, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Entity), argsTyped[2].(int))
+	case func(float64, []*Entity, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Entity), argsTyped[2].(int))
 	case func(string, []*Entity, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Entity), argsTyped[2].(int))
+	case func([]string, []*Entity, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Entity), argsTyped[2].(int))
 	case func(*Entity, []*Entity, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Entity), argsTyped[2].(int))
 	case func([]*Entity, []*Entity, int) func(xs []*Entity) func(i, j int) int:
@@ -1535,14 +2123,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(int))
 	case func([]*Vec2D, []*Entity, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(int))
-	case func(*EventPredicate, []*Entity, int) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Entity), argsTyped[2].(int))
 	case func(bool, *Vec2D, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Vec2D), argsTyped[2].(int))
 	case func(int, *Vec2D, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Vec2D), argsTyped[2].(int))
+	case func(float64, *Vec2D, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Vec2D), argsTyped[2].(int))
 	case func(string, *Vec2D, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Vec2D), argsTyped[2].(int))
+	case func([]string, *Vec2D, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Vec2D), argsTyped[2].(int))
 	case func(*Entity, *Vec2D, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Vec2D), argsTyped[2].(int))
 	case func([]*Entity, *Vec2D, int) func(xs []*Entity) func(i, j int) int:
@@ -1551,14 +2141,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(int))
 	case func([]*Vec2D, *Vec2D, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(int))
-	case func(*EventPredicate, *Vec2D, int) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Vec2D), argsTyped[2].(int))
 	case func(bool, []*Vec2D, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Vec2D), argsTyped[2].(int))
 	case func(int, []*Vec2D, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Vec2D), argsTyped[2].(int))
+	case func(float64, []*Vec2D, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Vec2D), argsTyped[2].(int))
 	case func(string, []*Vec2D, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Vec2D), argsTyped[2].(int))
+	case func([]string, []*Vec2D, int) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Vec2D), argsTyped[2].(int))
 	case func(*Entity, []*Vec2D, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Vec2D), argsTyped[2].(int))
 	case func([]*Entity, []*Vec2D, int) func(xs []*Entity) func(i, j int) int:
@@ -1567,30 +2159,178 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(int))
 	case func([]*Vec2D, []*Vec2D, int) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(int))
-	case func(*EventPredicate, []*Vec2D, int) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Vec2D), argsTyped[2].(int))
-	case func(bool, *EventPredicate, int) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*EventPredicate), argsTyped[2].(int))
-	case func(int, *EventPredicate, int) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(*EventPredicate), argsTyped[2].(int))
-	case func(string, *EventPredicate, int) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(*EventPredicate), argsTyped[2].(int))
-	case func(*Entity, *EventPredicate, int) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].(int))
-	case func([]*Entity, *EventPredicate, int) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].(int))
-	case func(*Vec2D, *EventPredicate, int) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].(int))
-	case func([]*Vec2D, *EventPredicate, int) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].(int))
-	case func(*EventPredicate, *EventPredicate, int) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*EventPredicate), argsTyped[2].(int))
+	case func(bool, bool, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(bool), argsTyped[2].(float64))
+	case func(int, bool, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(bool), argsTyped[2].(float64))
+	case func(float64, bool, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(bool), argsTyped[2].(float64))
+	case func(string, bool, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(bool), argsTyped[2].(float64))
+	case func([]string, bool, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(bool), argsTyped[2].(float64))
+	case func(*Entity, bool, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(bool), argsTyped[2].(float64))
+	case func([]*Entity, bool, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(bool), argsTyped[2].(float64))
+	case func(*Vec2D, bool, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(bool), argsTyped[2].(float64))
+	case func([]*Vec2D, bool, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(bool), argsTyped[2].(float64))
+	case func(bool, int, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(int), argsTyped[2].(float64))
+	case func(int, int, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(int), argsTyped[2].(float64))
+	case func(float64, int, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(int), argsTyped[2].(float64))
+	case func(string, int, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(int), argsTyped[2].(float64))
+	case func([]string, int, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(int), argsTyped[2].(float64))
+	case func(*Entity, int, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(int), argsTyped[2].(float64))
+	case func([]*Entity, int, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(int), argsTyped[2].(float64))
+	case func(*Vec2D, int, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(int), argsTyped[2].(float64))
+	case func([]*Vec2D, int, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(int), argsTyped[2].(float64))
+	case func(bool, float64, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(float64), argsTyped[2].(float64))
+	case func(int, float64, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(float64), argsTyped[2].(float64))
+	case func(float64, float64, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(float64), argsTyped[2].(float64))
+	case func(string, float64, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(float64), argsTyped[2].(float64))
+	case func([]string, float64, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(float64), argsTyped[2].(float64))
+	case func(*Entity, float64, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(float64), argsTyped[2].(float64))
+	case func([]*Entity, float64, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(float64), argsTyped[2].(float64))
+	case func(*Vec2D, float64, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(float64), argsTyped[2].(float64))
+	case func([]*Vec2D, float64, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(float64), argsTyped[2].(float64))
+	case func(bool, string, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(string), argsTyped[2].(float64))
+	case func(int, string, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(string), argsTyped[2].(float64))
+	case func(float64, string, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(string), argsTyped[2].(float64))
+	case func(string, string, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(string), argsTyped[2].(float64))
+	case func([]string, string, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(string), argsTyped[2].(float64))
+	case func(*Entity, string, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(string), argsTyped[2].(float64))
+	case func([]*Entity, string, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(string), argsTyped[2].(float64))
+	case func(*Vec2D, string, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(string), argsTyped[2].(float64))
+	case func([]*Vec2D, string, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(string), argsTyped[2].(float64))
+	case func(bool, []string, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]string), argsTyped[2].(float64))
+	case func(int, []string, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]string), argsTyped[2].(float64))
+	case func(float64, []string, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]string), argsTyped[2].(float64))
+	case func(string, []string, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]string), argsTyped[2].(float64))
+	case func([]string, []string, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]string), argsTyped[2].(float64))
+	case func(*Entity, []string, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]string), argsTyped[2].(float64))
+	case func([]*Entity, []string, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]string), argsTyped[2].(float64))
+	case func(*Vec2D, []string, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]string), argsTyped[2].(float64))
+	case func([]*Vec2D, []string, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]string), argsTyped[2].(float64))
+	case func(bool, *Entity, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Entity), argsTyped[2].(float64))
+	case func(int, *Entity, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Entity), argsTyped[2].(float64))
+	case func(float64, *Entity, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Entity), argsTyped[2].(float64))
+	case func(string, *Entity, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Entity), argsTyped[2].(float64))
+	case func([]string, *Entity, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Entity), argsTyped[2].(float64))
+	case func(*Entity, *Entity, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Entity), argsTyped[2].(float64))
+	case func([]*Entity, *Entity, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*Entity), argsTyped[2].(float64))
+	case func(*Vec2D, *Entity, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(float64))
+	case func([]*Vec2D, *Entity, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(float64))
+	case func(bool, []*Entity, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Entity), argsTyped[2].(float64))
+	case func(int, []*Entity, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Entity), argsTyped[2].(float64))
+	case func(float64, []*Entity, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Entity), argsTyped[2].(float64))
+	case func(string, []*Entity, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Entity), argsTyped[2].(float64))
+	case func([]string, []*Entity, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Entity), argsTyped[2].(float64))
+	case func(*Entity, []*Entity, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Entity), argsTyped[2].(float64))
+	case func([]*Entity, []*Entity, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]*Entity), argsTyped[2].(float64))
+	case func(*Vec2D, []*Entity, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(float64))
+	case func([]*Vec2D, []*Entity, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(float64))
+	case func(bool, *Vec2D, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Vec2D), argsTyped[2].(float64))
+	case func(int, *Vec2D, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Vec2D), argsTyped[2].(float64))
+	case func(float64, *Vec2D, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Vec2D), argsTyped[2].(float64))
+	case func(string, *Vec2D, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Vec2D), argsTyped[2].(float64))
+	case func([]string, *Vec2D, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Vec2D), argsTyped[2].(float64))
+	case func(*Entity, *Vec2D, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Vec2D), argsTyped[2].(float64))
+	case func([]*Entity, *Vec2D, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*Vec2D), argsTyped[2].(float64))
+	case func(*Vec2D, *Vec2D, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(float64))
+	case func([]*Vec2D, *Vec2D, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(float64))
+	case func(bool, []*Vec2D, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Vec2D), argsTyped[2].(float64))
+	case func(int, []*Vec2D, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Vec2D), argsTyped[2].(float64))
+	case func(float64, []*Vec2D, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Vec2D), argsTyped[2].(float64))
+	case func(string, []*Vec2D, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Vec2D), argsTyped[2].(float64))
+	case func([]string, []*Vec2D, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Vec2D), argsTyped[2].(float64))
+	case func(*Entity, []*Vec2D, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Vec2D), argsTyped[2].(float64))
+	case func([]*Entity, []*Vec2D, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]*Vec2D), argsTyped[2].(float64))
+	case func(*Vec2D, []*Vec2D, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(float64))
+	case func([]*Vec2D, []*Vec2D, float64) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(float64))
 	case func(bool, bool, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(bool), argsTyped[2].(string))
 	case func(int, bool, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(bool), argsTyped[2].(string))
+	case func(float64, bool, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(bool), argsTyped[2].(string))
 	case func(string, bool, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(bool), argsTyped[2].(string))
+	case func([]string, bool, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(bool), argsTyped[2].(string))
 	case func(*Entity, bool, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(bool), argsTyped[2].(string))
 	case func([]*Entity, bool, string) func(xs []*Entity) func(i, j int) int:
@@ -1599,14 +2339,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(bool), argsTyped[2].(string))
 	case func([]*Vec2D, bool, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(bool), argsTyped[2].(string))
-	case func(*EventPredicate, bool, string) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(bool), argsTyped[2].(string))
 	case func(bool, int, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(int), argsTyped[2].(string))
 	case func(int, int, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(int), argsTyped[2].(string))
+	case func(float64, int, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(int), argsTyped[2].(string))
 	case func(string, int, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(int), argsTyped[2].(string))
+	case func([]string, int, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(int), argsTyped[2].(string))
 	case func(*Entity, int, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(int), argsTyped[2].(string))
 	case func([]*Entity, int, string) func(xs []*Entity) func(i, j int) int:
@@ -1615,14 +2357,34 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(int), argsTyped[2].(string))
 	case func([]*Vec2D, int, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(int), argsTyped[2].(string))
-	case func(*EventPredicate, int, string) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(int), argsTyped[2].(string))
+	case func(bool, float64, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(float64), argsTyped[2].(string))
+	case func(int, float64, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(float64), argsTyped[2].(string))
+	case func(float64, float64, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(float64), argsTyped[2].(string))
+	case func(string, float64, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(float64), argsTyped[2].(string))
+	case func([]string, float64, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(float64), argsTyped[2].(string))
+	case func(*Entity, float64, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(float64), argsTyped[2].(string))
+	case func([]*Entity, float64, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(float64), argsTyped[2].(string))
+	case func(*Vec2D, float64, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(float64), argsTyped[2].(string))
+	case func([]*Vec2D, float64, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(float64), argsTyped[2].(string))
 	case func(bool, string, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(string), argsTyped[2].(string))
 	case func(int, string, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(string), argsTyped[2].(string))
+	case func(float64, string, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(string), argsTyped[2].(string))
 	case func(string, string, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(string), argsTyped[2].(string))
+	case func([]string, string, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(string), argsTyped[2].(string))
 	case func(*Entity, string, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(string), argsTyped[2].(string))
 	case func([]*Entity, string, string) func(xs []*Entity) func(i, j int) int:
@@ -1631,14 +2393,34 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(string), argsTyped[2].(string))
 	case func([]*Vec2D, string, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(string), argsTyped[2].(string))
-	case func(*EventPredicate, string, string) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(string), argsTyped[2].(string))
+	case func(bool, []string, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]string), argsTyped[2].(string))
+	case func(int, []string, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]string), argsTyped[2].(string))
+	case func(float64, []string, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]string), argsTyped[2].(string))
+	case func(string, []string, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]string), argsTyped[2].(string))
+	case func([]string, []string, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]string), argsTyped[2].(string))
+	case func(*Entity, []string, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]string), argsTyped[2].(string))
+	case func([]*Entity, []string, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]string), argsTyped[2].(string))
+	case func(*Vec2D, []string, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]string), argsTyped[2].(string))
+	case func([]*Vec2D, []string, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]string), argsTyped[2].(string))
 	case func(bool, *Entity, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Entity), argsTyped[2].(string))
 	case func(int, *Entity, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Entity), argsTyped[2].(string))
+	case func(float64, *Entity, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Entity), argsTyped[2].(string))
 	case func(string, *Entity, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Entity), argsTyped[2].(string))
+	case func([]string, *Entity, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Entity), argsTyped[2].(string))
 	case func(*Entity, *Entity, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Entity), argsTyped[2].(string))
 	case func([]*Entity, *Entity, string) func(xs []*Entity) func(i, j int) int:
@@ -1647,14 +2429,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(string))
 	case func([]*Vec2D, *Entity, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(string))
-	case func(*EventPredicate, *Entity, string) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Entity), argsTyped[2].(string))
 	case func(bool, []*Entity, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Entity), argsTyped[2].(string))
 	case func(int, []*Entity, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Entity), argsTyped[2].(string))
+	case func(float64, []*Entity, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Entity), argsTyped[2].(string))
 	case func(string, []*Entity, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Entity), argsTyped[2].(string))
+	case func([]string, []*Entity, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Entity), argsTyped[2].(string))
 	case func(*Entity, []*Entity, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Entity), argsTyped[2].(string))
 	case func([]*Entity, []*Entity, string) func(xs []*Entity) func(i, j int) int:
@@ -1663,14 +2447,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(string))
 	case func([]*Vec2D, []*Entity, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(string))
-	case func(*EventPredicate, []*Entity, string) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Entity), argsTyped[2].(string))
 	case func(bool, *Vec2D, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Vec2D), argsTyped[2].(string))
 	case func(int, *Vec2D, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Vec2D), argsTyped[2].(string))
+	case func(float64, *Vec2D, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Vec2D), argsTyped[2].(string))
 	case func(string, *Vec2D, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Vec2D), argsTyped[2].(string))
+	case func([]string, *Vec2D, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Vec2D), argsTyped[2].(string))
 	case func(*Entity, *Vec2D, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Vec2D), argsTyped[2].(string))
 	case func([]*Entity, *Vec2D, string) func(xs []*Entity) func(i, j int) int:
@@ -1679,14 +2465,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(string))
 	case func([]*Vec2D, *Vec2D, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(string))
-	case func(*EventPredicate, *Vec2D, string) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Vec2D), argsTyped[2].(string))
 	case func(bool, []*Vec2D, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Vec2D), argsTyped[2].(string))
 	case func(int, []*Vec2D, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Vec2D), argsTyped[2].(string))
+	case func(float64, []*Vec2D, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Vec2D), argsTyped[2].(string))
 	case func(string, []*Vec2D, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Vec2D), argsTyped[2].(string))
+	case func([]string, []*Vec2D, string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Vec2D), argsTyped[2].(string))
 	case func(*Entity, []*Vec2D, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Vec2D), argsTyped[2].(string))
 	case func([]*Entity, []*Vec2D, string) func(xs []*Entity) func(i, j int) int:
@@ -1695,30 +2483,178 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(string))
 	case func([]*Vec2D, []*Vec2D, string) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(string))
-	case func(*EventPredicate, []*Vec2D, string) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Vec2D), argsTyped[2].(string))
-	case func(bool, *EventPredicate, string) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*EventPredicate), argsTyped[2].(string))
-	case func(int, *EventPredicate, string) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(*EventPredicate), argsTyped[2].(string))
-	case func(string, *EventPredicate, string) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(*EventPredicate), argsTyped[2].(string))
-	case func(*Entity, *EventPredicate, string) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].(string))
-	case func([]*Entity, *EventPredicate, string) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].(string))
-	case func(*Vec2D, *EventPredicate, string) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].(string))
-	case func([]*Vec2D, *EventPredicate, string) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].(string))
-	case func(*EventPredicate, *EventPredicate, string) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*EventPredicate), argsTyped[2].(string))
+	case func(bool, bool, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(bool), argsTyped[2].([]string))
+	case func(int, bool, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(bool), argsTyped[2].([]string))
+	case func(float64, bool, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(bool), argsTyped[2].([]string))
+	case func(string, bool, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(bool), argsTyped[2].([]string))
+	case func([]string, bool, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(bool), argsTyped[2].([]string))
+	case func(*Entity, bool, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(bool), argsTyped[2].([]string))
+	case func([]*Entity, bool, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(bool), argsTyped[2].([]string))
+	case func(*Vec2D, bool, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(bool), argsTyped[2].([]string))
+	case func([]*Vec2D, bool, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(bool), argsTyped[2].([]string))
+	case func(bool, int, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(int), argsTyped[2].([]string))
+	case func(int, int, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(int), argsTyped[2].([]string))
+	case func(float64, int, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(int), argsTyped[2].([]string))
+	case func(string, int, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(int), argsTyped[2].([]string))
+	case func([]string, int, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(int), argsTyped[2].([]string))
+	case func(*Entity, int, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(int), argsTyped[2].([]string))
+	case func([]*Entity, int, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(int), argsTyped[2].([]string))
+	case func(*Vec2D, int, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(int), argsTyped[2].([]string))
+	case func([]*Vec2D, int, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(int), argsTyped[2].([]string))
+	case func(bool, float64, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(float64), argsTyped[2].([]string))
+	case func(int, float64, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(float64), argsTyped[2].([]string))
+	case func(float64, float64, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(float64), argsTyped[2].([]string))
+	case func(string, float64, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(float64), argsTyped[2].([]string))
+	case func([]string, float64, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(float64), argsTyped[2].([]string))
+	case func(*Entity, float64, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(float64), argsTyped[2].([]string))
+	case func([]*Entity, float64, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(float64), argsTyped[2].([]string))
+	case func(*Vec2D, float64, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(float64), argsTyped[2].([]string))
+	case func([]*Vec2D, float64, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(float64), argsTyped[2].([]string))
+	case func(bool, string, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(string), argsTyped[2].([]string))
+	case func(int, string, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(string), argsTyped[2].([]string))
+	case func(float64, string, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(string), argsTyped[2].([]string))
+	case func(string, string, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(string), argsTyped[2].([]string))
+	case func([]string, string, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(string), argsTyped[2].([]string))
+	case func(*Entity, string, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(string), argsTyped[2].([]string))
+	case func([]*Entity, string, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(string), argsTyped[2].([]string))
+	case func(*Vec2D, string, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(string), argsTyped[2].([]string))
+	case func([]*Vec2D, string, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(string), argsTyped[2].([]string))
+	case func(bool, []string, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]string), argsTyped[2].([]string))
+	case func(int, []string, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]string), argsTyped[2].([]string))
+	case func(float64, []string, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]string), argsTyped[2].([]string))
+	case func(string, []string, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]string), argsTyped[2].([]string))
+	case func([]string, []string, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]string), argsTyped[2].([]string))
+	case func(*Entity, []string, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]string), argsTyped[2].([]string))
+	case func([]*Entity, []string, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]string), argsTyped[2].([]string))
+	case func(*Vec2D, []string, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]string), argsTyped[2].([]string))
+	case func([]*Vec2D, []string, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]string), argsTyped[2].([]string))
+	case func(bool, *Entity, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Entity), argsTyped[2].([]string))
+	case func(int, *Entity, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Entity), argsTyped[2].([]string))
+	case func(float64, *Entity, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Entity), argsTyped[2].([]string))
+	case func(string, *Entity, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Entity), argsTyped[2].([]string))
+	case func([]string, *Entity, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Entity), argsTyped[2].([]string))
+	case func(*Entity, *Entity, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Entity), argsTyped[2].([]string))
+	case func([]*Entity, *Entity, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*Entity), argsTyped[2].([]string))
+	case func(*Vec2D, *Entity, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Entity), argsTyped[2].([]string))
+	case func([]*Vec2D, *Entity, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Entity), argsTyped[2].([]string))
+	case func(bool, []*Entity, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Entity), argsTyped[2].([]string))
+	case func(int, []*Entity, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Entity), argsTyped[2].([]string))
+	case func(float64, []*Entity, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Entity), argsTyped[2].([]string))
+	case func(string, []*Entity, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Entity), argsTyped[2].([]string))
+	case func([]string, []*Entity, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Entity), argsTyped[2].([]string))
+	case func(*Entity, []*Entity, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Entity), argsTyped[2].([]string))
+	case func([]*Entity, []*Entity, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]*Entity), argsTyped[2].([]string))
+	case func(*Vec2D, []*Entity, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].([]string))
+	case func([]*Vec2D, []*Entity, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].([]string))
+	case func(bool, *Vec2D, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Vec2D), argsTyped[2].([]string))
+	case func(int, *Vec2D, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Vec2D), argsTyped[2].([]string))
+	case func(float64, *Vec2D, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Vec2D), argsTyped[2].([]string))
+	case func(string, *Vec2D, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Vec2D), argsTyped[2].([]string))
+	case func([]string, *Vec2D, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Vec2D), argsTyped[2].([]string))
+	case func(*Entity, *Vec2D, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Vec2D), argsTyped[2].([]string))
+	case func([]*Entity, *Vec2D, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*Vec2D), argsTyped[2].([]string))
+	case func(*Vec2D, *Vec2D, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].([]string))
+	case func([]*Vec2D, *Vec2D, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].([]string))
+	case func(bool, []*Vec2D, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Vec2D), argsTyped[2].([]string))
+	case func(int, []*Vec2D, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Vec2D), argsTyped[2].([]string))
+	case func(float64, []*Vec2D, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Vec2D), argsTyped[2].([]string))
+	case func(string, []*Vec2D, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Vec2D), argsTyped[2].([]string))
+	case func([]string, []*Vec2D, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Vec2D), argsTyped[2].([]string))
+	case func(*Entity, []*Vec2D, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Vec2D), argsTyped[2].([]string))
+	case func([]*Entity, []*Vec2D, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]*Vec2D), argsTyped[2].([]string))
+	case func(*Vec2D, []*Vec2D, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].([]string))
+	case func([]*Vec2D, []*Vec2D, []string) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].([]string))
 	case func(bool, bool, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(bool), argsTyped[2].(*Entity))
 	case func(int, bool, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(bool), argsTyped[2].(*Entity))
+	case func(float64, bool, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(bool), argsTyped[2].(*Entity))
 	case func(string, bool, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(bool), argsTyped[2].(*Entity))
+	case func([]string, bool, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(bool), argsTyped[2].(*Entity))
 	case func(*Entity, bool, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(bool), argsTyped[2].(*Entity))
 	case func([]*Entity, bool, *Entity) func(xs []*Entity) func(i, j int) int:
@@ -1727,14 +2663,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(bool), argsTyped[2].(*Entity))
 	case func([]*Vec2D, bool, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(bool), argsTyped[2].(*Entity))
-	case func(*EventPredicate, bool, *Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(bool), argsTyped[2].(*Entity))
 	case func(bool, int, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(int), argsTyped[2].(*Entity))
 	case func(int, int, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(int), argsTyped[2].(*Entity))
+	case func(float64, int, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(int), argsTyped[2].(*Entity))
 	case func(string, int, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(int), argsTyped[2].(*Entity))
+	case func([]string, int, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(int), argsTyped[2].(*Entity))
 	case func(*Entity, int, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(int), argsTyped[2].(*Entity))
 	case func([]*Entity, int, *Entity) func(xs []*Entity) func(i, j int) int:
@@ -1743,14 +2681,34 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(int), argsTyped[2].(*Entity))
 	case func([]*Vec2D, int, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(int), argsTyped[2].(*Entity))
-	case func(*EventPredicate, int, *Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(int), argsTyped[2].(*Entity))
+	case func(bool, float64, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(float64), argsTyped[2].(*Entity))
+	case func(int, float64, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(float64), argsTyped[2].(*Entity))
+	case func(float64, float64, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(float64), argsTyped[2].(*Entity))
+	case func(string, float64, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(float64), argsTyped[2].(*Entity))
+	case func([]string, float64, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(float64), argsTyped[2].(*Entity))
+	case func(*Entity, float64, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(float64), argsTyped[2].(*Entity))
+	case func([]*Entity, float64, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(float64), argsTyped[2].(*Entity))
+	case func(*Vec2D, float64, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(float64), argsTyped[2].(*Entity))
+	case func([]*Vec2D, float64, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(float64), argsTyped[2].(*Entity))
 	case func(bool, string, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(string), argsTyped[2].(*Entity))
 	case func(int, string, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(string), argsTyped[2].(*Entity))
+	case func(float64, string, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(string), argsTyped[2].(*Entity))
 	case func(string, string, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(string), argsTyped[2].(*Entity))
+	case func([]string, string, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(string), argsTyped[2].(*Entity))
 	case func(*Entity, string, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(string), argsTyped[2].(*Entity))
 	case func([]*Entity, string, *Entity) func(xs []*Entity) func(i, j int) int:
@@ -1759,14 +2717,34 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(string), argsTyped[2].(*Entity))
 	case func([]*Vec2D, string, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(string), argsTyped[2].(*Entity))
-	case func(*EventPredicate, string, *Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(string), argsTyped[2].(*Entity))
+	case func(bool, []string, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]string), argsTyped[2].(*Entity))
+	case func(int, []string, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]string), argsTyped[2].(*Entity))
+	case func(float64, []string, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]string), argsTyped[2].(*Entity))
+	case func(string, []string, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]string), argsTyped[2].(*Entity))
+	case func([]string, []string, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]string), argsTyped[2].(*Entity))
+	case func(*Entity, []string, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]string), argsTyped[2].(*Entity))
+	case func([]*Entity, []string, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]string), argsTyped[2].(*Entity))
+	case func(*Vec2D, []string, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]string), argsTyped[2].(*Entity))
+	case func([]*Vec2D, []string, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]string), argsTyped[2].(*Entity))
 	case func(bool, *Entity, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Entity), argsTyped[2].(*Entity))
 	case func(int, *Entity, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Entity), argsTyped[2].(*Entity))
+	case func(float64, *Entity, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Entity), argsTyped[2].(*Entity))
 	case func(string, *Entity, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Entity), argsTyped[2].(*Entity))
+	case func([]string, *Entity, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Entity), argsTyped[2].(*Entity))
 	case func(*Entity, *Entity, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Entity), argsTyped[2].(*Entity))
 	case func([]*Entity, *Entity, *Entity) func(xs []*Entity) func(i, j int) int:
@@ -1775,14 +2753,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(*Entity))
 	case func([]*Vec2D, *Entity, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(*Entity))
-	case func(*EventPredicate, *Entity, *Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Entity), argsTyped[2].(*Entity))
 	case func(bool, []*Entity, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Entity), argsTyped[2].(*Entity))
 	case func(int, []*Entity, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Entity), argsTyped[2].(*Entity))
+	case func(float64, []*Entity, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Entity), argsTyped[2].(*Entity))
 	case func(string, []*Entity, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Entity), argsTyped[2].(*Entity))
+	case func([]string, []*Entity, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Entity), argsTyped[2].(*Entity))
 	case func(*Entity, []*Entity, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Entity), argsTyped[2].(*Entity))
 	case func([]*Entity, []*Entity, *Entity) func(xs []*Entity) func(i, j int) int:
@@ -1791,14 +2771,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(*Entity))
 	case func([]*Vec2D, []*Entity, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(*Entity))
-	case func(*EventPredicate, []*Entity, *Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Entity), argsTyped[2].(*Entity))
 	case func(bool, *Vec2D, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Vec2D), argsTyped[2].(*Entity))
 	case func(int, *Vec2D, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Vec2D), argsTyped[2].(*Entity))
+	case func(float64, *Vec2D, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Vec2D), argsTyped[2].(*Entity))
 	case func(string, *Vec2D, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Vec2D), argsTyped[2].(*Entity))
+	case func([]string, *Vec2D, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Vec2D), argsTyped[2].(*Entity))
 	case func(*Entity, *Vec2D, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Vec2D), argsTyped[2].(*Entity))
 	case func([]*Entity, *Vec2D, *Entity) func(xs []*Entity) func(i, j int) int:
@@ -1807,14 +2789,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(*Entity))
 	case func([]*Vec2D, *Vec2D, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(*Entity))
-	case func(*EventPredicate, *Vec2D, *Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Vec2D), argsTyped[2].(*Entity))
 	case func(bool, []*Vec2D, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Vec2D), argsTyped[2].(*Entity))
 	case func(int, []*Vec2D, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Vec2D), argsTyped[2].(*Entity))
+	case func(float64, []*Vec2D, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Vec2D), argsTyped[2].(*Entity))
 	case func(string, []*Vec2D, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Vec2D), argsTyped[2].(*Entity))
+	case func([]string, []*Vec2D, *Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Vec2D), argsTyped[2].(*Entity))
 	case func(*Entity, []*Vec2D, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Vec2D), argsTyped[2].(*Entity))
 	case func([]*Entity, []*Vec2D, *Entity) func(xs []*Entity) func(i, j int) int:
@@ -1823,30 +2807,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(*Entity))
 	case func([]*Vec2D, []*Vec2D, *Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(*Entity))
-	case func(*EventPredicate, []*Vec2D, *Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Vec2D), argsTyped[2].(*Entity))
-	case func(bool, *EventPredicate, *Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*EventPredicate), argsTyped[2].(*Entity))
-	case func(int, *EventPredicate, *Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(*EventPredicate), argsTyped[2].(*Entity))
-	case func(string, *EventPredicate, *Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(*EventPredicate), argsTyped[2].(*Entity))
-	case func(*Entity, *EventPredicate, *Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].(*Entity))
-	case func([]*Entity, *EventPredicate, *Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].(*Entity))
-	case func(*Vec2D, *EventPredicate, *Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].(*Entity))
-	case func([]*Vec2D, *EventPredicate, *Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].(*Entity))
-	case func(*EventPredicate, *EventPredicate, *Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*EventPredicate), argsTyped[2].(*Entity))
 	case func(bool, bool, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(bool), argsTyped[2].([]*Entity))
 	case func(int, bool, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(bool), argsTyped[2].([]*Entity))
+	case func(float64, bool, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(bool), argsTyped[2].([]*Entity))
 	case func(string, bool, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(bool), argsTyped[2].([]*Entity))
+	case func([]string, bool, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(bool), argsTyped[2].([]*Entity))
 	case func(*Entity, bool, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(bool), argsTyped[2].([]*Entity))
 	case func([]*Entity, bool, []*Entity) func(xs []*Entity) func(i, j int) int:
@@ -1855,14 +2825,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(bool), argsTyped[2].([]*Entity))
 	case func([]*Vec2D, bool, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(bool), argsTyped[2].([]*Entity))
-	case func(*EventPredicate, bool, []*Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(bool), argsTyped[2].([]*Entity))
 	case func(bool, int, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(int), argsTyped[2].([]*Entity))
 	case func(int, int, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(int), argsTyped[2].([]*Entity))
+	case func(float64, int, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(int), argsTyped[2].([]*Entity))
 	case func(string, int, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(int), argsTyped[2].([]*Entity))
+	case func([]string, int, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(int), argsTyped[2].([]*Entity))
 	case func(*Entity, int, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(int), argsTyped[2].([]*Entity))
 	case func([]*Entity, int, []*Entity) func(xs []*Entity) func(i, j int) int:
@@ -1871,14 +2843,34 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(int), argsTyped[2].([]*Entity))
 	case func([]*Vec2D, int, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(int), argsTyped[2].([]*Entity))
-	case func(*EventPredicate, int, []*Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(int), argsTyped[2].([]*Entity))
+	case func(bool, float64, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(float64), argsTyped[2].([]*Entity))
+	case func(int, float64, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(float64), argsTyped[2].([]*Entity))
+	case func(float64, float64, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(float64), argsTyped[2].([]*Entity))
+	case func(string, float64, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(float64), argsTyped[2].([]*Entity))
+	case func([]string, float64, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(float64), argsTyped[2].([]*Entity))
+	case func(*Entity, float64, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(float64), argsTyped[2].([]*Entity))
+	case func([]*Entity, float64, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(float64), argsTyped[2].([]*Entity))
+	case func(*Vec2D, float64, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(float64), argsTyped[2].([]*Entity))
+	case func([]*Vec2D, float64, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(float64), argsTyped[2].([]*Entity))
 	case func(bool, string, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(string), argsTyped[2].([]*Entity))
 	case func(int, string, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(string), argsTyped[2].([]*Entity))
+	case func(float64, string, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(string), argsTyped[2].([]*Entity))
 	case func(string, string, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(string), argsTyped[2].([]*Entity))
+	case func([]string, string, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(string), argsTyped[2].([]*Entity))
 	case func(*Entity, string, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(string), argsTyped[2].([]*Entity))
 	case func([]*Entity, string, []*Entity) func(xs []*Entity) func(i, j int) int:
@@ -1887,14 +2879,34 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(string), argsTyped[2].([]*Entity))
 	case func([]*Vec2D, string, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(string), argsTyped[2].([]*Entity))
-	case func(*EventPredicate, string, []*Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(string), argsTyped[2].([]*Entity))
+	case func(bool, []string, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]string), argsTyped[2].([]*Entity))
+	case func(int, []string, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]string), argsTyped[2].([]*Entity))
+	case func(float64, []string, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]string), argsTyped[2].([]*Entity))
+	case func(string, []string, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]string), argsTyped[2].([]*Entity))
+	case func([]string, []string, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]string), argsTyped[2].([]*Entity))
+	case func(*Entity, []string, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]string), argsTyped[2].([]*Entity))
+	case func([]*Entity, []string, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]string), argsTyped[2].([]*Entity))
+	case func(*Vec2D, []string, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]string), argsTyped[2].([]*Entity))
+	case func([]*Vec2D, []string, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]string), argsTyped[2].([]*Entity))
 	case func(bool, *Entity, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Entity), argsTyped[2].([]*Entity))
 	case func(int, *Entity, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Entity), argsTyped[2].([]*Entity))
+	case func(float64, *Entity, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Entity), argsTyped[2].([]*Entity))
 	case func(string, *Entity, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Entity), argsTyped[2].([]*Entity))
+	case func([]string, *Entity, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Entity), argsTyped[2].([]*Entity))
 	case func(*Entity, *Entity, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Entity), argsTyped[2].([]*Entity))
 	case func([]*Entity, *Entity, []*Entity) func(xs []*Entity) func(i, j int) int:
@@ -1903,14 +2915,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Entity), argsTyped[2].([]*Entity))
 	case func([]*Vec2D, *Entity, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Entity), argsTyped[2].([]*Entity))
-	case func(*EventPredicate, *Entity, []*Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Entity), argsTyped[2].([]*Entity))
 	case func(bool, []*Entity, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Entity), argsTyped[2].([]*Entity))
 	case func(int, []*Entity, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Entity), argsTyped[2].([]*Entity))
+	case func(float64, []*Entity, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Entity), argsTyped[2].([]*Entity))
 	case func(string, []*Entity, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Entity), argsTyped[2].([]*Entity))
+	case func([]string, []*Entity, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Entity), argsTyped[2].([]*Entity))
 	case func(*Entity, []*Entity, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Entity), argsTyped[2].([]*Entity))
 	case func([]*Entity, []*Entity, []*Entity) func(xs []*Entity) func(i, j int) int:
@@ -1919,14 +2933,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].([]*Entity))
 	case func([]*Vec2D, []*Entity, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].([]*Entity))
-	case func(*EventPredicate, []*Entity, []*Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Entity), argsTyped[2].([]*Entity))
 	case func(bool, *Vec2D, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Vec2D), argsTyped[2].([]*Entity))
 	case func(int, *Vec2D, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Vec2D), argsTyped[2].([]*Entity))
+	case func(float64, *Vec2D, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Vec2D), argsTyped[2].([]*Entity))
 	case func(string, *Vec2D, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Vec2D), argsTyped[2].([]*Entity))
+	case func([]string, *Vec2D, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Vec2D), argsTyped[2].([]*Entity))
 	case func(*Entity, *Vec2D, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Vec2D), argsTyped[2].([]*Entity))
 	case func([]*Entity, *Vec2D, []*Entity) func(xs []*Entity) func(i, j int) int:
@@ -1935,14 +2951,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].([]*Entity))
 	case func([]*Vec2D, *Vec2D, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].([]*Entity))
-	case func(*EventPredicate, *Vec2D, []*Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Vec2D), argsTyped[2].([]*Entity))
 	case func(bool, []*Vec2D, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Entity))
 	case func(int, []*Vec2D, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Entity))
+	case func(float64, []*Vec2D, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Entity))
 	case func(string, []*Vec2D, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Entity))
+	case func([]string, []*Vec2D, []*Entity) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Entity))
 	case func(*Entity, []*Vec2D, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Entity))
 	case func([]*Entity, []*Vec2D, []*Entity) func(xs []*Entity) func(i, j int) int:
@@ -1951,30 +2969,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Entity))
 	case func([]*Vec2D, []*Vec2D, []*Entity) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Entity))
-	case func(*EventPredicate, []*Vec2D, []*Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Entity))
-	case func(bool, *EventPredicate, []*Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Entity))
-	case func(int, *EventPredicate, []*Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Entity))
-	case func(string, *EventPredicate, []*Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Entity))
-	case func(*Entity, *EventPredicate, []*Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Entity))
-	case func([]*Entity, *EventPredicate, []*Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Entity))
-	case func(*Vec2D, *EventPredicate, []*Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Entity))
-	case func([]*Vec2D, *EventPredicate, []*Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Entity))
-	case func(*EventPredicate, *EventPredicate, []*Entity) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Entity))
 	case func(bool, bool, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(bool), argsTyped[2].(*Vec2D))
 	case func(int, bool, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(bool), argsTyped[2].(*Vec2D))
+	case func(float64, bool, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(bool), argsTyped[2].(*Vec2D))
 	case func(string, bool, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(bool), argsTyped[2].(*Vec2D))
+	case func([]string, bool, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(bool), argsTyped[2].(*Vec2D))
 	case func(*Entity, bool, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(bool), argsTyped[2].(*Vec2D))
 	case func([]*Entity, bool, *Vec2D) func(xs []*Entity) func(i, j int) int:
@@ -1983,14 +2987,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(bool), argsTyped[2].(*Vec2D))
 	case func([]*Vec2D, bool, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(bool), argsTyped[2].(*Vec2D))
-	case func(*EventPredicate, bool, *Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(bool), argsTyped[2].(*Vec2D))
 	case func(bool, int, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(int), argsTyped[2].(*Vec2D))
 	case func(int, int, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(int), argsTyped[2].(*Vec2D))
+	case func(float64, int, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(int), argsTyped[2].(*Vec2D))
 	case func(string, int, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(int), argsTyped[2].(*Vec2D))
+	case func([]string, int, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(int), argsTyped[2].(*Vec2D))
 	case func(*Entity, int, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(int), argsTyped[2].(*Vec2D))
 	case func([]*Entity, int, *Vec2D) func(xs []*Entity) func(i, j int) int:
@@ -1999,14 +3005,34 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(int), argsTyped[2].(*Vec2D))
 	case func([]*Vec2D, int, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(int), argsTyped[2].(*Vec2D))
-	case func(*EventPredicate, int, *Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(int), argsTyped[2].(*Vec2D))
+	case func(bool, float64, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(float64), argsTyped[2].(*Vec2D))
+	case func(int, float64, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(float64), argsTyped[2].(*Vec2D))
+	case func(float64, float64, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(float64), argsTyped[2].(*Vec2D))
+	case func(string, float64, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(float64), argsTyped[2].(*Vec2D))
+	case func([]string, float64, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(float64), argsTyped[2].(*Vec2D))
+	case func(*Entity, float64, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(float64), argsTyped[2].(*Vec2D))
+	case func([]*Entity, float64, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(float64), argsTyped[2].(*Vec2D))
+	case func(*Vec2D, float64, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(float64), argsTyped[2].(*Vec2D))
+	case func([]*Vec2D, float64, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(float64), argsTyped[2].(*Vec2D))
 	case func(bool, string, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(string), argsTyped[2].(*Vec2D))
 	case func(int, string, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(string), argsTyped[2].(*Vec2D))
+	case func(float64, string, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(string), argsTyped[2].(*Vec2D))
 	case func(string, string, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(string), argsTyped[2].(*Vec2D))
+	case func([]string, string, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(string), argsTyped[2].(*Vec2D))
 	case func(*Entity, string, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(string), argsTyped[2].(*Vec2D))
 	case func([]*Entity, string, *Vec2D) func(xs []*Entity) func(i, j int) int:
@@ -2015,14 +3041,34 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(string), argsTyped[2].(*Vec2D))
 	case func([]*Vec2D, string, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(string), argsTyped[2].(*Vec2D))
-	case func(*EventPredicate, string, *Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(string), argsTyped[2].(*Vec2D))
+	case func(bool, []string, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]string), argsTyped[2].(*Vec2D))
+	case func(int, []string, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]string), argsTyped[2].(*Vec2D))
+	case func(float64, []string, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]string), argsTyped[2].(*Vec2D))
+	case func(string, []string, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]string), argsTyped[2].(*Vec2D))
+	case func([]string, []string, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]string), argsTyped[2].(*Vec2D))
+	case func(*Entity, []string, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]string), argsTyped[2].(*Vec2D))
+	case func([]*Entity, []string, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]string), argsTyped[2].(*Vec2D))
+	case func(*Vec2D, []string, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]string), argsTyped[2].(*Vec2D))
+	case func([]*Vec2D, []string, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]string), argsTyped[2].(*Vec2D))
 	case func(bool, *Entity, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Entity), argsTyped[2].(*Vec2D))
 	case func(int, *Entity, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Entity), argsTyped[2].(*Vec2D))
+	case func(float64, *Entity, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Entity), argsTyped[2].(*Vec2D))
 	case func(string, *Entity, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Entity), argsTyped[2].(*Vec2D))
+	case func([]string, *Entity, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Entity), argsTyped[2].(*Vec2D))
 	case func(*Entity, *Entity, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Entity), argsTyped[2].(*Vec2D))
 	case func([]*Entity, *Entity, *Vec2D) func(xs []*Entity) func(i, j int) int:
@@ -2031,14 +3077,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(*Vec2D))
 	case func([]*Vec2D, *Entity, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(*Vec2D))
-	case func(*EventPredicate, *Entity, *Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Entity), argsTyped[2].(*Vec2D))
 	case func(bool, []*Entity, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Entity), argsTyped[2].(*Vec2D))
 	case func(int, []*Entity, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Entity), argsTyped[2].(*Vec2D))
+	case func(float64, []*Entity, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Entity), argsTyped[2].(*Vec2D))
 	case func(string, []*Entity, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Entity), argsTyped[2].(*Vec2D))
+	case func([]string, []*Entity, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Entity), argsTyped[2].(*Vec2D))
 	case func(*Entity, []*Entity, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Entity), argsTyped[2].(*Vec2D))
 	case func([]*Entity, []*Entity, *Vec2D) func(xs []*Entity) func(i, j int) int:
@@ -2047,14 +3095,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(*Vec2D))
 	case func([]*Vec2D, []*Entity, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(*Vec2D))
-	case func(*EventPredicate, []*Entity, *Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Entity), argsTyped[2].(*Vec2D))
 	case func(bool, *Vec2D, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Vec2D), argsTyped[2].(*Vec2D))
 	case func(int, *Vec2D, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Vec2D), argsTyped[2].(*Vec2D))
+	case func(float64, *Vec2D, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Vec2D), argsTyped[2].(*Vec2D))
 	case func(string, *Vec2D, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Vec2D), argsTyped[2].(*Vec2D))
+	case func([]string, *Vec2D, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Vec2D), argsTyped[2].(*Vec2D))
 	case func(*Entity, *Vec2D, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Vec2D), argsTyped[2].(*Vec2D))
 	case func([]*Entity, *Vec2D, *Vec2D) func(xs []*Entity) func(i, j int) int:
@@ -2063,14 +3113,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(*Vec2D))
 	case func([]*Vec2D, *Vec2D, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(*Vec2D))
-	case func(*EventPredicate, *Vec2D, *Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Vec2D), argsTyped[2].(*Vec2D))
 	case func(bool, []*Vec2D, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Vec2D), argsTyped[2].(*Vec2D))
 	case func(int, []*Vec2D, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Vec2D), argsTyped[2].(*Vec2D))
+	case func(float64, []*Vec2D, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Vec2D), argsTyped[2].(*Vec2D))
 	case func(string, []*Vec2D, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Vec2D), argsTyped[2].(*Vec2D))
+	case func([]string, []*Vec2D, *Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Vec2D), argsTyped[2].(*Vec2D))
 	case func(*Entity, []*Vec2D, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Vec2D), argsTyped[2].(*Vec2D))
 	case func([]*Entity, []*Vec2D, *Vec2D) func(xs []*Entity) func(i, j int) int:
@@ -2079,30 +3131,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(*Vec2D))
 	case func([]*Vec2D, []*Vec2D, *Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(*Vec2D))
-	case func(*EventPredicate, []*Vec2D, *Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Vec2D), argsTyped[2].(*Vec2D))
-	case func(bool, *EventPredicate, *Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*EventPredicate), argsTyped[2].(*Vec2D))
-	case func(int, *EventPredicate, *Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(*EventPredicate), argsTyped[2].(*Vec2D))
-	case func(string, *EventPredicate, *Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(*EventPredicate), argsTyped[2].(*Vec2D))
-	case func(*Entity, *EventPredicate, *Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].(*Vec2D))
-	case func([]*Entity, *EventPredicate, *Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].(*Vec2D))
-	case func(*Vec2D, *EventPredicate, *Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].(*Vec2D))
-	case func([]*Vec2D, *EventPredicate, *Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].(*Vec2D))
-	case func(*EventPredicate, *EventPredicate, *Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*EventPredicate), argsTyped[2].(*Vec2D))
 	case func(bool, bool, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(bool), argsTyped[2].([]*Vec2D))
 	case func(int, bool, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(bool), argsTyped[2].([]*Vec2D))
+	case func(float64, bool, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(bool), argsTyped[2].([]*Vec2D))
 	case func(string, bool, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(bool), argsTyped[2].([]*Vec2D))
+	case func([]string, bool, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(bool), argsTyped[2].([]*Vec2D))
 	case func(*Entity, bool, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(bool), argsTyped[2].([]*Vec2D))
 	case func([]*Entity, bool, []*Vec2D) func(xs []*Entity) func(i, j int) int:
@@ -2111,14 +3149,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(bool), argsTyped[2].([]*Vec2D))
 	case func([]*Vec2D, bool, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(bool), argsTyped[2].([]*Vec2D))
-	case func(*EventPredicate, bool, []*Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(bool), argsTyped[2].([]*Vec2D))
 	case func(bool, int, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(int), argsTyped[2].([]*Vec2D))
 	case func(int, int, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(int), argsTyped[2].([]*Vec2D))
+	case func(float64, int, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(int), argsTyped[2].([]*Vec2D))
 	case func(string, int, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(int), argsTyped[2].([]*Vec2D))
+	case func([]string, int, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(int), argsTyped[2].([]*Vec2D))
 	case func(*Entity, int, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(int), argsTyped[2].([]*Vec2D))
 	case func([]*Entity, int, []*Vec2D) func(xs []*Entity) func(i, j int) int:
@@ -2127,14 +3167,34 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(int), argsTyped[2].([]*Vec2D))
 	case func([]*Vec2D, int, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(int), argsTyped[2].([]*Vec2D))
-	case func(*EventPredicate, int, []*Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(int), argsTyped[2].([]*Vec2D))
+	case func(bool, float64, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].(float64), argsTyped[2].([]*Vec2D))
+	case func(int, float64, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].(float64), argsTyped[2].([]*Vec2D))
+	case func(float64, float64, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(float64), argsTyped[2].([]*Vec2D))
+	case func(string, float64, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].(float64), argsTyped[2].([]*Vec2D))
+	case func([]string, float64, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(float64), argsTyped[2].([]*Vec2D))
+	case func(*Entity, float64, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(float64), argsTyped[2].([]*Vec2D))
+	case func([]*Entity, float64, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(float64), argsTyped[2].([]*Vec2D))
+	case func(*Vec2D, float64, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(float64), argsTyped[2].([]*Vec2D))
+	case func([]*Vec2D, float64, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(float64), argsTyped[2].([]*Vec2D))
 	case func(bool, string, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(string), argsTyped[2].([]*Vec2D))
 	case func(int, string, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(string), argsTyped[2].([]*Vec2D))
+	case func(float64, string, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(string), argsTyped[2].([]*Vec2D))
 	case func(string, string, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(string), argsTyped[2].([]*Vec2D))
+	case func([]string, string, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(string), argsTyped[2].([]*Vec2D))
 	case func(*Entity, string, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(string), argsTyped[2].([]*Vec2D))
 	case func([]*Entity, string, []*Vec2D) func(xs []*Entity) func(i, j int) int:
@@ -2143,14 +3203,34 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(string), argsTyped[2].([]*Vec2D))
 	case func([]*Vec2D, string, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(string), argsTyped[2].([]*Vec2D))
-	case func(*EventPredicate, string, []*Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(string), argsTyped[2].([]*Vec2D))
+	case func(bool, []string, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]string), argsTyped[2].([]*Vec2D))
+	case func(int, []string, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(int), argsTyped[1].([]string), argsTyped[2].([]*Vec2D))
+	case func(float64, []string, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]string), argsTyped[2].([]*Vec2D))
+	case func(string, []string, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(string), argsTyped[1].([]string), argsTyped[2].([]*Vec2D))
+	case func([]string, []string, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]string), argsTyped[2].([]*Vec2D))
+	case func(*Entity, []string, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]string), argsTyped[2].([]*Vec2D))
+	case func([]*Entity, []string, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]string), argsTyped[2].([]*Vec2D))
+	case func(*Vec2D, []string, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]string), argsTyped[2].([]*Vec2D))
+	case func([]*Vec2D, []string, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]string), argsTyped[2].([]*Vec2D))
 	case func(bool, *Entity, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Entity), argsTyped[2].([]*Vec2D))
 	case func(int, *Entity, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Entity), argsTyped[2].([]*Vec2D))
+	case func(float64, *Entity, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Entity), argsTyped[2].([]*Vec2D))
 	case func(string, *Entity, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Entity), argsTyped[2].([]*Vec2D))
+	case func([]string, *Entity, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Entity), argsTyped[2].([]*Vec2D))
 	case func(*Entity, *Entity, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Entity), argsTyped[2].([]*Vec2D))
 	case func([]*Entity, *Entity, []*Vec2D) func(xs []*Entity) func(i, j int) int:
@@ -2159,14 +3239,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Entity), argsTyped[2].([]*Vec2D))
 	case func([]*Vec2D, *Entity, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Entity), argsTyped[2].([]*Vec2D))
-	case func(*EventPredicate, *Entity, []*Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Entity), argsTyped[2].([]*Vec2D))
 	case func(bool, []*Entity, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Entity), argsTyped[2].([]*Vec2D))
 	case func(int, []*Entity, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Entity), argsTyped[2].([]*Vec2D))
+	case func(float64, []*Entity, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Entity), argsTyped[2].([]*Vec2D))
 	case func(string, []*Entity, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Entity), argsTyped[2].([]*Vec2D))
+	case func([]string, []*Entity, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Entity), argsTyped[2].([]*Vec2D))
 	case func(*Entity, []*Entity, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Entity), argsTyped[2].([]*Vec2D))
 	case func([]*Entity, []*Entity, []*Vec2D) func(xs []*Entity) func(i, j int) int:
@@ -2175,14 +3257,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].([]*Vec2D))
 	case func([]*Vec2D, []*Entity, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].([]*Vec2D))
-	case func(*EventPredicate, []*Entity, []*Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Entity), argsTyped[2].([]*Vec2D))
 	case func(bool, *Vec2D, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Vec2D), argsTyped[2].([]*Vec2D))
 	case func(int, *Vec2D, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Vec2D), argsTyped[2].([]*Vec2D))
+	case func(float64, *Vec2D, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].(*Vec2D), argsTyped[2].([]*Vec2D))
 	case func(string, *Vec2D, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Vec2D), argsTyped[2].([]*Vec2D))
+	case func([]string, *Vec2D, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].(*Vec2D), argsTyped[2].([]*Vec2D))
 	case func(*Entity, *Vec2D, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Vec2D), argsTyped[2].([]*Vec2D))
 	case func([]*Entity, *Vec2D, []*Vec2D) func(xs []*Entity) func(i, j int) int:
@@ -2191,14 +3275,16 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].([]*Vec2D))
 	case func([]*Vec2D, *Vec2D, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].([]*Vec2D))
-	case func(*EventPredicate, *Vec2D, []*Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Vec2D), argsTyped[2].([]*Vec2D))
 	case func(bool, []*Vec2D, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Vec2D))
 	case func(int, []*Vec2D, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Vec2D))
+	case func(float64, []*Vec2D, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].(float64), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Vec2D))
 	case func(string, []*Vec2D, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Vec2D))
+	case func([]string, []*Vec2D, []*Vec2D) func(xs []*Entity) func(i, j int) int:
+		result = fTyped(argsTyped[0].([]string), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Vec2D))
 	case func(*Entity, []*Vec2D, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Vec2D))
 	case func([]*Entity, []*Vec2D, []*Vec2D) func(xs []*Entity) func(i, j int) int:
@@ -2207,152 +3293,6 @@ func (e *EFDSLEvaluator) sortSignatureAssertSwitch(f any, argsTyped []any) func(
 		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Vec2D))
 	case func([]*Vec2D, []*Vec2D, []*Vec2D) func(xs []*Entity) func(i, j int) int:
 		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Vec2D))
-	case func(*EventPredicate, []*Vec2D, []*Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Vec2D), argsTyped[2].([]*Vec2D))
-	case func(bool, *EventPredicate, []*Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Vec2D))
-	case func(int, *EventPredicate, []*Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Vec2D))
-	case func(string, *EventPredicate, []*Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Vec2D))
-	case func(*Entity, *EventPredicate, []*Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Vec2D))
-	case func([]*Entity, *EventPredicate, []*Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Vec2D))
-	case func(*Vec2D, *EventPredicate, []*Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Vec2D))
-	case func([]*Vec2D, *EventPredicate, []*Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Vec2D))
-	case func(*EventPredicate, *EventPredicate, []*Vec2D) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*EventPredicate), argsTyped[2].([]*Vec2D))
-	case func(bool, bool, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(bool), argsTyped[2].(*EventPredicate))
-	case func(int, bool, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(bool), argsTyped[2].(*EventPredicate))
-	case func(string, bool, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(bool), argsTyped[2].(*EventPredicate))
-	case func(*Entity, bool, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(bool), argsTyped[2].(*EventPredicate))
-	case func([]*Entity, bool, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(bool), argsTyped[2].(*EventPredicate))
-	case func(*Vec2D, bool, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(bool), argsTyped[2].(*EventPredicate))
-	case func([]*Vec2D, bool, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(bool), argsTyped[2].(*EventPredicate))
-	case func(*EventPredicate, bool, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(bool), argsTyped[2].(*EventPredicate))
-	case func(bool, int, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(int), argsTyped[2].(*EventPredicate))
-	case func(int, int, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(int), argsTyped[2].(*EventPredicate))
-	case func(string, int, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(int), argsTyped[2].(*EventPredicate))
-	case func(*Entity, int, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(int), argsTyped[2].(*EventPredicate))
-	case func([]*Entity, int, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(int), argsTyped[2].(*EventPredicate))
-	case func(*Vec2D, int, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(int), argsTyped[2].(*EventPredicate))
-	case func([]*Vec2D, int, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(int), argsTyped[2].(*EventPredicate))
-	case func(*EventPredicate, int, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(int), argsTyped[2].(*EventPredicate))
-	case func(bool, string, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(string), argsTyped[2].(*EventPredicate))
-	case func(int, string, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(string), argsTyped[2].(*EventPredicate))
-	case func(string, string, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(string), argsTyped[2].(*EventPredicate))
-	case func(*Entity, string, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(string), argsTyped[2].(*EventPredicate))
-	case func([]*Entity, string, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(string), argsTyped[2].(*EventPredicate))
-	case func(*Vec2D, string, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(string), argsTyped[2].(*EventPredicate))
-	case func([]*Vec2D, string, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(string), argsTyped[2].(*EventPredicate))
-	case func(*EventPredicate, string, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(string), argsTyped[2].(*EventPredicate))
-	case func(bool, *Entity, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Entity), argsTyped[2].(*EventPredicate))
-	case func(int, *Entity, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Entity), argsTyped[2].(*EventPredicate))
-	case func(string, *Entity, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Entity), argsTyped[2].(*EventPredicate))
-	case func(*Entity, *Entity, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Entity), argsTyped[2].(*EventPredicate))
-	case func([]*Entity, *Entity, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*Entity), argsTyped[2].(*EventPredicate))
-	case func(*Vec2D, *Entity, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(*EventPredicate))
-	case func([]*Vec2D, *Entity, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Entity), argsTyped[2].(*EventPredicate))
-	case func(*EventPredicate, *Entity, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Entity), argsTyped[2].(*EventPredicate))
-	case func(bool, []*Entity, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Entity), argsTyped[2].(*EventPredicate))
-	case func(int, []*Entity, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Entity), argsTyped[2].(*EventPredicate))
-	case func(string, []*Entity, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Entity), argsTyped[2].(*EventPredicate))
-	case func(*Entity, []*Entity, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Entity), argsTyped[2].(*EventPredicate))
-	case func([]*Entity, []*Entity, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]*Entity), argsTyped[2].(*EventPredicate))
-	case func(*Vec2D, []*Entity, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(*EventPredicate))
-	case func([]*Vec2D, []*Entity, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Entity), argsTyped[2].(*EventPredicate))
-	case func(*EventPredicate, []*Entity, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Entity), argsTyped[2].(*EventPredicate))
-	case func(bool, *Vec2D, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*Vec2D), argsTyped[2].(*EventPredicate))
-	case func(int, *Vec2D, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(*Vec2D), argsTyped[2].(*EventPredicate))
-	case func(string, *Vec2D, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(*Vec2D), argsTyped[2].(*EventPredicate))
-	case func(*Entity, *Vec2D, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*Vec2D), argsTyped[2].(*EventPredicate))
-	case func([]*Entity, *Vec2D, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*Vec2D), argsTyped[2].(*EventPredicate))
-	case func(*Vec2D, *Vec2D, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(*EventPredicate))
-	case func([]*Vec2D, *Vec2D, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*Vec2D), argsTyped[2].(*EventPredicate))
-	case func(*EventPredicate, *Vec2D, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*Vec2D), argsTyped[2].(*EventPredicate))
-	case func(bool, []*Vec2D, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].([]*Vec2D), argsTyped[2].(*EventPredicate))
-	case func(int, []*Vec2D, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].([]*Vec2D), argsTyped[2].(*EventPredicate))
-	case func(string, []*Vec2D, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].([]*Vec2D), argsTyped[2].(*EventPredicate))
-	case func(*Entity, []*Vec2D, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].([]*Vec2D), argsTyped[2].(*EventPredicate))
-	case func([]*Entity, []*Vec2D, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].([]*Vec2D), argsTyped[2].(*EventPredicate))
-	case func(*Vec2D, []*Vec2D, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(*EventPredicate))
-	case func([]*Vec2D, []*Vec2D, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].([]*Vec2D), argsTyped[2].(*EventPredicate))
-	case func(*EventPredicate, []*Vec2D, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].([]*Vec2D), argsTyped[2].(*EventPredicate))
-	case func(bool, *EventPredicate, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(bool), argsTyped[1].(*EventPredicate), argsTyped[2].(*EventPredicate))
-	case func(int, *EventPredicate, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(int), argsTyped[1].(*EventPredicate), argsTyped[2].(*EventPredicate))
-	case func(string, *EventPredicate, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(string), argsTyped[1].(*EventPredicate), argsTyped[2].(*EventPredicate))
-	case func(*Entity, *EventPredicate, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].(*EventPredicate))
-	case func([]*Entity, *EventPredicate, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Entity), argsTyped[1].(*EventPredicate), argsTyped[2].(*EventPredicate))
-	case func(*Vec2D, *EventPredicate, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].(*EventPredicate))
-	case func([]*Vec2D, *EventPredicate, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].([]*Vec2D), argsTyped[1].(*EventPredicate), argsTyped[2].(*EventPredicate))
-	case func(*EventPredicate, *EventPredicate, *EventPredicate) func(xs []*Entity) func(i, j int) int:
-		result = fTyped(argsTyped[0].(*EventPredicate), argsTyped[1].(*EventPredicate), argsTyped[2].(*EventPredicate))
 	default:
 		panic("No case in either engine or user-registered signatures for the given func. Use EFDSL.RegisterUserSortSignatureAsserter()")
 	}

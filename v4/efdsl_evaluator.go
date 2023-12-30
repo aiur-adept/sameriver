@@ -11,7 +11,7 @@ type EFDSLEvaluator struct {
 	sorts      EFDSLSortMap
 	// used to allow - in a performant way avoiding reflect - users to
 	// specify their own predicate/sort func type signatures beyond
-	// those defined in the switch block in efdsl_evaluator.go
+	// those defined in the switch block in GENERATED_efdsl_sig_assert_switches.go
 	userPredicateSignatureAsserter func(f any, argsTyped []any) func(*Entity) bool
 	userSortSignatureAsserter      func(f any, argsTyped []any) func(xs []*Entity) func(i, j int) int
 }
@@ -43,10 +43,12 @@ func (e *EFDSLEvaluator) RegisterSorts(sorts EFDSLSortMap) *EFDSLEvaluator {
 	return e
 }
 
+// TODO: this is never called
 func (e *EFDSLEvaluator) RegisterUserPredicateSignatureAsserter(asserter func(f any, argsTyped []any) func(*Entity) bool) {
 	e.userPredicateSignatureAsserter = asserter
 }
 
+// TODO: this is never called
 func (e *EFDSLEvaluator) RegisterUserSortSignatureAsserter(asserter func(f any, argsTyped []any) func(xs []*Entity) func(i, j int) int) {
 	e.userSortSignatureAsserter = asserter
 }
