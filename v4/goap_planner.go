@@ -73,6 +73,7 @@ func (p *GOAPPlanner) trySelectNodes(ws *GOAPWorldState, nodes []string) (bindEr
 	return nil
 }
 
+// a Node is an entity (even objects in the world are entities).
 // the ws arg is READ ONLY for modal pos
 // tries cache, then tries the bound selector, falling back to generic
 // returns nil if nothing valid
@@ -129,8 +130,14 @@ func (p *GOAPPlanner) bindEntities(nodes []string, ws *GOAPWorldState, start boo
 				logGOAPDebug(color.InPurple("        in cache"))
 				ws.ModalEntities[node] = cached
 			} else {
-				logGOAPDebug(color.InPurple("        not in cache, running selector"))
-				ws.ModalEntities[node] = p.selectNode(ws, node)
+				logGOAPDebug(color.InPurple("        not in cache"))
+				if node == "self" {
+					logGOAPDebug(color.InPurple(fmt.Sprintf("        --> selecting 'self' as entity %d", p.e.ID)))
+					ws.ModalEntities[node] = p.e
+				} else {
+					logGOAPDebug(color.InPurple(fmt.Sprintf("        --> running selector for node '%s'", node)))
+					ws.ModalEntities[node] = p.selectNode(ws, node)
+				}
 			}
 		} else if DEBUG_GOAP {
 			logGOAPDebug(color.InPurple("|"))

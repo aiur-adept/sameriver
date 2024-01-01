@@ -1,4 +1,15 @@
-https://chat.openai.com/chat/e4bb4965-c043-4788-bd71-0abc19fa240e
+
+IDEA GEBO 
+
+some variables should have a constraint that they cannot go below zero (for example inventory amounts)
+
+
+
+
+
+
+
+
 
 
 IDEA GARTH VADER:
@@ -207,6 +218,9 @@ we'd produce it then and there ourself if we cant withdraw, like the bow example
 i think to keep track of the fact it might take a long time, this should be
 a kind of intention that gets stored on blackboard, that we return to depending
 on leisure hours available to devote to it - or maybe if there's enough roles assigned to others that morning, our work curves are zeroed and we have all day leisure to craft the board
+
+
+
 
 
 

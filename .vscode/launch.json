@@ -13,7 +13,10 @@
             "args": [
                 "-test.run",
                 "TestGOAPGoalRemainingsOfPath"
-            ]
+            ],
+            "env": {
+                "DEBUG_GOAP": "true"
+            }
         },
         {
             "name": "EFDSL-gen",
@@ -44,6 +47,5 @@
                 "TestDSLBasic"
             ]
         }
-
     ]
 }

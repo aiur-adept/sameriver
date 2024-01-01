@@ -162,6 +162,8 @@ func TestGOAPGoalRemainingsOfPath(t *testing.T) {
 
 	p := NewGOAPPlanner(e)
 
+	// we look at hasbooze *for this test* as a component,
+	// but it could just as easily be written as an inventory check
 	hasBoozeModal := GOAPModalVal{
 		name: "hasBooze",
 		check: func(ws *GOAPWorldState) int {
@@ -178,7 +180,7 @@ func TestGOAPGoalRemainingsOfPath(t *testing.T) {
 	}
 	drink := NewGOAPAction(map[string]any{
 		"name": "drink",
-		"node": "self",
+		"node": "self", // action occurs at self
 		"cost": 1,
 		"pres": map[string]int{
 			"EACH:hasBooze,>=": 1,
@@ -200,6 +202,7 @@ func TestGOAPGoalRemainingsOfPath(t *testing.T) {
 		"drunk,>=": 3,
 	}
 
+	// we have already drank 2 times, and want to know what remains
 	path := NewGOAPPath([]*GOAPAction{drink.Parametrized(2)})
 
 	Logger.Printf("-------------------------------------------- 1")
