@@ -247,6 +247,10 @@ func TestGOAPGoalRemainingsOfPath(t *testing.T) {
 	}
 }
 
+// TODO: fix this test, since chopTree should be like getAxe,
+// it automatically *provides* atTree, and it would be
+// up to the implementer to make sure while in the choptree action
+// we manage the simple state transition from goto->chop
 func TestGOAPActionPresFulfilled(t *testing.T) {
 
 	w := testingWorld()
@@ -266,16 +270,18 @@ func TestGOAPActionPresFulfilled(t *testing.T) {
 	}
 
 	// NOTE: both of these in reality should be modal
-	goToAxe := NewGOAPAction(map[string]any{
-		"name": "goToAxe",
+	getAxe := NewGOAPAction(map[string]any{
+		"name": "getAxe",
+		"node": "axe",
 		"cost": 1,
 		"pres": nil,
 		"effs": map[string]int{
-			"atAxe,=": 1,
+			"hasAxe,=": 1,
 		},
 	})
 	drink := NewGOAPAction(map[string]any{
 		"name": "drink",
+		"node": "self",
 		"cost": 1,
 		"pres": map[string]int{
 			"hasBooze,>": 0,
@@ -296,18 +302,18 @@ func TestGOAPActionPresFulfilled(t *testing.T) {
 	}
 	chopTree := NewGOAPAction(map[string]any{
 		"name": "chopTree",
+		"node": "tree",
 		"cost": 1,
 		"pres": map[string]int{
 			"hasGlove,>": 0,
 			"hasAxe,>":   0,
-			"atTree,=":   1,
 		},
 		"effs": map[string]int{
 			"treeFelled,=": 1,
 		},
 	})
 
-	p.AddActions(goToAxe, drink, chopTree)
+	p.AddActions(getAxe, drink, chopTree)
 
 	doDrinkTest(0, false)
 	doDrinkTest(1, true)
@@ -318,7 +324,6 @@ func TestGOAPActionPresFulfilled(t *testing.T) {
 		NewGOAPWorldState(map[string]int{
 			"hasGlove": 1,
 			"hasAxe":   1,
-			"atTree":   1,
 		})) {
 		t.Fatal("chopTree pres should have been fulfilled")
 	}
@@ -327,8 +332,7 @@ func TestGOAPActionPresFulfilled(t *testing.T) {
 		chopTree,
 		NewGOAPWorldState(map[string]int{
 			"hasGlove": 1,
-			"hasAxe":   1,
-			"atTree":   0,
+			"hasAxe":   0,
 		})) {
 		t.Fatal("chopTree pres shouldn't have been fulfilled")
 	}

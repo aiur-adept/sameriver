@@ -5,6 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "TestGOAPActionPresFulfilled",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/v4/",
+            "args": [
+                "-test.run",
+                "TestGOAPActionPresFulfilled"
+            ],
+            "env": {
+                "DEBUG_GOAP": "true"
+            }
+        },
+        {
             "name": "TestGOAPGoalRemainingsOfPath",
             "type": "go",
             "request": "launch",
