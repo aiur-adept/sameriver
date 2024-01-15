@@ -23,6 +23,7 @@ const (
 	TAGLIST
 	INTMAP
 	FLOATMAP
+	STRINGMAP
 	GENERIC
 	CUSTOM
 )
@@ -39,6 +40,7 @@ var componentKindStrings = map[ComponentKind]string{
 	TAGLIST:         "TAGLIST",
 	INTMAP:          "INTMAP",
 	FLOATMAP:        "FLOATMAP",
+	STRINGMAP:       "STRINGMAP",
 	GENERIC:         "GENERIC",
 	CUSTOM:          "CUSTOM",
 }
@@ -66,6 +68,7 @@ type ComponentTable struct {
 	tagListMap         map[ComponentID][]TagList
 	intMapMap          map[ComponentID][]IntMap
 	floatMapMap        map[ComponentID][]FloatMap
+	stringMapMap       map[ComponentID][]StringMap
 	genericMap         map[ComponentID][]any
 	cccMap             map[ComponentID]CustomContiguousComponent
 }
@@ -91,6 +94,7 @@ func NewComponentTable(capacity int) *ComponentTable {
 		tagListMap:         make(map[ComponentID][]TagList),
 		intMapMap:          make(map[ComponentID][]IntMap),
 		floatMapMap:        make(map[ComponentID][]FloatMap),
+		stringMapMap:       make(map[ComponentID][]StringMap),
 		genericMap:         make(map[ComponentID][]any),
 		cccMap:             make(map[ComponentID]CustomContiguousComponent),
 	}
@@ -153,6 +157,11 @@ func (ct *ComponentTable) expand(n int) {
 		Logger.Printf("Expanding table of component %s,%s", componentKindStrings[ct.kinds[name]], ct.strings[name])
 		extraSpace := make([]FloatMap, n)
 		ct.floatMapMap[name] = append(slice, extraSpace...)
+	}
+	for name, slice := range ct.stringMapMap {
+		Logger.Printf("Expanding table of component %s,%s", componentKindStrings[ct.kinds[name]], ct.strings[name])
+		extraSpace := make([]StringMap, n)
+		ct.stringMapMap[name] = append(slice, extraSpace...)
 	}
 	for name, slice := range ct.genericMap {
 		Logger.Printf("Expanding table of component %s,%s", componentKindStrings[ct.kinds[name]], ct.strings[name])
@@ -217,6 +226,8 @@ func (ct *ComponentTable) addComponent(kind ComponentKind, name ComponentID, str
 		ct.intMapMap[name] = make([]IntMap, ct.capacity, 2*ct.capacity)
 	case FLOATMAP:
 		ct.floatMapMap[name] = make([]FloatMap, ct.capacity, 2*ct.capacity)
+	case STRINGMAP:
+		ct.stringMapMap[name] = make([]StringMap, ct.capacity, 2*ct.capacity)
 	case GENERIC:
 		ct.genericMap[name] = make([]any, ct.capacity, 2*ct.capacity)
 	default:
@@ -296,6 +307,11 @@ func (ct *ComponentTable) AssertValidComponentSet(cs ComponentSet) {
 			panic(fmt.Sprintf("%s not found in floatMapMap - maybe not registered yet?", ct.strings[name]))
 		}
 	}
+	for name := range cs.stringMapMap {
+		if _, ok := ct.stringMapMap[name]; !ok {
+			panic(fmt.Sprintf("%s not found in stringMapMap - maybe not registered yet?", ct.strings[name]))
+		}
+	}
 	for name := range cs.genericMap {
 		if _, ok := ct.genericMap[name]; !ok {
 			panic(fmt.Sprintf("%s not found in genericMap - maybe not registered yet?", ct.strings[name]))
@@ -347,10 +363,14 @@ func (ct *ComponentTable) applyComponentSet(e *Entity, cs ComponentSet) {
 	for name, m := range cs.floatMapMap {
 		ct.floatMapMap[name][e.ID] = m
 	}
+	for name, m := range cs.stringMapMap {
+		ct.stringMapMap[name][e.ID] = m
+	}
 	for name, x := range cs.genericMap {
 		ct.genericMap[name][e.ID] = x
 	}
 	for name, x := range cs.customComponentsMap {
+		// TODO: should this be ct. ??? if not, COMMENT WHY
 		cs.customComponentsImpl[name].Set(e, x)
 	}
 	ct.orBitArrayInto(e, ct.bitArrayFromComponentSet(cs))
@@ -471,6 +491,10 @@ func (e *Entity) GetFloatMap(name ComponentID) *FloatMap {
 	e.World.em.components.guardInvalidComponentGet(e, name)
 	return &e.World.em.components.floatMapMap[name][e.ID]
 }
+func (e *Entity) GetStringMap(name ComponentID) *StringMap {
+	e.World.em.components.guardInvalidComponentGet(e, name)
+	return &e.World.em.components.stringMapMap[name][e.ID]
+}
 func (e *Entity) GetGeneric(name ComponentID) any {
 	e.World.em.components.guardInvalidComponentGet(e, name)
 	return e.World.em.components.genericMap[name][e.ID]
@@ -501,6 +525,8 @@ func (e *Entity) GetVal(name ComponentID) any {
 		return &e.World.em.components.intMapMap[name][e.ID]
 	case FLOATMAP:
 		return &e.World.em.components.floatMapMap[name][e.ID]
+	case STRINGMAP:
+		return &e.World.em.components.stringMapMap[name][e.ID]
 	case GENERIC:
 		return e.World.em.components.genericMap[name][e.ID]
 	case CUSTOM:

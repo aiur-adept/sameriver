@@ -1,3 +1,16 @@
+IDEA GG
+
+introduce a "boundary" component which is backed by a polygon and which can be used
+for complex entities like a lake, which can then be used to find "distance from lake"
+and shortest paths to go fishing
+
+
+
+
+
+
+
+
 
 IDEA GEBO 
 

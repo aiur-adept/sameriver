@@ -20,6 +20,7 @@ type ComponentSet struct {
 	tagListMap           map[ComponentID]TagList
 	intMapMap            map[ComponentID]IntMap
 	floatMapMap          map[ComponentID]FloatMap
+	stringMapMap         map[ComponentID]StringMap
 	genericMap           map[ComponentID]any
 	customComponentsMap  map[ComponentID]any
 	customComponentsImpl map[ComponentID]CustomContiguousComponent
@@ -140,6 +141,13 @@ func (ct *ComponentTable) makeComponentSet(componentSpecs map[ComponentID]any) C
 					cs.floatMapMap = make(map[ComponentID]FloatMap)
 				}
 				cs.floatMapMap[name] = NewFloatMap(m)
+			}
+		case STRINGMAP:
+			if m, ok := value.(map[string]string); ok {
+				if cs.stringMapMap == nil {
+					cs.stringMapMap = make(map[ComponentID]StringMap)
+				}
+				cs.stringMapMap[name] = NewStringMap(m)
 			}
 		case GENERIC:
 			if cs.genericMap == nil {

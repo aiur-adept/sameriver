@@ -162,6 +162,7 @@ func (p *GOAPPlanner) bindEntities(nodes []string, ws *GOAPWorldState, start boo
 	return nil
 }
 
+// TODO: this is key to the GOAP node selector system; document this
 func (p *GOAPPlanner) RegisterGenericEntitySelectors(selectors map[string]func(*Entity) bool) {
 	p.genericSelectors = make(map[string]func(*Entity) bool)
 	for k, v := range selectors {
@@ -536,6 +537,7 @@ func (p *GOAPPlanner) presFulfilled(a *GOAPAction, ws *GOAPWorldState) bool {
 	return goalLeftCount == 0
 }
 
+// validate a completed path forward
 func (p *GOAPPlanner) validateForward(path *GOAPPath, start *GOAPWorldState, main *GOAPTemporalGoal) bool {
 
 	ws := start.CopyOf()
