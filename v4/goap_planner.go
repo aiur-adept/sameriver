@@ -24,8 +24,6 @@ type GOAPPlanner struct {
 	// entity binding section
 	//
 
-	// the functions selecting an entity for binding
-	genericSelectors map[string]func(*Entity) bool
 	// bound selectors overwrite the genericselectors for the next Plan() call.
 	boundSelectors map[string]func(*Entity) bool
 	// flipflop is needed for the bind once logic
@@ -93,21 +91,20 @@ func (p *GOAPPlanner) selectNode(ws *GOAPWorldState, node string) (ent *Entity) 
 	}
 	var selector func(*Entity) bool
 	var okBound bool
-	var okGeneric bool
 	if selector, okBound = p.boundSelectors[node]; okBound {
 		ent = trySelect(selector)
 		if ent != nil {
 			return ent
 		}
 	}
-	// fallback to generic if the boundSelector failed, or if didn't exist
-	if selector, okGeneric = p.genericSelectors[node]; okGeneric {
-		ent = trySelect(selector)
-		if ent != nil {
-			return ent
-		}
-	}
-	return nil
+
+	// fallback to checking if the node is a tag
+	ent = world.ClosestEntityFilter(*pos, *box, func(e *Entity) bool {
+		return e.HasTag(node)
+	})
+
+	// this will be nil if the final tag-search failed
+	return ent
 }
 
 func (p *GOAPPlanner) bindEntities(nodes []string, ws *GOAPWorldState, start bool) (err error) {
@@ -160,14 +157,6 @@ func (p *GOAPPlanner) bindEntities(nodes []string, ws *GOAPWorldState, start boo
 		}
 	}
 	return nil
-}
-
-// TODO: this is key to the GOAP node selector system; document this
-func (p *GOAPPlanner) RegisterGenericEntitySelectors(selectors map[string]func(*Entity) bool) {
-	p.genericSelectors = make(map[string]func(*Entity) bool)
-	for k, v := range selectors {
-		p.genericSelectors[k] = v
-	}
 }
 
 func (p *GOAPPlanner) BindEntitySelectors(selectors map[string]any) {

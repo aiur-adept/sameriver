@@ -722,24 +722,7 @@ func BenchmarkGOAPFarmer2000(b *testing.B) {
 	// so really, this would happen not before the planning as the BindEntitySelectors() call below,
 	// but this RegisterGenericEntitySelectors() call would happen on setup of the planner itself
 	p := NewGOAPPlanner(e)
-	p.RegisterGenericEntitySelectors(map[string]func(*Entity) bool{
-		// any ox
-		"ox": func(candidate *Entity) bool {
-			return candidate.GetTagList(GENERICTAGS).Has("ox")
-		},
-		// any yoke
-		"yoke": func(candidate *Entity) bool {
-			if candidate.HasComponent(INVENTORY) {
-				inv := candidate.GetGeneric(INVENTORY).(*Inventory)
-				return inv.CountName("yoke") > 0
-			}
-			return false
-		},
-		// any field
-		"field": func(candidate *Entity) bool {
-			return candidate.GetTagList(GENERICTAGS).Has("field")
-		},
-	})
+
 	p.AddModalVals(oxInFieldModal, hasYokeModal, fieldTilledModal)
 	p.AddActions(leadOxToField, getYoke, yokeOxplow, oxplow)
 

@@ -513,202 +513,6 @@ func TestGOAPPlanSimpleEnough(t *testing.T) {
 	Logger.Println(p.Plan(ws, goal, 50))
 }
 
-// TODO: this still uses "goto" actions. Fix it to just "get" (node is always where we goto)
-func TestGOAPPlanAlanWatts(t *testing.T) {
-	w := testingWorld()
-
-	ps := NewPhysicsSystem()
-	items := NewItemSystem(nil)
-	inventories := NewInventorySystem()
-	w.RegisterSystems(ps, items, inventories)
-
-	const (
-		STATE = GENERICTAGS + 1 + iota
-	)
-
-	w.RegisterComponents([]any{
-		STATE, INTMAP, "STATE",
-	})
-
-	items.CreateArchetype(map[string]any{
-		"name":        "bottle_booze",
-		"displayName": "bottle of booze",
-		"flavourText": "a potent brew!",
-		"properties": map[string]int{
-			"value":     10,
-			"drunkness": 2,
-		},
-		"tags": []string{"booze"},
-	})
-
-	e := w.Spawn(map[string]any{
-		"components": map[ComponentID]any{
-			POSITION: Vec2D{0, 0},
-			STATE: map[string]int{
-				"drunk": 0,
-			},
-			INVENTORY: inventories.Create(nil),
-		},
-	})
-
-	templeDoorPos := &Vec2D{-19, 19}
-	templePos := &Vec2D{-21, 21}
-
-	inTempleModal := GOAPModalVal{
-		name: "inTemple",
-		check: func(ws *GOAPWorldState) int {
-			ourPos := ws.GetModal(e, POSITION).(*Vec2D)
-			_, _, d := ourPos.Distance(*templePos)
-			if d < 2 {
-				return 1
-			} else {
-				return 0
-			}
-		},
-		effModalSet: func(ws *GOAPWorldState, op string, x int) {
-			nearTemple := templePos.Add(Vec2D{1, 0})
-			ws.SetModal(e, POSITION, &nearTemple)
-		},
-	}
-	drunkModal := GOAPModalVal{
-		name: "drunk",
-		check: func(ws *GOAPWorldState) int {
-			state := ws.GetModal(e, STATE).(*IntMap)
-			return state.m["drunk"]
-		},
-		effModalSet: func(ws *GOAPWorldState, op string, x int) {
-			state := ws.GetModal(e, STATE).(*IntMap).CopyOf()
-			if op == "+" {
-				state.m["drunk"] += x
-			}
-			ws.SetModal(e, STATE, &state)
-		},
-	}
-	hasBoozeModal := GOAPModalVal{
-		name: "hasBooze",
-		check: func(ws *GOAPWorldState) int {
-			inv := ws.GetModal(e, INVENTORY).(*Inventory)
-			count := inv.CountTags("booze")
-			return count
-		},
-		effModalSet: func(ws *GOAPWorldState, op string, x int) {
-			inv := ws.GetModal(e, INVENTORY).(*Inventory).CopyOf()
-			if op == "-" {
-				inv.DebitNTags(x, "booze")
-			}
-			if op == "=" {
-				if x == 0 {
-					inv.DebitAllTags("booze")
-				}
-				count := inv.CountTags("booze")
-				if count == 0 {
-					inv.Credit(items.CreateStackSimple(1, "bottle_booze"))
-				}
-				inv.SetCountTags(x, "booze")
-			}
-			if op == "+" {
-				count := inv.CountTags("booze")
-				if count == 0 {
-					inv.Credit(items.CreateStackSimple(x, "bottle_booze"))
-				} else {
-					inv.SetCountTags(count+x, "booze")
-				}
-			}
-			ws.SetModal(e, INVENTORY, inv)
-		},
-	}
-	getBooze := NewGOAPAction(map[string]any{
-		"name": "getBooze",
-		"node": "booze",
-		"cost": 1,
-		"pres": nil,
-		"effs": map[string]int{
-			"hasBooze,+": 1,
-		},
-	})
-	drink := NewGOAPAction(map[string]any{
-		"name": "drink",
-		"node": "self",
-		"cost": 1,
-		"pres": map[string]int{
-			"EACH:hasBooze,>=": 1,
-		},
-		"effs": map[string]int{
-			"drunk,+":    2,
-			"hasBooze,-": 1,
-		},
-	})
-	dropAllBooze := NewGOAPAction(map[string]any{
-		"name": "dropAllBooze",
-		"node": "self",
-		"cost": 1,
-		"pres": nil,
-		"effs": map[string]int{
-			"hasBooze,=": 0,
-		},
-	})
-	purifyOneself := NewGOAPAction(map[string]any{
-		"name": "purifyOneself",
-		"node": "templeDoor",
-		"cost": 1,
-		"pres": map[string]int{
-			"hasBooze,<": 1,
-		},
-		"effs": map[string]int{
-			"rituallyPure,=": 1,
-		},
-	})
-	enterTemple := NewGOAPAction(map[string]any{
-		"name": "enterTemple",
-		"node": "templeDoor",
-		"cost": 1,
-		"pres": map[string]int{
-			"rituallyPure,=": 1,
-		},
-		"effs": map[string]int{
-			"inTemple,=": 1,
-		},
-	})
-
-	p := NewGOAPPlanner(e)
-
-	p.AddModalVals(drunkModal, hasBoozeModal, inTempleModal)
-	p.AddActions(drink, dropAllBooze, purifyOneself, enterTemple, getBooze)
-
-	ws := NewGOAPWorldState(map[string]int{
-		"rituallyPure": 0,
-	})
-
-	goal := []any{
-		map[string]int{
-			"drunk,>=": 3,
-		},
-		map[string]int{
-			"inTemple,=": 1,
-		},
-	}
-	t0 := time.Now()
-	plan, ok := p.Plan(ws, goal, 500)
-	if !ok {
-		t.Fatal("Should've found a solution")
-	}
-	Logger.Println(color.InGreenOverWhite(GOAPPathToString(plan)))
-	dt_ms := float64(time.Since(t0).Nanoseconds()) / 1.0e6
-	Logger.Printf("Took %f ms to find solution", dt_ms)
-
-	e.SetGeneric(INVENTORY, inventories.Create(map[string]int{
-		"bottle_booze": 10,
-	}))
-	t0 = time.Now()
-	plan, ok = p.Plan(ws, goal, 500)
-	if !ok {
-		t.Fatal("Should've found a solution")
-	}
-	Logger.Println(color.InGreenOverWhite(GOAPPathToString(plan)))
-	dt_ms = float64(time.Since(t0).Nanoseconds()) / 1.0e6
-	Logger.Printf("Took %f ms to find solution", dt_ms)
-}
-
 func TestGOAPPlanClassic(t *testing.T) {
 	w := testingWorld()
 
@@ -740,9 +544,28 @@ func TestGOAPPlanClassic(t *testing.T) {
 	e := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
 			POSITION:  Vec2D{0, 0},
+			BOX:       Vec2D{1, 1},
 			INVENTORY: inventories.Create(nil),
 		},
 	})
+
+	// spawn tree
+	w.Spawn(map[string]any{
+		"components": map[ComponentID]any{
+			POSITION: Vec2D{6, 6},
+			BOX:      Vec2D{1, 1},
+		},
+		"tags": []string{"tree"},
+	})
+
+	// spawn glove and axe
+	items.SpawnItemEntity(Vec2D{3, 3}, items.CreateItemSimple("glove"))
+	items.SpawnItemEntity(Vec2D{5, 5}, items.CreateItemSimple("axe"))
+
+	// verify there is an entity tagged with glove
+	Logger.Println(w.ClosestEntityFilter(Vec2D{0, 0}, Vec2D{1, 1}, func(e *Entity) bool {
+		return e.HasTag("glove")
+	}))
 
 	hasModal := func(name string, archetype string, tags ...string) GOAPModalVal {
 		return GOAPModalVal{
@@ -783,10 +606,9 @@ func TestGOAPPlanClassic(t *testing.T) {
 	get := func(name string) *GOAPAction {
 		return NewGOAPAction(map[string]any{
 			"name": fmt.Sprintf("get%s", name),
+			"node": strings.ToLower(name),
 			"cost": 1,
-			"pres": map[string]int{
-				fmt.Sprintf("at%s,=", name): 1,
-			},
+			"pres": nil,
 			"effs": map[string]int{
 				fmt.Sprintf("has%s,+", name): 1,
 			},
@@ -796,58 +618,14 @@ func TestGOAPPlanClassic(t *testing.T) {
 	getAxe := get("Axe")
 	getGlove := get("Glove")
 
-	axePos := Vec2D{7, 7}
-	glovePos := Vec2D{-7, 7}
-	treePos := Vec2D{0, 19}
-
-	atModal := func(name string, pos Vec2D) GOAPModalVal {
-		return GOAPModalVal{
-			name: fmt.Sprintf("at%s", name),
-			check: func(ws *GOAPWorldState) int {
-				ourPos := ws.GetModal(e, POSITION).(*Vec2D)
-				_, _, d := ourPos.Distance(pos)
-				if d < 2 {
-					return 1
-				} else {
-					return 0
-				}
-			},
-			effModalSet: func(ws *GOAPWorldState, op string, x int) {
-				near := pos.Add(Vec2D{1, 0})
-				ws.SetModal(e, POSITION, &near)
-			},
-		}
-	}
-
-	atAxeModal := atModal("Axe", axePos)
-	atGloveModal := atModal("Glove", glovePos)
-	atTreeModal := atModal("Tree", treePos)
-
-	goTo := func(name string) *GOAPAction {
-		return NewGOAPAction(map[string]any{
-			"name": fmt.Sprintf("goTo%s", name),
-			"cost": 1,
-			"pres": nil,
-			"effs": map[string]int{
-				fmt.Sprintf("at%s,=", name): 1,
-			},
-		})
-	}
-
-	goToAxe := goTo("Axe")
-	goToGlove := goTo("Glove")
-	goToTree := goTo("Tree")
-
 	chopTree := NewGOAPAction(map[string]any{
 		"name": "chopTree",
+		"node": "tree",
 		"cost": 1,
 		"pres": []any{
 			map[string]int{
 				"hasGlove,=": 1,
 				"hasAxe,=":   1,
-			},
-			map[string]int{
-				"atTree,=": 1,
 			},
 		},
 		"effs": map[string]int{
@@ -857,8 +635,8 @@ func TestGOAPPlanClassic(t *testing.T) {
 
 	p := NewGOAPPlanner(e)
 
-	p.AddModalVals(hasGloveModal, hasAxeModal, atAxeModal, atGloveModal, atTreeModal)
-	p.AddActions(getAxe, getGlove, goToAxe, goToGlove, goToTree, chopTree)
+	p.AddModalVals(hasGloveModal, hasAxeModal)
+	p.AddActions(getAxe, getGlove, chopTree)
 
 	ws := NewGOAPWorldState(nil)
 
@@ -1068,24 +846,6 @@ func TestGOAPPlanFarmer2000(t *testing.T) {
 	// but this RegisterGenericEntitySelectors() call would happen on setup of the planner itself
 	p := NewGOAPPlanner(e)
 
-	p.RegisterGenericEntitySelectors(map[string]func(*Entity) bool{
-		// any ox
-		"ox": func(candidate *Entity) bool {
-			return candidate.GetTagList(GENERICTAGS).Has("ox")
-		},
-		// any yoke
-		"yoke": func(candidate *Entity) bool {
-			if candidate.HasComponent(INVENTORY) {
-				inv := candidate.GetGeneric(INVENTORY).(*Inventory)
-				return inv.CountName("yoke") > 0
-			}
-			return false
-		},
-		// any field
-		"field": func(candidate *Entity) bool {
-			return candidate.GetTagList(GENERICTAGS).Has("field")
-		},
-	})
 	p.AddActions(leadOxToField, getYoke, yokeOxplow, oxplow)
 
 	//
