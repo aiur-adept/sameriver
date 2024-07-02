@@ -58,7 +58,7 @@ func TestPolygonDistanceToVertex(t *testing.T) {
 		Vertices: []Vec2D{{0, 0}, {2, 0}, {0, 2}},
 	}
 	pointInTriangle := Vec2D{1, 1}
-	expectedDistance2 := 1.0
+	expectedDistance2 := math.Sqrt(2)
 	actualDistance2 := triangle.DistanceToVertex(pointInTriangle)
 	if math.Abs(actualDistance2-expectedDistance2) > 1e-6 {
 		t.Errorf("Test case 2 failed: expected %f, got %f", expectedDistance2, actualDistance2)
@@ -70,7 +70,7 @@ func TestPolygonDistanceToVertex(t *testing.T) {
 			{10 + math.Sqrt(2), 10 + math.Sqrt(2)}, {10 - math.Sqrt(2), 10 + math.Sqrt(2)}},
 	}
 	pointInSquare2 := Vec2D{10, 10}
-	expectedDistance3 := math.Sqrt(2)
+	expectedDistance3 := 2.0
 	actualDistance3 := squareRotated.DistanceToVertex(pointInSquare2)
 	if math.Abs(actualDistance3-expectedDistance3) > 1e-6 {
 		t.Errorf("Test case 3 failed: expected %f, got %f", expectedDistance3, actualDistance3)
