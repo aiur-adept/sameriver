@@ -87,35 +87,36 @@ func (p *PhysicsSystem) physics(e *Entity, dt_ms float64) {
 		pos.Y += dy
 	}
 
-	// check collisions using spatial hasher
-	// TODO: really we should check / resolve all collisions after applying dx,dy
-	testCollision := func(i *Entity, j *Entity) bool {
-		iPos := i.GetVec2D(POSITION)
-		iBox := i.GetVec2D(BOX)
-		jPos := j.GetVec2D(POSITION)
-		jBox := j.GetVec2D(BOX)
-		return RectIntersectsRect(*iPos, *iBox, *jPos, *jBox)
-	}
-	cellX0, cellX1, cellY0, cellY1 := p.h.CellRangeOfRect(*pos, *box)
-	collided := false
-	for y := cellY0; y <= cellY1 && !collided; y++ {
-		for x := cellX0; x <= cellX1 && !collided; x++ {
-			if x < 0 || x >= p.h.GridX || y < 0 || y >= p.h.GridY {
-				continue
-			}
-			entities := p.h.Entities(x, y)
-			for i := 0; i < len(entities) && !collided; i++ {
-				other := entities[i]
-				if other != e && testCollision(e, other) {
-					// undo the action if a collision occurs
-					pos.X -= dx
-					pos.Y -= dy
-					collided = true
-					break
-				}
-			}
-		}
-	}
+	// TODO: we should check and fire collision events in here too
+	// // check collisions using spatial hasher
+	// // TODO: really we should check / resolve all collisions after applying dx,dy
+	// testCollision := func(i *Entity, j *Entity) bool {
+	// 	iPos := i.GetVec2D(POSITION)
+	// 	iBox := i.GetVec2D(BOX)
+	// 	jPos := j.GetVec2D(POSITION)
+	// 	jBox := j.GetVec2D(BOX)
+	// 	return RectIntersectsRect(*iPos, *iBox, *jPos, *jBox)
+	// }
+	// cellX0, cellX1, cellY0, cellY1 := p.h.CellRangeOfRect(*pos, *box)
+	// collided := false
+	// for y := cellY0; y <= cellY1 && !collided; y++ {
+	// 	for x := cellX0; x <= cellX1 && !collided; x++ {
+	// 		if x < 0 || x >= p.h.GridX || y < 0 || y >= p.h.GridY {
+	// 			continue
+	// 		}
+	// 		entities := p.h.Entities(x, y)
+	// 		for i := 0; i < len(entities) && !collided; i++ {
+	// 			other := entities[i]
+	// 			if other != e && testCollision(e, other) {
+	// 				// undo the action if a collision occurs
+	// 				pos.X -= dx
+	// 				pos.Y -= dy
+	// 				collided = true
+	// 				break
+	// 			}
+	// 		}
+	// 	}
+	// }
 }
 
 func (p *PhysicsSystem) ParallelUpdate(dt_ms float64) {

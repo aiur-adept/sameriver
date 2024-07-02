@@ -99,9 +99,9 @@ func destructureWorldSpec(spec map[string]any) WorldSpec {
 
 func NewWorld(spec map[string]any) *World {
 	// seed a random number from [1,108]
-	rand.Seed(time.Now().UnixNano())
-	seed := rand.Intn(108) + 1
-	rand.Seed(int64(seed))
+	source := rand.NewSource(time.Now().UnixNano())
+	localRand := rand.New(source)
+	seed := localRand.Intn(108) + 1
 	Logger.Println(color.InBold(color.InWhiteOverCyan(fmt.Sprintf("[world seed: %d]", seed))))
 	destructured := destructureWorldSpec(spec)
 	w := &World{
