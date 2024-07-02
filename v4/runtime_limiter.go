@@ -492,11 +492,7 @@ func (r *RuntimeLimiter) removeLogicImmediately(l *LogicUnit) {
 	}
 	// remove from logicUnits
 	removeFromLogicSlice(r.logicUnits, index)
-	if len(r.logicUnits) != 0 {
-		// update indexes for last-now-here element
-		nowAtIndex := r.logicUnits[index]
-		r.indexes[nowAtIndex] = index
-	}
+
 	// remove from ascending hotness slices
 	// (first find lowest index with common hotness w binary search)
 	left, right := 0, len(r.ascendingHotness)-1
