@@ -483,11 +483,11 @@ func (r *RuntimeLimiter) removeLogicImmediately(l *LogicUnit) {
 	// updating the indexes entry for that element
 	removeFromLogicSlice := func(ls []*LogicUnit, i int) {
 		lastIndex := len(ls) - 1
-		if len(r.logicUnits) > 1 {
-			r.logicUnits[i] = r.logicUnits[lastIndex]
+		if len(ls) > 1 {
+			ls[i] = ls[lastIndex]
 		}
 		// if len was 1, this will remove it anyway
-		r.logicUnits = r.logicUnits[:lastIndex]
+		ls = ls[:lastIndex]
 	}
 	// remove from logicUnits
 	removeFromLogicSlice(r.logicUnits, index)
