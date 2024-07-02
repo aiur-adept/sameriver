@@ -1,3 +1,3 @@
-module github.com/dt-rush/sameriver
+module github.com/aiur-adept/sameriver
 
 go 1.19
