@@ -485,7 +485,9 @@ func (r *RuntimeLimiter) removeLogicImmediately(l *LogicUnit) {
 		lastIndex := len(ls) - 1
 		if len(r.logicUnits) > 1 {
 			r.logicUnits[i] = r.logicUnits[lastIndex]
+			r.indexes[r.logicUnits[i]] = i
 		}
+		// if len was 1, this will remove it anyway
 		r.logicUnits = r.logicUnits[:lastIndex]
 	}
 	// remove from logicUnits

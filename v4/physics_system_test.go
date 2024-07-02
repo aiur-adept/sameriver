@@ -71,7 +71,6 @@ func TestPhysicsSystemWithGranularity(t *testing.T) {
 	// run.
 	observePos()
 
-	return
 	// let's observe the behaviour over a longer term
 	for i := 0; i < 30; i++ {
 		runFrame()
