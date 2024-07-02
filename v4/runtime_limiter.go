@@ -499,7 +499,7 @@ func (r *RuntimeLimiter) removeLogicImmediately(l *LogicUnit) {
 	// remove from ascending hotness slices
 	// (first find lowest index with common hotness w binary search)
 	left, right := 0, len(r.ascendingHotness)-1
-	lowestIx := -1
+	lowestIx := 0
 	lucky := false
 	for left <= right {
 		mid := left + (right-left)/2
