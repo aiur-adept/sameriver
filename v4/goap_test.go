@@ -656,10 +656,25 @@ func TestGOAPPlanClassic(t *testing.T) {
 func TestGOAPPlanResponsibleFridgeUsage(t *testing.T) {
 	w := testingWorld()
 
-	e := w.Spawn(nil)
+	e := w.Spawn(map[string]any{
+		"components": map[ComponentID]any{
+			POSITION: Vec2D{0, 0},
+			BOX:      Vec2D{1, 1},
+		},
+	})
+
+	// spawn a fridge entity
+	w.Spawn(map[string]any{
+		"components": map[ComponentID]any{
+			POSITION: Vec2D{5, 5},
+			BOX:      Vec2D{1, 1},
+		},
+		"tags": []string{"fridge"},
+	})
 
 	openFridge := NewGOAPAction(map[string]any{
 		"name": "openFridge",
+		"node": "fridge",
 		"cost": 1,
 		"pres": nil,
 		"effs": map[string]int{
@@ -668,6 +683,7 @@ func TestGOAPPlanResponsibleFridgeUsage(t *testing.T) {
 	})
 	closeFridge := NewGOAPAction(map[string]any{
 		"name": "closeFridge",
+		"node": "fridge",
 		"cost": 1,
 		"pres": nil,
 		"effs": map[string]int{
@@ -676,6 +692,7 @@ func TestGOAPPlanResponsibleFridgeUsage(t *testing.T) {
 	})
 	getFoodFromFridge := NewGOAPAction(map[string]any{
 		"name": "getFoodFromFridge",
+		"node": "fridge",
 		"cost": 1,
 		"pres": map[string]int{
 			"fridgeOpen,=": 1,
