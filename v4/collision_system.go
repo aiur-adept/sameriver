@@ -52,13 +52,11 @@ type CollisionSystem struct {
 	rateLimiterArray   CollisionRateLimiterArray
 	delay              time.Duration
 	sh                 *SpatialHasher
-	Events             *EventBus
 }
 
 func NewCollisionSystem(delay time.Duration) *CollisionSystem {
 	return &CollisionSystem{
-		delay:  delay,
-		Events: NewEventBus("collision"),
+		delay: delay,
 	}
 }
 
@@ -89,7 +87,7 @@ func (s *CollisionSystem) checkEntities(entities []*Entity) {
 func (s *CollisionSystem) DoCollide(i *Entity, j *Entity) {
 	s.rateLimiterArray.Do(i.ID, j.ID,
 		func() {
-			s.Events.Publish("collision",
+			s.w.Events.Publish("collision",
 				CollisionData{This: i, Other: j})
 		})
 }
