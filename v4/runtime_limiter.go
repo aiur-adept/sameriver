@@ -474,13 +474,13 @@ func (r *RuntimeLimiter) removeLogicUnitFromArr(index int) {
 	if len(r.logicUnits) > 1 {
 		r.logicUnits[index] = r.logicUnits[lastIndex]
 	}
-	// if len was 1, this will remove it anyway
-	r.logicUnits = r.logicUnits[:lastIndex]
 	// update indexes
 	if len(r.logicUnits) != 0 {
 		nowAtIndex := r.logicUnits[index]
 		r.indexes[nowAtIndex] = index
 	}
+	// if len was 1, this will remove it anyway
+	r.logicUnits = r.logicUnits[:lastIndex]
 }
 
 func (r *RuntimeLimiter) removeLogicUnitFromAscendingHotnessArr(l *LogicUnit) {
