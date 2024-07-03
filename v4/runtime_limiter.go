@@ -468,6 +468,57 @@ func (r *RuntimeLimiter) addLogicImmediately(l *LogicUnit) {
 	r.insertAscendingHotness(l)
 }
 
+func (r *RuntimeLimiter) removeLogicUnitFromArr(index int) {
+	// remove from logicUnits
+	lastIndex := len(r.logicUnits) - 1
+	if len(r.logicUnits) > 1 {
+		r.logicUnits[index] = r.logicUnits[lastIndex]
+	}
+	// if len was 1, this will remove it anyway
+	r.logicUnits = r.logicUnits[:lastIndex]
+	// update indexes
+	if len(r.logicUnits) != 0 {
+		nowAtIndex := r.logicUnits[index]
+		r.indexes[nowAtIndex] = index
+	}
+}
+
+func (r *RuntimeLimiter) removeLogicUnitFromAscendingHotnessArr(l *LogicUnit) {
+	// (first find lowest index with common hotness w binary search)
+	left, right := 0, len(r.ascendingHotness)-1
+	lowestIx := 0
+	// find the lowest index with common hotness
+	for left <= right {
+		mid := left + (right-left)/2
+		// if we found one with common hotness, descend until we don't
+		if r.ascendingHotness[mid].hotness == l.hotness {
+			j := mid
+			for j >= 0 && r.ascendingHotness[j].hotness == l.hotness {
+				j--
+			}
+			j++
+			lowestIx = j
+			break
+		} else if r.ascendingHotness[mid].hotness < l.hotness {
+			left = mid + 1
+		} else {
+			right = mid - 1
+		}
+	}
+	for i := lowestIx; i < len(r.ascendingHotness); i++ {
+		if r.ascendingHotness[i] == l {
+			// remove from logicUnits
+			lastIndex := len(r.ascendingHotness) - 1
+			if len(r.ascendingHotness) > 1 {
+				r.ascendingHotness[i] = r.ascendingHotness[lastIndex]
+			}
+			// if len was 1, this will remove it anyway
+			r.ascendingHotness = r.ascendingHotness[:lastIndex]
+			break
+		}
+	}
+}
+
 func (r *RuntimeLimiter) removeLogicImmediately(l *LogicUnit) {
 	// return early if nil
 	if l == nil {
@@ -479,55 +530,8 @@ func (r *RuntimeLimiter) removeLogicImmediately(l *LogicUnit) {
 		return
 	}
 
-	// delete from logicUnits by replacing the last element into its spot,
-	// updating the indexes entry for that element
-	removeFromLogicSlice := func(ls []*LogicUnit, i int) {
-		lastIndex := len(ls) - 1
-		if len(ls) > 1 {
-			ls[i] = ls[lastIndex]
-		}
-		// if len was 1, this will remove it anyway
-		ls = ls[:lastIndex]
-	}
-	// remove from logicUnits
-	removeFromLogicSlice(r.logicUnits, index)
-	if len(r.logicUnits) != 0 {
-		// update indexes for last-now-here element
-		nowAtIndex := r.logicUnits[index]
-		r.indexes[nowAtIndex] = index
-	}
-	// remove from ascending hotness slices
-	// (first find lowest index with common hotness w binary search)
-	left, right := 0, len(r.ascendingHotness)-1
-	lowestIx := 0
-	lucky := false
-	for left <= right {
-		mid := left + (right-left)/2
-		// special case if we happen to hit it during iteration, bail early;
-		// we don't need to iterate from lowest index with common hotness
-		// to find it now
-		if r.ascendingHotness[mid] == l {
-			removeFromLogicSlice(r.ascendingHotness, mid)
-			lucky = true
-			break
-		}
-		if r.ascendingHotness[mid].hotness == l.hotness {
-			lowestIx = mid
-			right = mid - 1 // Continue searching the left side for the lowest index
-		} else if r.ascendingHotness[mid].hotness < l.hotness {
-			left = mid + 1
-		} else {
-			right = mid - 1
-		}
-	}
-	if !lucky {
-		for i := lowestIx; i < len(r.ascendingHotness); i++ {
-			if r.ascendingHotness[i] == l {
-				removeFromLogicSlice(r.ascendingHotness, i)
-				break
-			}
-		}
-	}
+	r.removeLogicUnitFromArr(index)
+	r.removeLogicUnitFromAscendingHotnessArr(l)
 	r.refreshAscendingHotnessLightestAfter()
 
 	delete(r.logicUnitsMap, l.name)
