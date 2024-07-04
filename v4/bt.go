@@ -92,6 +92,18 @@ func (n *BTNode) SetFailed(val bool) {
 	if val {
 		n.Tree.FailedNodeSet[n] = true
 	}
+	parent := n.Parent
+	// percolate failure up
+	for parent != nil {
+		if parent.IsFailed(parent) {
+			parent.Failed = true
+			n.Tree.FailedNodeSet[parent] = true
+			parent = parent.Parent
+			continue
+		} else {
+			break
+		}
+	}
 }
 
 // at any time a BT has a pathway down to an action

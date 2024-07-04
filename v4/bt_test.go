@@ -5,6 +5,7 @@ import (
 	"math"
 	"math/rand"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -15,7 +16,7 @@ func TestBTSimple(t *testing.T) {
 	btr := NewBTRunner()
 
 	btr.RegisterDecorators([]BTDecorator{
-		BTDecorator{
+		{
 			Name: "planPlant",
 			Impl: func(self *BTNode) bool {
 				// mock GOAP
@@ -696,14 +697,122 @@ func TestBTInvertNode(t *testing.T) {
 
 }
 
+func TestBTTimeLimitNode(t *testing.T) {
+
+	w := testingWorld()
+
+	btr := NewBTRunner()
+
+	btr.RegisterDecorators([]BTDecorator{
+		{
+			Name: "timelimit",
+			Impl: func(self *BTNode) bool {
+				// if self.State doesn't have a timer, create one
+				if self.State["timer"] == nil {
+					self.State["timer"] = time.Now()
+				}
+				// if the timer is less than 3 seconds old, fail
+				if time.Since(self.State["timer"].(time.Time)) < 3*time.Second {
+					return true
+				}
+				return false
+			},
+		},
+	})
+
+	root := NewBehaviourTree(
+		"root",
+		&BTNode{
+			Name:       "root",
+			Decorators: []string{"timelimit"},
+			Selector: func(self *BTNode) int {
+				return 0
+			},
+			IsFailed: func(self *BTNode) bool {
+				return self.Children[0].IsFailed(self.Children[0])
+			},
+			Children: []*BTNode{
+				{
+					Name: "child",
+					IsFailed: func(self *BTNode) bool {
+						return false
+					},
+				},
+			},
+		},
+	)
+
+	// the test itself
+	e := w.Spawn(nil)
+
+	btr.ExecuteBT(e, root)
+	assert.False(t, root.Root.Failed)
+	time.Sleep(4 * time.Second)
+	btr.ExecuteBT(e, root)
+	assert.True(t, root.Root.Failed)
+
+}
+
+func TestBTRetryNode(t *testing.T) {
+
+	w := testingWorld()
+
+	btr := NewBTRunner()
+
+	btr.RegisterDecorators([]BTDecorator{
+		{
+			Name: "timelimit",
+			Impl: func(self *BTNode) bool {
+				// Allow the child to retry 3 times
+				if self.State["retryCount"] == nil {
+					self.State["retryCount"] = 0
+				}
+				if self.State["retryCount"].(int) < 3 {
+					self.State["retryCount"] = self.State["retryCount"].(int) + 1
+					return true
+				}
+				return false
+			},
+		},
+	})
+
+	root := NewBehaviourTree(
+		"root",
+		&BTNode{
+			Name:       "root",
+			Decorators: []string{"timelimit"},
+			Selector: func(self *BTNode) int {
+				return 0
+			},
+			Children: []*BTNode{
+				{
+					Name:   "child",
+					Failed: true,
+					IsFailed: func(self *BTNode) bool {
+						return self.Failed
+					},
+				},
+			},
+		},
+	)
+
+	// the test itself
+	e := w.Spawn(nil)
+
+	btr.ExecuteBT(e, root)
+	assert.False(t, root.Root.Failed)
+	btr.ExecuteBT(e, root)
+	btr.ExecuteBT(e, root)
+	assert.False(t, root.Root.Failed)
+	btr.ExecuteBT(e, root)
+	assert.True(t, root.Root.Failed)
+
+}
+
 /*
 
 
 Decorators:
-
-Invert: inverts the success/failure of its child node.
-
-Time Limit: specifies a maximum time limit for its child node to complete. If the child node doesn't complete within the specified time, the decorator fails.
 
 Retry: retries its child node a certain number of times before giving up.
 
