@@ -20,9 +20,9 @@ func TestBTSimple(t *testing.T) {
 			Impl: func(self *BTNode) bool {
 				// mock GOAP
 				self.SetChildren([]*BTNode{
-					{Name: "getHandplow"},
-					{Name: "goToField"},
-					{Name: "doHandplow"},
+					{Name: "getYoke"},
+					{Name: "yokeOx"},
+					{Name: "plowField"},
 				})
 				return true
 			},
@@ -87,7 +87,7 @@ func TestBTSimple(t *testing.T) {
 	e := w.Spawn(nil)
 
 	result := btr.ExecuteBT(e, villagerRoot)
-	expectedPath := "Utility.plant.Sequence.getHandplow"
+	expectedPath := "Utility.plant.Sequence.getYoke"
 
 	Logger.Printf("BT descent path: %s", result.Path)
 
@@ -385,7 +385,7 @@ func TestBTRandomPriorityLoopNode(t *testing.T) {
 				return ix
 			},
 			WhenChildDone: func(self *BTNode) {
-				self.Init(self)
+				self.State["ix"] = rand.Intn(len(self.Children))
 			},
 			IsFailed: func(self *BTNode) bool {
 				// fail if all fail
@@ -646,11 +646,57 @@ func TestBTSwitchNode(t *testing.T) {
 
 }
 
+func TestBTInvertNode(t *testing.T) {
+
+	w := testingWorld()
+
+	btr := NewBTRunner()
+
+	btr.RegisterDecorators([]BTDecorator{
+		{
+			Name: "invert",
+			Impl: func(self *BTNode) bool {
+				return self.IsFailed(self)
+			},
+		},
+	})
+
+	root := NewBehaviourTree(
+		"root",
+		&BTNode{
+			Name:       "root",
+			Decorators: []string{"invert"},
+			Selector: func(self *BTNode) int {
+				return 0
+			},
+			IsFailed: func(self *BTNode) bool {
+				return self.Children[0].IsFailed(self.Children[0])
+			},
+			Children: []*BTNode{
+				{
+					Name: "child",
+					IsFailed: func(self *BTNode) bool {
+						return self.Failed
+					},
+				},
+			},
+		},
+	)
+
+	// the test itself
+	e := w.Spawn(nil)
+
+	root.Root.Children[0].Failed = true
+	btr.ExecuteBT(e, root)
+	assert.False(t, root.Root.Failed)
+
+	root.Root.Children[0].Failed = false
+	btr.ExecuteBT(e, root)
+	assert.True(t, root.Root.Failed)
+
+}
+
 /*
-
-TODO:
-
-this is actually a decorator
 
 
 Decorators:
@@ -673,14 +719,6 @@ Cooldown: This decorator adds a cooldown period to its node, preventing the node
 Composite Nodes:
 
 
-Switch: similar to a switch statement in programming, selects one of its children to run based on a value in the blackboard.
-
-Random Selector: similar to a priority selector, but selects a child node randomly instead of in priority order.
-
 Weighted Selector: similar to a priority selector, but assigns weights to its children to influence the selection order.
-
-Parallel Sequence: runs its children in parallel, but only succeeds if all of its children succeed.
-
-Parallel: This composite node executes its children concurrently, allowing for simultaneous actions. For example, an entity could be moving and attacking at the same time. Note that parallel execution may be more complex to implement depending on your game engine.
 
 */

@@ -87,20 +87,10 @@ func (n *BTNode) Done() {
 	}
 }
 
-func (n *BTNode) SetFailed() {
-	n.Failed = true
-	n.Tree.FailedNodeSet[n] = true
-	parent := n.Parent
-	// percolate failure up
-	for parent != nil {
-		if parent.IsFailed(parent) {
-			parent.Failed = true
-			n.Tree.FailedNodeSet[parent] = true
-			parent = parent.Parent
-			continue
-		} else {
-			break
-		}
+func (n *BTNode) SetFailed(val bool) {
+	n.Failed = val
+	if val {
+		n.Tree.FailedNodeSet[n] = true
 	}
 }
 
@@ -189,9 +179,10 @@ func (btr *BTRunner) RunDecorators(node *BTNode) bool {
 			// run the decorator (it can transform the node in any way,
 			// add children etc., write to blackboards, etc.)
 			// and if it returns false, it failed. Mark this node as
-			// failed and
-			if !dec(node) {
-				node.SetFailed()
+			// failed
+			succeed := dec(node)
+			node.SetFailed(!succeed)
+			if !succeed {
 				return false
 			}
 		} else {
