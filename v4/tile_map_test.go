@@ -6,7 +6,7 @@ import (
 )
 
 // test the tile manager
-func TestTileManager(t *testing.T) {
+func TestTileMap(t *testing.T) {
 	// create test window
 	skipCI(t)
 
@@ -21,20 +21,22 @@ func TestTileManager(t *testing.T) {
 		window, renderer := SDLCreateWindowAndRenderer(windowSpec)
 		tm := NewTileManager(renderer, 32, 32)
 		tm.LoadTile("grass", "assets/tile_grass.bmp")
+		tm.LoadTile("water", "assets/tile_water.bmp")
 
-		vp := &Viewport{20, 20, 50, 50}
-		for i := 0; i < 10; i++ {
-			vp.Width += 10
-			vp.Height += 10
-			time.Sleep(100 * time.Millisecond)
-			renderer.Clear()
-			tm.DrawTile("grass", 0, 0, vp, window)
-			tm.DrawTile("grass", 32, 32, vp, window)
-			tm.DrawTile("grass", 0, 32, vp, window)
-			tm.DrawTile("grass", 32, 0, vp, window)
-			renderer.Present()
-		}
-		time.Sleep(2000 * time.Millisecond)
+		tmap := NewTileMap(100, 100)
+		tmap.SetTile(3, 3, "grass")
+		tmap.SetTile(3, 4, "grass")
+		tmap.SetTile(3, 5, "grass")
+		tmap.SetTile(4, 3, "grass")
+		tmap.SetTile(4, 4, "water")
+		tmap.SetTile(4, 5, "grass")
+		tmap.SetTile(5, 3, "grass")
+		tmap.SetTile(5, 4, "grass")
+		tmap.SetTile(5, 5, "grass")
+		tmap.DrawTiles(tm, &Viewport{0, 0, 300, 300}, window)
+
+		renderer.Present()
+		time.Sleep(5000 * time.Millisecond)
 		window.Destroy()
 	})
 }
