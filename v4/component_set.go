@@ -9,45 +9,20 @@ type ComponentSet struct {
 	// names (ComponentID) of all components given values in this set
 	names map[ComponentID]bool
 	// data storage
-	vec2DMap             map[ComponentID]Vec2D
-	boolMap              map[ComponentID]bool
-	intMap               map[ComponentID]int
-	float64Map           map[ComponentID]float64
-	timeMap              map[ComponentID]time.Time
-	timeAccumulatorMap   map[ComponentID]TimeAccumulator
-	stringMap            map[ComponentID]string
-	spriteMap            map[ComponentID]Sprite
-	tagListMap           map[ComponentID]TagList
-	intMapMap            map[ComponentID]IntMap
-	floatMapMap          map[ComponentID]FloatMap
-	stringMapMap         map[ComponentID]StringMap
-	genericMap           map[ComponentID]any
-	customComponentsMap  map[ComponentID]any
-	customComponentsImpl map[ComponentID]CustomContiguousComponent
-}
-
-func (ct *ComponentTable) makeCustomComponentSet(
-	componentSpecs map[ComponentID]any,
-	customComponentSpecs map[ComponentID]any,
-	customComponentsImpl map[ComponentID]CustomContiguousComponent) ComponentSet {
-
-	baseCS := ct.makeComponentSet(componentSpecs)
-	baseCS.customComponentsMap = make(map[ComponentID]any)
-	baseCS.customComponentsImpl = make(map[ComponentID]CustomContiguousComponent)
-	for name, value := range customComponentSpecs {
-		kind := ct.Kinds[name]
-		if kind != CUSTOM {
-			panic(fmt.Sprintf("custom component spec should have type Custom, it appears to be: %s", componentKindStrings[kind]))
-		}
-		// take note in names map that this component name occurs
-		baseCS.names[name] = true
-		baseCS.customComponentsMap[name] = value
-		// store the ccc implementation interface object itself so
-		// ComponentTable.applyComponentSet() can call its Set() function to
-		// set the value
-		baseCS.customComponentsImpl[name] = customComponentsImpl[name]
-	}
-	return baseCS
+	vec2DMap           map[ComponentID]Vec2D
+	boolMap            map[ComponentID]bool
+	intMap             map[ComponentID]int
+	float64Map         map[ComponentID]float64
+	timeMap            map[ComponentID]time.Time
+	timeAccumulatorMap map[ComponentID]TimeAccumulator
+	stringMap          map[ComponentID]string
+	spriteMap          map[ComponentID]Sprite
+	tagListMap         map[ComponentID]TagList
+	intMapMap          map[ComponentID]IntMap
+	floatMapMap        map[ComponentID]FloatMap
+	stringMapMap       map[ComponentID]StringMap
+	itemMap            map[ComponentID]Item
+	inventoryMap       map[ComponentID]Inventory
 }
 
 // takes as componentSpecs a map whose keys are components specified by {kind},{name}
@@ -149,11 +124,20 @@ func (ct *ComponentTable) makeComponentSet(componentSpecs map[ComponentID]any) C
 				}
 				cs.stringMapMap[name] = NewStringMap(m)
 			}
-		case GENERIC:
-			if cs.genericMap == nil {
-				cs.genericMap = make(map[ComponentID]any)
+		case ITEM:
+			if m, ok := value.(Item); ok {
+				if cs.itemMap == nil {
+					cs.itemMap = make(map[ComponentID]Item)
+				}
+				cs.itemMap[name] = m
 			}
-			cs.genericMap[name] = value
+		case INVENTORY:
+			if m, ok := value.(Inventory); ok {
+				if cs.inventoryMap == nil {
+					cs.inventoryMap = make(map[ComponentID]Inventory)
+				}
+				cs.inventoryMap[name] = m
+			}
 		}
 	}
 	return cs

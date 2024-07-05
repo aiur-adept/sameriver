@@ -16,8 +16,8 @@ func NewSpatialHashSystem(gridX, gridY int) *SpatialHashSystem {
 
 func (s *SpatialHashSystem) GetComponentDeps() []any {
 	return []any{
-		POSITION, VEC2D, "POSITION",
-		BOX, VEC2D, "BOX",
+		_POSITION, VEC2D, "POSITION",
+		_BOX, VEC2D, "BOX",
 	}
 }
 

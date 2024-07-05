@@ -28,7 +28,7 @@ func testingSpawnPosition(
 	em EntityManagerInterface, pos Vec2D) *Entity {
 	return em.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			POSITION: pos,
+			_POSITION: pos,
 		}})
 }
 
@@ -43,47 +43,47 @@ func testingSpawnSpatial(
 	em EntityManagerInterface, pos Vec2D, box Vec2D) *Entity {
 	return em.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			POSITION: pos,
-			BOX:      box,
+			_POSITION: pos,
+			_BOX:      box,
 		}})
 }
 
 func testingSpawnCollision(em EntityManagerInterface) *Entity {
 	return em.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			POSITION: Vec2D{10, 10},
-			BOX:      Vec2D{4, 4},
+			_POSITION: Vec2D{10, 10},
+			_BOX:      Vec2D{4, 4},
 		}})
 }
 
 func testingSpawnCollisionRandom(em EntityManagerInterface) *Entity {
 	return em.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			POSITION: Vec2D{100 * rand.Float64(), 100 * rand.Float64()},
-			BOX:      Vec2D{5, 5},
+			_POSITION: Vec2D{100 * rand.Float64(), 100 * rand.Float64()},
+			_BOX:      Vec2D{5, 5},
 		}})
 }
 
 func testingSpawnSteering(em EntityManagerInterface) *Entity {
 	return em.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			POSITION:       Vec2D{0, 0},
-			VELOCITY:       Vec2D{0, 0},
-			ACCELERATION:   Vec2D{0, 0},
-			MAXVELOCITY:    3.0,
-			MOVEMENTTARGET: Vec2D{1, 1},
-			STEER:          Vec2D{0, 0},
-			MASS:           3.0,
+			_POSITION:       Vec2D{0, 0},
+			_VELOCITY:       Vec2D{0, 0},
+			_ACCELERATION:   Vec2D{0, 0},
+			_MAXVELOCITY:    3.0,
+			_MOVEMENTTARGET: Vec2D{1, 1},
+			_STEER:          Vec2D{0, 0},
+			_MASS:           3.0,
 		}})
 }
 
 func testingSpawnPhysics(em EntityManagerInterface) *Entity {
 	return em.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			POSITION:     Vec2D{10, 10},
-			VELOCITY:     Vec2D{0, 0},
-			ACCELERATION: Vec2D{0, 0},
-			BOX:          Vec2D{1, 1},
-			MASS:         3.0,
+			_POSITION:     Vec2D{10, 10},
+			_VELOCITY:     Vec2D{0, 0},
+			_ACCELERATION: Vec2D{0, 0},
+			_BOX:          Vec2D{1, 1},
+			_MASS:         3.0,
 		}})
 }

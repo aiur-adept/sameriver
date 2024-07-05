@@ -302,18 +302,18 @@ func (i *ItemSystem) SpawnItemEntity(pos Vec2D, item *Item) *Entity {
 	inventory := NewInventory()
 	inventory.Credit(item)
 	components := map[ComponentID]any{
-		POSITION:  pos,
-		BOX:       entityBox,
-		INVENTORY: inventory,
+		_POSITION:  pos,
+		_BOX:       entityBox,
+		_INVENTORY: inventory,
 	}
 	if i.sprite {
 		if i.spriteSystem == nil {
 			panic("Trying to create entity with sprite=true while spriteSystem was not registered")
 		}
-		components[BASESPRITE] = i.spriteSystem.GetSprite(arch.Entity["sprite"].(string))
+		components[_BASESPRITE] = i.spriteSystem.GetSprite(arch.Entity["sprite"].(string))
 	}
 	if i.despawn_ms != nil {
-		components[DESPAWNTIMER] = NewTimeAccumulator(*i.despawn_ms)
+		components[_DESPAWNTIMER] = NewTimeAccumulator(*i.despawn_ms)
 	}
 
 	return i.w.Spawn(map[string]any{
@@ -392,7 +392,7 @@ func (i *ItemSystem) LoadArchetypesJSON(jsonStr []byte) {
 
 func (i *ItemSystem) UpdateDegradations(dt_ms float64) {
 	for _, e := range i.inventorySystem.InventoryEntities.entities {
-		inv := e.GetGeneric(INVENTORY).(*Inventory)
+		inv := e.GetInventory(_INVENTORY)
 		newRotStacks := make([]*Item, 0)
 		for _, s := range inv.Stacks {
 			if s.Tags.Has("perishable") {
@@ -442,15 +442,15 @@ func (i *ItemSystem) GetComponentDeps() []any {
 
 	deps := []any{}
 	if i.spawn {
-		deps = append(deps, ITEM, GENERIC, "ITEM")
-		deps = append(deps, POSITION, VEC2D, "POSITION")
-		deps = append(deps, BOX, VEC2D, "BOX")
+		deps = append(deps, _ITEM, ITEM, "ITEM")
+		deps = append(deps, _POSITION, VEC2D, "POSITION")
+		deps = append(deps, _BOX, VEC2D, "BOX")
 	}
 	if i.sprite {
-		deps = append(deps, BASESPRITE, SPRITE, "BASESPRITE")
+		deps = append(deps, _BASESPRITE, SPRITE, "BASESPRITE")
 	}
 	if i.despawn_ms != nil {
-		deps = append(deps, DESPAWNTIMER, TIMEACCUMULATOR, "DESPAWNTIMER")
+		deps = append(deps, _DESPAWNTIMER, TIMEACCUMULATOR, "DESPAWNTIMER")
 	}
 	return deps
 }
@@ -466,7 +466,7 @@ func (i *ItemSystem) Update(dt_ms float64) {
 	// despawn any expired entities
 	if i.despawn_ms != nil {
 		for _, e := range i.ItemEntities.entities {
-			accum := e.GetTimeAccumulator(DESPAWNTIMER)
+			accum := e.GetTimeAccumulator(_DESPAWNTIMER)
 			if accum.Tick(dt_ms) {
 				i.w.Despawn(e)
 			}

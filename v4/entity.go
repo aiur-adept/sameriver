@@ -114,13 +114,13 @@ func (e *Entity) SetMind(name string, val any) {
 }
 
 func (e *Entity) HasTag(tag string) bool {
-	return e.GetTagList(GENERICTAGS).Has(tag)
+	return e.GetTagList(_GENERICTAGS).Has(tag)
 }
 
 func (e *Entity) HasTags(tags ...string) bool {
 	has := true
 	for _, t := range tags {
-		has = has && e.GetTagList(GENERICTAGS).Has(t)
+		has = has && e.GetTagList(_GENERICTAGS).Has(t)
 	}
 	return has
 }
@@ -140,20 +140,20 @@ func (e *Entity) HasComponents(names ...ComponentID) bool {
 }
 
 func (e *Entity) DistanceFrom(x *Entity) float64 {
-	ePos, eBox := e.GetVec2D(POSITION), e.GetVec2D(BOX)
-	xPos, xBox := x.GetVec2D(POSITION), x.GetVec2D(BOX)
+	ePos, eBox := e.GetVec2D(_POSITION), e.GetVec2D(_BOX)
+	xPos, xBox := x.GetVec2D(_POSITION), x.GetVec2D(_BOX)
 	return RectDistance(*ePos, *eBox, *xPos, *xBox)
 }
 
 func (e *Entity) DistanceFromRect(pos Vec2D, box Vec2D) float64 {
-	ePos, eBox := e.GetVec2D(POSITION), e.GetVec2D(BOX)
+	ePos, eBox := e.GetVec2D(_POSITION), e.GetVec2D(_BOX)
 	return RectDistance(*ePos, *eBox, pos, box)
 }
 
 func (e *Entity) String() string {
 	return fmt.Sprintf("{id:%d, tags:%s, components:%s}",
 		e.ID,
-		e.GetTagList(GENERICTAGS).AsSlice(),
+		e.GetTagList(_GENERICTAGS).AsSlice(),
 		e.World.em.components.BitArrayToString(e.ComponentBitArray),
 	)
 }

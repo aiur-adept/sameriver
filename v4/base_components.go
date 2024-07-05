@@ -1,19 +1,18 @@
 package sameriver
 
 const (
-	POSITION ComponentID = iota
-	VELOCITY
-	ACCELERATION
-	BOX
-	MASS
-	MAXVELOCITY
-	BASESPRITE
-	DESPAWNTIMER
-	STEER
-	MOVEMENTTARGET
-	ITEM
-	INVENTORY
-	STATE
-	GENERICTAGS // NOTE: this should always be the last one, so clients can start
-	// their consts at GENERICTAGS + 1 + iota
+	_POSITION ComponentID = iota
+	_VELOCITY
+	_ACCELERATION
+	_BOX
+	_MASS
+	_MAXVELOCITY
+	_BASESPRITE
+	_DESPAWNTIMER
+	_STEER
+	_MOVEMENTTARGET
+	_ITEM
+	_INVENTORY
+	_STATE
+	_GENERICTAGS
 )

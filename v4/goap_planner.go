@@ -82,8 +82,8 @@ func (p *GOAPPlanner) selectNode(ws *GOAPWorldState, node string) (ent *Entity) 
 		}
 	}()
 	world := p.e.World
-	pos := ws.GetModal(p.e, POSITION).(*Vec2D)
-	box := p.e.GetVec2D(BOX)
+	pos := ws.GetModal(p.e, _POSITION).(*Vec2D)
+	box := p.e.GetVec2D(_BOX)
 
 	// use a selector to find the node entity (ent)
 	trySelect := func(selector func(*Entity) bool) *Entity {
@@ -150,8 +150,8 @@ func (p *GOAPPlanner) bindEntities(nodes []string, ws *GOAPWorldState, start boo
 			logGOAPDebug(color.InPurple("|"))
 			logGOAPDebug(color.InPurple("|"))
 			boundMsg += fmt.Sprintf(">>> bound entity: %v ", bound)
-			if bound.HasComponent(POSITION) {
-				boundMsg += fmt.Sprintf(" @ position %v", *(bound.GetVec2D(POSITION)))
+			if bound.HasComponent(_POSITION) {
+				boundMsg += fmt.Sprintf(" @ position %v", *(bound.GetVec2D(_POSITION)))
 			}
 			logGOAPDebug(color.InPurple(boundMsg))
 		}
@@ -203,14 +203,14 @@ func (p *GOAPPlanner) createModalValDotNotation(node, stateKey string) GOAPModal
 		name:  node + "." + stateKey,
 		nodes: []string{node},
 		check: func(ws *GOAPWorldState) int {
-			return ws.GetModal(ws.ModalEntities[node], STATE).(*IntMap).Get(stateKey)
+			return ws.GetModal(ws.ModalEntities[node], _STATE).(*IntMap).Get(stateKey)
 		},
 		effModalSet: func(ws *GOAPWorldState, op string, x int) {
-			state := ws.GetModal(ws.ModalEntities[node], STATE).(*IntMap).CopyOf()
+			state := ws.GetModal(ws.ModalEntities[node], _STATE).(*IntMap).CopyOf()
 			if op == "=" {
 				state.Set(stateKey, x)
 			}
-			ws.SetModal(ws.ModalEntities[node], STATE, &state)
+			ws.SetModal(ws.ModalEntities[node], _STATE, &state)
 		},
 	}
 }
@@ -231,12 +231,12 @@ func (p *GOAPPlanner) createModalValInventoryHas(node, archetype string) GOAPMod
 		name:  node + ".inventoryHas(" + archetype + ")",
 		nodes: []string{node},
 		check: func(ws *GOAPWorldState) int {
-			inv := ws.GetModal(ws.ModalEntities[node], INVENTORY).(*Inventory)
+			inv := ws.GetModal(ws.ModalEntities[node], _INVENTORY).(*Inventory)
 			count := inv.CountName(archetype)
 			return count
 		},
 		effModalSet: func(ws *GOAPWorldState, op string, x int) {
-			inv := ws.GetModal(ws.ModalEntities[node], INVENTORY).(*Inventory).CopyOf()
+			inv := ws.GetModal(ws.ModalEntities[node], _INVENTORY).(*Inventory).CopyOf()
 			switch op {
 			case "-":
 				inv.DebitNName(x, archetype)
@@ -254,7 +254,7 @@ func (p *GOAPPlanner) createModalValInventoryHas(node, archetype string) GOAPMod
 					inv.SetCountName(count+x, archetype)
 				}
 			}
-			ws.SetModal(ws.ModalEntities[node], INVENTORY, inv)
+			ws.SetModal(ws.ModalEntities[node], _INVENTORY, inv)
 		},
 	}
 }
@@ -266,10 +266,10 @@ func (p *GOAPPlanner) createModalValIn(node, other string) GOAPModalVal {
 		check: func(ws *GOAPWorldState) int {
 			entity := ws.ModalEntities[node]
 			otherEntity := ws.ModalEntities[other]
-			entityPos := ws.GetModal(entity, POSITION).(*Vec2D)
+			entityPos := ws.GetModal(entity, _POSITION).(*Vec2D)
 			if RectIntersectsRect(
-				*entityPos, *entity.GetVec2D(BOX),
-				*otherEntity.GetVec2D(POSITION), *otherEntity.GetVec2D(BOX)) {
+				*entityPos, *entity.GetVec2D(_BOX),
+				*otherEntity.GetVec2D(_POSITION), *otherEntity.GetVec2D(_BOX)) {
 				return 1
 			} else {
 				return 0
@@ -284,11 +284,11 @@ func (p *GOAPPlanner) createModalValIn(node, other string) GOAPModalVal {
 					// TODO: this should really be a call to some kind of sophisticated
 					// relocation function that avoids obstacles and makes sure there's a path
 					// to be able to get there via navmesh/grid
-					awayFromOther := otherEntity.GetVec2D(POSITION).Add(otherEntity.GetVec2D(BOX).Scale(1.1))
-					ws.SetModal(entity, POSITION, &awayFromOther)
+					awayFromOther := otherEntity.GetVec2D(_POSITION).Add(otherEntity.GetVec2D(_BOX).Scale(1.1))
+					ws.SetModal(entity, _POSITION, &awayFromOther)
 				case 1:
-					otherCenter := *otherEntity.GetVec2D(POSITION)
-					ws.SetModal(entity, POSITION, &otherCenter)
+					otherCenter := *otherEntity.GetVec2D(_POSITION)
+					ws.SetModal(entity, _POSITION, &otherCenter)
 				}
 			}
 		},
@@ -405,17 +405,17 @@ func (p *GOAPPlanner) applyActionBasic(
 func (p *GOAPPlanner) applyActionModal(a *GOAPAction, ws *GOAPWorldState) (newWS *GOAPWorldState, cost float64, err error) {
 
 	// calculate cost of this action as cost to modally move position here + action.cost
-	beforePos := ws.GetModal(p.e, POSITION).(*Vec2D)
+	beforePos := ws.GetModal(p.e, _POSITION).(*Vec2D)
 	// find nearest matching entity
 	if _, ok := ws.ModalEntities[a.Node]; !ok {
 		panic(fmt.Sprintf("%s's node '%s' was not bound at time applyActionModal() was called", a.Name, a.Node))
 	}
 	node := ws.ModalEntities[a.Node]
-	nodePos := ws.GetModal(node, POSITION).(*Vec2D)
+	nodePos := ws.GetModal(node, _POSITION).(*Vec2D)
 	distToGetHere := nodePos.Sub(*beforePos).Magnitude()
 	// now we are at it
 	nowPos := *nodePos
-	ws.SetModal(p.e, POSITION, &nowPos)
+	ws.SetModal(p.e, _POSITION, &nowPos)
 	logGOAPDebug("        distance to get to node for action %s: %f", a.Name, distToGetHere)
 	cost = distToGetHere
 	switch a.cost.(type) {
@@ -459,11 +459,11 @@ func (p *GOAPPlanner) applyActionModal(a *GOAPAction, ws *GOAPWorldState) (newWS
 
 	// we are still at the node after the action is done
 	if a.travelWithNode {
-		nowPos := *(newWS.GetModal(node, POSITION).(*Vec2D))
-		newWS.SetModal(p.e, POSITION, &nowPos)
+		nowPos := *(newWS.GetModal(node, _POSITION).(*Vec2D))
+		newWS.SetModal(p.e, _POSITION, &nowPos)
 	}
 
-	afterPos := newWS.GetModal(p.e, POSITION).(*Vec2D)
+	afterPos := newWS.GetModal(p.e, _POSITION).(*Vec2D)
 	distTravelled := nowPos.Sub(*afterPos).Magnitude()
 	logGOAPDebug("        distance travelled during action %s: %f", a.Name, distTravelled)
 	cost += distTravelled
@@ -629,7 +629,7 @@ func (p *GOAPPlanner) actionHelpsToInsert(
 }
 
 func (p *GOAPPlanner) setPositionInStartModalIfNotDefined(start *GOAPWorldState) {
-	start.SetModal(p.e, POSITION, p.e.GetVec2D(POSITION))
+	start.SetModal(p.e, _POSITION, p.e.GetVec2D(_POSITION))
 }
 
 func (p *GOAPPlanner) setVarInStartIfNotDefined(start *GOAPWorldState, varName string) (bindErr error) {

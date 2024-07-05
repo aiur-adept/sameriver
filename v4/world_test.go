@@ -353,7 +353,7 @@ func TestWorldPredicateEntities(t *testing.T) {
 				spawnRadius * math.Sin(theta),
 			}
 			spawned := testingSpawnSpatial(w,
-				e.GetVec2D(POSITION).Add(offset),
+				e.GetVec2D(_POSITION).Add(offset),
 				Vec2D{5, 5})
 			if int(i)%20 == 0 {
 				w.TagEntity(spawned, "tree")
@@ -370,16 +370,16 @@ func TestWorldPredicateEntities(t *testing.T) {
 
 	w.Update(FRAME_MS / 2)
 	nearGot := w.EntitiesWithinDistance(
-		*e.GetVec2D(POSITION),
-		*e.GetVec2D(BOX),
+		*e.GetVec2D(_POSITION),
+		*e.GetVec2D(_BOX),
 		30.0)
 	if len(nearGot) != len(near)+1 {
 		t.Fatalf("Should be %d near entities; got %d", len(near)+1, len(nearGot))
 	}
 
 	treesFound := w.EntitiesWithinDistanceFilter(
-		*e.GetVec2D(POSITION),
-		*e.GetVec2D(BOX),
+		*e.GetVec2D(_POSITION),
+		*e.GetVec2D(_BOX),
 		30.0,
 		isTree)
 	if len(treesFound) != 19 {

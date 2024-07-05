@@ -37,7 +37,7 @@ func TestCollisionSystem(t *testing.T) {
 		t.Fatal("collision event wasn't received within 1 frame")
 	}
 	// move the enitity so it no longer collides
-	*e.GetVec2D(POSITION) = Vec2D{100, 100}
+	*e.GetVec2D(_POSITION) = Vec2D{100, 100}
 	time.Sleep(cs.delay + 5*time.Millisecond)
 	Logger.Printf("----------------------- 2nd frame")
 	w.Update(FRAME_MS / 2)
@@ -102,8 +102,8 @@ func TestCollisionFilter(t *testing.T) {
 	coin := w.Spawn(map[string]any{
 		"tags": []string{"coin"},
 		"components": map[ComponentID]any{
-			POSITION: *e.GetVec2D(POSITION),
-			BOX:      *e.GetVec2D(BOX),
+			_POSITION: *e.GetVec2D(_POSITION),
+			_BOX:      *e.GetVec2D(_BOX),
 		}})
 	predicate := func(ev Event) bool {
 		c := ev.Data.(CollisionData)

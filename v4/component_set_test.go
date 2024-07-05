@@ -20,7 +20,7 @@ func TestInvalidComponentType(t *testing.T) {
 func TestComponentSetToBitArray(t *testing.T) {
 	w := testingWorld()
 	b := w.em.components.BitArrayFromComponentSet(map[ComponentID]any{
-		POSITION: Vec2D{0, 0},
+		_POSITION: Vec2D{0, 0},
 	})
 	// TODO: convert to proper string and actually test
 	Logger.Println(b)
@@ -31,7 +31,7 @@ func TestComponentSetApply(t *testing.T) {
 	e := testingSpawnSimple(w)
 	l := NewTagList()
 	cs := map[ComponentID]any{
-		GENERICTAGS: l,
+		_GENERICTAGS: l,
 	}
 	w.em.components.ApplyComponentSet(e, cs)
 	eb := e.ComponentBitArray

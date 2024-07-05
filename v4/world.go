@@ -134,10 +134,10 @@ func NewWorld(spec map[string]any) *World {
 	w.em = NewEntityManager(w)
 	// register basic components
 	w.RegisterComponents([]any{
-		GENERICTAGS, TAGLIST, "GENERICTAGS",
-		STATE, INTMAP, "STATE",
-		POSITION, VEC2D, "POSITION",
-		BOX, VEC2D, "BOX",
+		_GENERICTAGS, TAGLIST, "GENERICTAGS",
+		_STATE, INTMAP, "STATE",
+		_POSITION, VEC2D, "POSITION",
+		_BOX, VEC2D, "BOX",
 	})
 	// set up distance spatial hasher
 	w.SpatialHasher = NewSpatialHasher(
@@ -183,13 +183,6 @@ func (w *World) RegisterComponents(components []any) {
 			Logger.Printf("%s%s%s", color.InGreen("[registering component: "), fmt.Sprintf("%s,%s", str, componentKindStrings[kind]), color.InGreen("]"))
 			w.em.components.addComponent(kind, name, str)
 		}
-	}
-}
-
-func (w *World) RegisterCCCs(customs map[ComponentID]CustomContiguousComponent) {
-	// register custom contiguous components
-	for id, custom := range customs {
-		w.em.components.addCCC(id, custom)
 	}
 }
 

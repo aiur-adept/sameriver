@@ -27,11 +27,11 @@ func (p *PhysicsSystem) GetComponentDeps() []any {
 	// TODO: do something with mass
 	// TODO: impart momentum to collided objects?
 	return []any{
-		POSITION, VEC2D, "POSITION",
-		VELOCITY, VEC2D, "VELOCITY",
-		ACCELERATION, VEC2D, "ACCELERATION",
-		BOX, VEC2D, "BOX",
-		MASS, FLOAT64, "MASS",
+		_POSITION, VEC2D, "POSITION",
+		_VELOCITY, VEC2D, "VELOCITY",
+		_ACCELERATION, VEC2D, "ACCELERATION",
+		_BOX, VEC2D, "BOX",
+		_MASS, FLOAT64, "MASS",
 	}
 }
 
@@ -40,7 +40,7 @@ func (p *PhysicsSystem) LinkWorld(w *World) {
 	p.physicsEntities = w.em.GetSortedUpdatedEntityList(
 		EntityFilterFromComponentBitArray(
 			"physical",
-			w.em.components.BitArrayFromIDs([]ComponentID{POSITION, VELOCITY, ACCELERATION, BOX, MASS})))
+			w.em.components.BitArrayFromIDs([]ComponentID{_POSITION, _VELOCITY, _ACCELERATION, _BOX, _MASS})))
 	p.h = NewSpatialHasher(10, 10, w)
 }
 
@@ -56,14 +56,14 @@ func (p *PhysicsSystem) Update(dt_ms float64) {
 func (p *PhysicsSystem) physics(e *Entity, dt_ms float64) {
 
 	// the logic is simpler to read that way
-	pos := e.GetVec2D(POSITION)
-	box := e.GetVec2D(BOX)
+	pos := e.GetVec2D(_POSITION)
+	box := e.GetVec2D(_BOX)
 	pos.ShiftCenterToBottomLeft(*box)
 	defer pos.ShiftBottomLeftToCenter(*box)
 
 	// calculate velocity
-	acc := e.GetVec2D(ACCELERATION)
-	vel := e.GetVec2D(VELOCITY)
+	acc := e.GetVec2D(_ACCELERATION)
+	vel := e.GetVec2D(_VELOCITY)
 	vel.X += acc.X * dt_ms
 	vel.Y += acc.Y * dt_ms
 	dx := vel.X * dt_ms

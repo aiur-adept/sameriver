@@ -94,10 +94,10 @@ func (s *CollisionSystem) DoCollide(i *Entity, j *Entity) {
 
 // Test collision between two entities
 func (s *CollisionSystem) TestCollision(i *Entity, j *Entity) bool {
-	iPos := i.GetVec2D(POSITION)
-	iBox := i.GetVec2D(BOX)
-	jPos := j.GetVec2D(POSITION)
-	jBox := j.GetVec2D(BOX)
+	iPos := i.GetVec2D(_POSITION)
+	iBox := i.GetVec2D(_BOX)
+	jPos := j.GetVec2D(_POSITION)
+	jBox := j.GetVec2D(_BOX)
 	intersects := RectIntersectsRect(*iPos, *iBox, *jPos, *jBox)
 	return intersects
 }
@@ -106,8 +106,8 @@ func (s *CollisionSystem) TestCollision(i *Entity, j *Entity) bool {
 
 func (s *CollisionSystem) GetComponentDeps() []any {
 	return []any{
-		POSITION, VEC2D, "POSITION",
-		BOX, VEC2D, "BOX",
+		_POSITION, VEC2D, "POSITION",
+		_BOX, VEC2D, "BOX",
 	}
 
 }
@@ -123,7 +123,7 @@ func (s *CollisionSystem) LinkWorld(w *World) {
 	s.collidableEntities = w.em.GetSortedUpdatedEntityList(
 		EntityFilterFromComponentBitArray(
 			"collidable",
-			w.em.components.BitArrayFromIDs([]ComponentID{POSITION, BOX})))
+			w.em.components.BitArrayFromIDs([]ComponentID{_POSITION, _BOX})))
 	// add a callback to the UpdatedEntityList of collidable entities
 	// so that whenever an entity is removed, we will reset its rate limiters
 	// in the collision rate limiter array (to guard against an entity

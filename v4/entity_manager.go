@@ -118,7 +118,7 @@ func (m *EntityManager) createEntitiesWithTagListIfNeeded(tag string) {
 // apply the given tags to the given entity
 func (m *EntityManager) TagEntity(e *Entity, tags ...string) {
 	for _, tag := range tags {
-		e.GetTagList(GENERICTAGS).Add(tag)
+		e.GetTagList(_GENERICTAGS).Add(tag)
 		if e.Active {
 			m.createEntitiesWithTagListIfNeeded(tag)
 		}
@@ -137,7 +137,7 @@ func (m *EntityManager) TagEntities(entities []*Entity, tag string) {
 
 // Remove a tag from an entity
 func (m *EntityManager) UntagEntity(e *Entity, tag string) {
-	e.GetTagList(GENERICTAGS).Remove(tag)
+	e.GetTagList(_GENERICTAGS).Remove(tag)
 	m.checkActiveEntity(e)
 }
 
@@ -197,7 +197,7 @@ func (m *EntityManager) DumpEntities() string {
 		if e == nil {
 			continue
 		}
-		tags := e.GetTagList(GENERICTAGS)
+		tags := e.GetTagList(_GENERICTAGS)
 		entityRepresentation := fmt.Sprintf("{id: %d, tags: %v}",
 			e.ID, tags)
 		buffer.WriteString(entityRepresentation)

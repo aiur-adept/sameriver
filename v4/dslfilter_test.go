@@ -33,9 +33,9 @@ func TestDSLBasic(t *testing.T) {
 
 	e := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			POSITION:  Vec2D{0, 0},
-			BOX:       Vec2D{1, 1},
-			INVENTORY: inventories.Create(nil),
+			_POSITION:  Vec2D{0, 0},
+			_BOX:       Vec2D{1, 1},
+			_INVENTORY: inventories.Create(nil),
 		},
 	})
 
@@ -55,9 +55,9 @@ func TestDSLBasic(t *testing.T) {
 	for i := 0; i < len(positions); i++ {
 		oxen[i] = w.Spawn(map[string]any{
 			"components": map[ComponentID]any{
-				POSITION: positions[i],
-				BOX:      Vec2D{3, 2},
-				STATE: map[string]int{
+				_POSITION: positions[i],
+				_BOX:      Vec2D{3, 2},
+				_STATE: map[string]int{
 					"yoked": 0,
 				},
 			},
@@ -66,9 +66,9 @@ func TestDSLBasic(t *testing.T) {
 	}
 	field := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			POSITION: Vec2D{0, 100},
-			BOX:      Vec2D{30, 30},
-			STATE: map[string]int{
+			_POSITION: Vec2D{0, 100},
+			_BOX:      Vec2D{30, 30},
+			_STATE: map[string]int{
 				"tilled": 0,
 			},
 		},
@@ -96,7 +96,7 @@ func TestDSLBasic(t *testing.T) {
 	assert.Equal(t, 3, len(entities)) // e, item.yoke, close ox
 
 	Logger.Println("4")
-	oxen[0].GetIntMap(STATE).Set("yoked", 1)
+	oxen[0].GetIntMap(_STATE).Set("yoked", 1)
 	entities, err = e.EFDSLFilter("State(yoked, 1)")
 	assert.NoError(t, err)
 	assert.Equal(t, 1, len(entities))

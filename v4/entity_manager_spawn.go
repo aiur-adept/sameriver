@@ -28,8 +28,6 @@ func (m *EntityManager) Spawn(spec map[string]any) *Entity {
 	var uniqueTag string
 	var tags []string
 	var componentSpecs map[ComponentID]any
-	var customComponentSpecs map[ComponentID]any
-	var customComponentsImpl map[ComponentID]CustomContiguousComponent
 	var logics map[string](func(e *Entity, dt_ms float64))
 	var funcs map[string](func(e *Entity, params any) any)
 	var mind map[string]any
@@ -60,11 +58,6 @@ func (m *EntityManager) Spawn(spec map[string]any) *Entity {
 		componentSpecs = make(map[ComponentID]any)
 	}
 
-	if _, ok := spec["customComponents"]; ok {
-		customComponentsImpl = spec["customComponentsImpl"].(map[ComponentID]CustomContiguousComponent)
-		customComponentSpecs = spec["customComponents"].(map[ComponentID]any)
-	}
-
 	if _, ok := spec["logics"]; ok {
 		logics = spec["logics"].(map[string](func(e *Entity, dt_ms float64)))
 	} else {
@@ -85,13 +78,13 @@ func (m *EntityManager) Spawn(spec map[string]any) *Entity {
 
 	// add empty generictags (overwriting the spec? boo hoo,
 	// shouldn't be specifying tags this way anyway)
-	componentSpecs[GENERICTAGS] = NewTagList()
+	componentSpecs[_GENERICTAGS] = NewTagList()
 
 	return m.doSpawn(
 		active,
 		uniqueTag,
 		tags,
-		m.components.makeCustomComponentSet(componentSpecs, customComponentSpecs, customComponentsImpl),
+		m.components.makeComponentSet(componentSpecs),
 		logics,
 		funcs,
 		mind,

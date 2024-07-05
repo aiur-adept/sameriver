@@ -33,7 +33,7 @@ func EFDSLPredicatesBase(e *EFDSLEvaluator) EFDSLPredicateMap {
 			"string, int",
 			func(k string, v int) func(*Entity) bool {
 				return func(x *Entity) bool {
-					return x.HasComponent(STATE) && x.GetIntMap(STATE).ValCanBeSetTo(k, v)
+					return x.HasComponent(_STATE) && x.GetIntMap(_STATE).ValCanBeSetTo(k, v)
 				}
 			},
 		),
@@ -42,7 +42,7 @@ func EFDSLPredicatesBase(e *EFDSLEvaluator) EFDSLPredicateMap {
 			"string, int",
 			func(k string, v int) func(*Entity) bool {
 				return func(x *Entity) bool {
-					return x.HasComponent(STATE) && x.GetIntMap(STATE).Get(k) == v
+					return x.HasComponent(_STATE) && x.GetIntMap(_STATE).Get(k) == v
 				}
 			},
 		),
@@ -92,8 +92,8 @@ func EFDSLPredicatesBase(e *EFDSLEvaluator) EFDSLPredicateMap {
 			"IdentResolve<*Entity>, float64",
 			func(y *Entity, d float64) func(*Entity) bool {
 				return func(x *Entity) bool {
-					pos := y.GetVec2D(POSITION)
-					box := y.GetVec2D(BOX)
+					pos := y.GetVec2D(_POSITION)
+					box := y.GetVec2D(_BOX)
 					return x.DistanceFromRect(*pos, *box) < d
 				}
 			},
@@ -114,8 +114,8 @@ func EFDSLPredicatesBase(e *EFDSLEvaluator) EFDSLPredicateMap {
 			box := argsTyped[1].(*Vec2D)
 
 			return func(e *Entity) bool {
-				ePos := e.GetVec2D(POSITION)
-				eBox := e.GetVec2D(BOX)
+				ePos := e.GetVec2D(_POSITION)
+				eBox := e.GetVec2D(_BOX)
 
 				return RectIntersectsRect(*pos, *box, *ePos, *eBox)
 			}

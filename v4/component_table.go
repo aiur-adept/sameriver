@@ -24,8 +24,8 @@ const (
 	INTMAP
 	FLOATMAP
 	STRINGMAP
-	GENERIC
-	CUSTOM
+	ITEM
+	INVENTORY
 )
 
 var componentKindStrings = map[ComponentKind]string{
@@ -41,8 +41,8 @@ var componentKindStrings = map[ComponentKind]string{
 	INTMAP:          "INTMAP",
 	FLOATMAP:        "FLOATMAP",
 	STRINGMAP:       "STRINGMAP",
-	GENERIC:         "GENERIC",
-	CUSTOM:          "CUSTOM",
+	ITEM:            "ITEM",
+	INVENTORY:       "INVENTORY",
 }
 
 type ComponentTable struct {
@@ -57,20 +57,20 @@ type ComponentTable struct {
 	Kinds      map[ComponentID]ComponentKind `json:"kinds"`
 
 	// data storage
-	Vec2DMap           map[ComponentID][]Vec2D                   `json:"vec2DMap"`
-	BoolMap            map[ComponentID][]bool                    `json:"boolMap"`
-	IntMap             map[ComponentID][]int                     `json:"intMap"`
-	Float64Map         map[ComponentID][]float64                 `json:"float64Map"`
-	TimeMap            map[ComponentID][]time.Time               `json:"timeMap"`
-	TimeAccumulatorMap map[ComponentID][]TimeAccumulator         `json:"timeAccumulatorMap"`
-	StringMap          map[ComponentID][]string                  `json:"stringMap"`
-	SpriteMap          map[ComponentID][]Sprite                  `json:"spriteMap"`
-	TagListMap         map[ComponentID][]TagList                 `json:"tagListMap"`
-	IntMapMap          map[ComponentID][]IntMap                  `json:"intMapMap"`
-	FloatMapMap        map[ComponentID][]FloatMap                `json:"floatMapMap"`
-	StringMapMap       map[ComponentID][]StringMap               `json:"stringMapMap"`
-	GenericMap         map[ComponentID][]any                     `json:"genericMap"`
-	CccMap             map[ComponentID]CustomContiguousComponent `json:"cccMap"`
+	Vec2DMap           map[ComponentID][]Vec2D           `json:"vec2DMap"`
+	BoolMap            map[ComponentID][]bool            `json:"boolMap"`
+	IntMap             map[ComponentID][]int             `json:"intMap"`
+	Float64Map         map[ComponentID][]float64         `json:"float64Map"`
+	TimeMap            map[ComponentID][]time.Time       `json:"timeMap"`
+	TimeAccumulatorMap map[ComponentID][]TimeAccumulator `json:"timeAccumulatorMap"`
+	StringMap          map[ComponentID][]string          `json:"stringMap"`
+	SpriteMap          map[ComponentID][]Sprite          `json:"spriteMap"`
+	TagListMap         map[ComponentID][]TagList         `json:"tagListMap"`
+	IntMapMap          map[ComponentID][]IntMap          `json:"intMapMap"`
+	FloatMapMap        map[ComponentID][]FloatMap        `json:"floatMapMap"`
+	StringMapMap       map[ComponentID][]StringMap       `json:"stringMapMap"`
+	ItemMap            map[ComponentID][]Item            `json:"itemMap"`
+	InventoryMap       map[ComponentID][]Inventory       `json:"inventoryMap"`
 }
 
 func NewComponentTable(capacity int) *ComponentTable {
@@ -95,8 +95,8 @@ func NewComponentTable(capacity int) *ComponentTable {
 		IntMapMap:          make(map[ComponentID][]IntMap),
 		FloatMapMap:        make(map[ComponentID][]FloatMap),
 		StringMapMap:       make(map[ComponentID][]StringMap),
-		GenericMap:         make(map[ComponentID][]any),
-		CccMap:             make(map[ComponentID]CustomContiguousComponent),
+		ItemMap:            make(map[ComponentID][]Item),
+		InventoryMap:       make(map[ComponentID][]Inventory),
 	}
 }
 
@@ -163,14 +163,15 @@ func (ct *ComponentTable) expand(n int) {
 		extraSpace := make([]StringMap, n)
 		ct.StringMapMap[name] = append(slice, extraSpace...)
 	}
-	for name, slice := range ct.GenericMap {
+	for name, slice := range ct.ItemMap {
 		Logger.Printf("Expanding table of component %s,%s", componentKindStrings[ct.Kinds[name]], ct.Strings[name])
-		extraSpace := make([]any, n)
-		ct.GenericMap[name] = append(slice, extraSpace...)
+		extraSpace := make([]Item, n)
+		ct.ItemMap[name] = append(slice, extraSpace...)
 	}
-	for name, ccc := range ct.CccMap {
-		Logger.Printf("Requesting expanding of internal storage of CustomContiguousComponent,%s", ct.Strings[name])
-		ccc.ExpandTable(n)
+	for name, slice := range ct.InventoryMap {
+		Logger.Printf("Expanding table of component %s,%s", componentKindStrings[ct.Kinds[name]], ct.Strings[name])
+		extraSpace := make([]Inventory, n)
+		ct.InventoryMap[name] = append(slice, extraSpace...)
 	}
 	ct.capacity += n
 }
@@ -228,8 +229,10 @@ func (ct *ComponentTable) addComponent(kind ComponentKind, name ComponentID, str
 		ct.FloatMapMap[name] = make([]FloatMap, ct.capacity, 2*ct.capacity)
 	case STRINGMAP:
 		ct.StringMapMap[name] = make([]StringMap, ct.capacity, 2*ct.capacity)
-	case GENERIC:
-		ct.GenericMap[name] = make([]any, ct.capacity, 2*ct.capacity)
+	case ITEM:
+		ct.ItemMap[name] = make([]Item, ct.capacity, 2*ct.capacity)
+	case INVENTORY:
+		ct.InventoryMap[name] = make([]Inventory, ct.capacity, 2*ct.capacity)
 	default:
 		panic(fmt.Sprintf("added component of kind %s has no case in component_table.go", componentKindStrings[kind]))
 	}
@@ -241,19 +244,6 @@ func (ct *ComponentTable) addComponent(kind ComponentKind, name ComponentID, str
 	// note string
 	ct.Strings[name] = str
 	ct.StringsRev[str] = name
-}
-
-func (ct *ComponentTable) addCCC(name ComponentID, custom CustomContiguousComponent) {
-	// guard against double insertion (many say it's a great time, but not here)
-	if _, already := ct.Ixs[name]; already {
-		logWarning("trying to add CCC but component with id %d already exists. Skipping.", name)
-		return
-	}
-	ct.CccMap[name] = custom
-	ct.Kinds[name] = CUSTOM
-	ct.index(name)
-	ct.Strings[name] = custom.Name()
-	custom.AllocateTable(MAX_ENTITIES)
 }
 
 func (ct *ComponentTable) AssertValidComponentSet(cs ComponentSet) {
@@ -312,14 +302,14 @@ func (ct *ComponentTable) AssertValidComponentSet(cs ComponentSet) {
 			panic(fmt.Sprintf("%s not found in stringMapMap - maybe not registered yet?", ct.Strings[name]))
 		}
 	}
-	for name := range cs.genericMap {
-		if _, ok := ct.GenericMap[name]; !ok {
-			panic(fmt.Sprintf("%s not found in genericMap - maybe not registered yet?", ct.Strings[name]))
+	for name := range cs.itemMap {
+		if _, ok := ct.ItemMap[name]; !ok {
+			panic(fmt.Sprintf("%s not found in itemMap - maybe not registered yet?", ct.Strings[name]))
 		}
 	}
-	for name := range cs.customComponentsMap {
-		if _, ok := ct.CccMap[name]; !ok {
-			panic(fmt.Sprintf("%s not found in cccMap - maybe not registered yet?", ct.Strings[name]))
+	for name := range cs.inventoryMap {
+		if _, ok := ct.InventoryMap[name]; !ok {
+			panic(fmt.Sprintf("%s not found in inventoryMap - maybe not registered yet?", ct.Strings[name]))
 		}
 	}
 }
@@ -366,13 +356,13 @@ func (ct *ComponentTable) applyComponentSet(e *Entity, cs ComponentSet) {
 	for name, m := range cs.stringMapMap {
 		ct.StringMapMap[name][e.ID] = m
 	}
-	for name, x := range cs.genericMap {
-		ct.GenericMap[name][e.ID] = x
+	for name, m := range cs.itemMap {
+		ct.ItemMap[name][e.ID] = m
 	}
-	for name, x := range cs.customComponentsMap {
-		// TODO: should this be ct. ??? if not, COMMENT WHY
-		cs.customComponentsImpl[name].Set(e, x)
+	for name, m := range cs.inventoryMap {
+		ct.InventoryMap[name][e.ID] = m
 	}
+
 	ct.orBitArrayInto(e, ct.bitArrayFromComponentSet(cs))
 }
 
@@ -495,14 +485,15 @@ func (e *Entity) GetStringMap(name ComponentID) *StringMap {
 	e.World.em.components.guardInvalidComponentGet(e, name)
 	return &e.World.em.components.StringMapMap[name][e.ID]
 }
-func (e *Entity) GetGeneric(name ComponentID) any {
+func (e *Entity) GetItem(name ComponentID) *Item {
 	e.World.em.components.guardInvalidComponentGet(e, name)
-	return e.World.em.components.GenericMap[name][e.ID]
+	return &e.World.em.components.ItemMap[name][e.ID]
 }
-func (e *Entity) SetGeneric(name ComponentID, val any) {
+func (e *Entity) GetInventory(name ComponentID) *Inventory {
 	e.World.em.components.guardInvalidComponentGet(e, name)
-	e.World.em.components.GenericMap[name][e.ID] = val
+	return &e.World.em.components.InventoryMap[name][e.ID]
 }
+
 func (e *Entity) GetVal(name ComponentID) any {
 	e.World.em.components.guardInvalidComponentGet(e, name)
 	kind := e.World.em.components.Kinds[name]
@@ -527,23 +518,7 @@ func (e *Entity) GetVal(name ComponentID) any {
 		return &e.World.em.components.FloatMapMap[name][e.ID]
 	case STRINGMAP:
 		return &e.World.em.components.StringMapMap[name][e.ID]
-	case GENERIC:
-		return e.World.em.components.GenericMap[name][e.ID]
-	case CUSTOM:
-		return e.World.em.components.CccMap[name].Get(e)
 	default:
 		panic(fmt.Sprintf("Can't get component with ID %d - it doesn't seem to exist", name))
 	}
-}
-
-// GetCustom returns the custom component data for the entity
-// NOTE: we have to provide a get and set method since we can't
-// return a pointer to any
-func (e *Entity) GetCustom(name ComponentID) any {
-	e.World.em.components.guardInvalidComponentGet(e, name)
-	return e.World.em.components.CccMap[name].Get(e)
-}
-func (e *Entity) SetCustom(name ComponentID, x any) {
-	e.World.em.components.guardInvalidComponentGet(e, name)
-	e.World.em.components.CccMap[name].Set(e, x)
 }

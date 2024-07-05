@@ -95,12 +95,12 @@ func valueOrEntityAccess(value any, identifier string) any {
 		return entity.GetVal(componentID)
 	case "<":
 		key := accessor
-		state := entity.GetIntMap(STATE)
+		state := entity.GetIntMap(_STATE)
 		if !state.Has(key) {
 			logDSLError("Entity %s doesn't have state key %s to resolve DSL expression \"%s\"", entity, accessor, identifier)
 			return nil
 		}
-		return entity.GetIntMap(STATE).Get(key)
+		return entity.GetIntMap(_STATE).Get(key)
 	}
 
 	return nil
