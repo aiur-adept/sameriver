@@ -158,7 +158,7 @@ func TestInventoryFromListing(t *testing.T) {
 
 	e := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_INVENTORY: *inventories.Create(map[string]int{
+			_INVENTORY: inventories.Create(map[string]int{
 				"sword_iron":  1,
 				"coin_copper": 100,
 				"heart_sutra": 1,
@@ -183,7 +183,7 @@ func TestInventoryStacksForDisplay(t *testing.T) {
 
 	e := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_INVENTORY: *inventories.Create(map[string]int{
+			_INVENTORY: inventories.Create(map[string]int{
 				"sword_iron":  1,
 				"coin_copper": 100,
 				"heart_sutra": 1,
@@ -211,7 +211,7 @@ func TestInventoryDebitNByFilter(t *testing.T) {
 
 	e := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_INVENTORY: *inventories.Create(map[string]int{
+			_INVENTORY: inventories.Create(map[string]int{
 				"sword_iron":  1,
 				"coin_copper": 100,
 			}),
@@ -244,14 +244,14 @@ func TestInventoryGetCountContains(t *testing.T) {
 
 	i := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_INVENTORY: *inventories.Create(map[string]int{
+			_INVENTORY: inventories.Create(map[string]int{
 				"coin_copper": 100,
 			}),
 		},
 	})
 	j := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_INVENTORY: *inventories.Create(map[string]int{
+			_INVENTORY: inventories.Create(map[string]int{
 				"sword_iron": 1,
 			}),
 		},

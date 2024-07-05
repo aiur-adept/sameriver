@@ -12,8 +12,8 @@ type Inventory struct {
 	Stacks []*Item
 }
 
-func NewInventory() *Inventory {
-	i := &Inventory{
+func NewInventory() Inventory {
+	i := Inventory{
 		Stacks: make([]*Item, 0),
 	}
 	return i
@@ -25,7 +25,7 @@ func (i *Inventory) CopyOf() *Inventory {
 	for ix, stack := range i.Stacks {
 		i2.Stacks[ix] = stack.CopyOf()
 	}
-	return i2
+	return &i2
 }
 
 func (i *Inventory) ItemsForDisplay() []*Item {
@@ -337,5 +337,5 @@ func InventoryFromJSON(jsonStr string) *Inventory {
 	for _, item := range obj["Stacks"].([]interface{}) {
 		inv.Credit(ItemFromJSON(item.(map[string]interface{})))
 	}
-	return inv
+	return &inv
 }

@@ -9,7 +9,7 @@ func NewInventorySystem() *InventorySystem {
 	return &InventorySystem{}
 }
 
-func (i *InventorySystem) Create(listing map[string]int) *Inventory {
+func (i *InventorySystem) Create(listing map[string]int) Inventory {
 	result := NewInventory()
 	for arch, count := range listing {
 		if count != 0 {
