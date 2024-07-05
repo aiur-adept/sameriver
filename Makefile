@@ -3,7 +3,7 @@
 all: deps test
 
 test:
-	cd v4 && go test -v -coverprofile=../coverage.txt .
+	cd v5 && go test -v -coverprofile=../coverage.txt .
 
 install:
 	go install ./cmd/sameriver-efdsl-gen
