@@ -9,7 +9,7 @@
             "type": "go",
             "request": "launch",
             "mode": "test",
-            "program": "${workspaceFolder}/v4/",
+            "program": "${workspaceFolder}/v5/",
             "args": [
                 "-test.run",
                 "TestPhysicsSystemRigidBody"
@@ -20,7 +20,7 @@
             "type": "go",
             "request": "launch",
             "mode": "test",
-            "program": "${workspaceFolder}/v4/",
+            "program": "${workspaceFolder}/v5/",
             "args": [
                 "-test.run",
                 "TestInventoryFromListing"
@@ -31,7 +31,7 @@
             "type": "go",
             "request": "launch",
             "mode": "test",
-            "program": "${workspaceFolder}/v4/",
+            "program": "${workspaceFolder}/v5/",
             "args": [
                 "-test.run",
                 "TestBTRetryNode"
@@ -42,7 +42,7 @@
             "type": "go",
             "request": "launch",
             "mode": "test",
-            "program": "${workspaceFolder}/v4/",
+            "program": "${workspaceFolder}/v5/",
             "args": [
                 "-test.run",
                 "TestBTInvertNode"
@@ -53,7 +53,7 @@
             "type": "go",
             "request": "launch",
             "mode": "test",
-            "program": "${workspaceFolder}/v4/",
+            "program": "${workspaceFolder}/v5/",
             "args": [
                 "-test.run",
                 "TestBTSimple"
@@ -64,7 +64,7 @@
             "type": "go",
             "request": "launch",
             "mode": "test",
-            "program": "${workspaceFolder}/v4/",
+            "program": "${workspaceFolder}/v5/",
             "args": [
                 "-test.run",
                 "TestGOAPPlanClassic"
@@ -78,7 +78,7 @@
             "type": "go",
             "request": "launch",
             "mode": "test",
-            "program": "${workspaceFolder}/v4/",
+            "program": "${workspaceFolder}/v5/",
             "args": [
                 "-test.run",
                 "TestGOAPGoalRemainingsOfPath"
@@ -92,14 +92,14 @@
             "type": "go",
             "request": "launch",
             "mode": "debug",
-            "program": "${workspaceFolder}/v4/cmd/sameriver-efdsl-gen/main.go"
+            "program": "${workspaceFolder}/v5/cmd/sameriver-efdsl-gen/main.go"
         },
         {
             "name": "TestEFDSLParser",
             "type": "go",
             "request": "launch",
             "mode": "test",
-            "program": "${workspaceFolder}/v4/",
+            "program": "${workspaceFolder}/v5/",
             "args": [
                 "-test.run",
                 "TestEFDSLParser"
@@ -110,7 +110,7 @@
             "type": "go",
             "request": "launch",
             "mode": "test",
-            "program": "${workspaceFolder}/v4/",
+            "program": "${workspaceFolder}/v5/",
             "args": [
                 "-test.run",
                 "TestDSLBasic"

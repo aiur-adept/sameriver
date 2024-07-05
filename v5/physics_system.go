@@ -60,8 +60,6 @@ func (p *PhysicsSystem) physics(e *Entity, dt_ms float64) {
 	// the logic is simpler to read that way
 	pos := e.GetVec2D(POSITION_)
 	box := e.GetVec2D(BOX_)
-	pos.ShiftCenterToBottomLeft(*box)
-	defer pos.ShiftBottomLeftToCenter(*box)
 
 	// calculate velocity
 	acc := e.GetVec2D(ACCELERATION_)
@@ -73,19 +71,18 @@ func (p *PhysicsSystem) physics(e *Entity, dt_ms float64) {
 
 	// motion in x
 	// max out on world border in x
-	if pos.X+dx < 0 || pos.X+box.X+dx > float64(p.w.Width) {
+	halfWidth := box.X / 2
+	halfHeight := box.Y / 2
+
+	if pos.X+dx-halfWidth < 0 || pos.X+dx+halfWidth > float64(p.w.Width) {
 		dx = 0
 	} else {
-		// otherwise move in x freely
 		pos.X += dx
 	}
 
-	// motion in y
-	// max out on world border in y
-	if pos.Y+dy < 0 || pos.Y+box.Y+dy > float64(p.w.Height) {
+	if pos.Y+dy-halfHeight < 0 || pos.Y+dy+halfHeight > float64(p.w.Height) {
 		dy = 0
 	} else {
-		// otherwise move in y freely
 		pos.Y += dy
 	}
 
@@ -99,6 +96,7 @@ func (p *PhysicsSystem) physics(e *Entity, dt_ms float64) {
 		iBox := i.GetVec2D(BOX_)
 		jPos := j.GetVec2D(POSITION_)
 		jBox := j.GetVec2D(BOX_)
+
 		return RectIntersectsRect(*iPos, *iBox, *jPos, *jBox)
 	}
 	cellX0, cellX1, cellY0, cellY1 := p.h.CellRangeOfRect(*pos, *box)
