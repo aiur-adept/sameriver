@@ -1,6 +1,9 @@
 package sameriver
 
-import "testing"
+import (
+	"os"
+	"testing"
+)
 
 func TestComponentTableSave(t *testing.T) {
 
@@ -20,4 +23,6 @@ func TestComponentTableSave(t *testing.T) {
 	if ct.Vec2DMap[VELOCITY][e.ID] != *e.GetVec2D(VELOCITY) {
 		t.Errorf("Vec2DMap[%v][0] = %v, want %v", VELOCITY, ct.Vec2DMap[VELOCITY][0], *e.GetVec2D(VELOCITY))
 	}
+
+	os.Remove("test.json")
 }
