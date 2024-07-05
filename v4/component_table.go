@@ -518,6 +518,10 @@ func (e *Entity) GetVal(name ComponentID) any {
 		return &e.World.em.components.FloatMapMap[name][e.ID]
 	case STRINGMAP:
 		return &e.World.em.components.StringMapMap[name][e.ID]
+	case ITEM:
+		return &e.World.em.components.ItemMap[name][e.ID]
+	case INVENTORY:
+		return &e.World.em.components.InventoryMap[name][e.ID]
 	default:
 		panic(fmt.Sprintf("Can't get component with ID %d - it doesn't seem to exist", name))
 	}

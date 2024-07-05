@@ -24,7 +24,7 @@ func (i *InventorySystem) Create(listing map[string]int) *Inventory {
 
 func (i *InventorySystem) GetComponentDeps() []any {
 	return []any{
-		INVENTORY, _INVENTORY, "INVENTORY",
+		_INVENTORY, INVENTORY, "INVENTORY",
 	}
 }
 
