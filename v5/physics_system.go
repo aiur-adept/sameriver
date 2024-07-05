@@ -55,41 +55,14 @@ func (p *PhysicsSystem) Update(dt_ms float64) {
 	}
 }
 
-func (p *PhysicsSystem) physics(e *Entity, dt_ms float64) {
-
-	// the logic is simpler to read that way
-	pos := e.GetVec2D(POSITION_)
-	box := e.GetVec2D(BOX_)
-
-	// calculate velocity
-	acc := e.GetVec2D(ACCELERATION_)
-	vel := e.GetVec2D(VELOCITY_)
-	vel.X += acc.X * dt_ms
-	vel.Y += acc.Y * dt_ms
-	dx := vel.X * dt_ms
-	dy := vel.Y * dt_ms
-
-	// motion in x
-	// max out on world border in x
-	halfWidth := box.X / 2
-	halfHeight := box.Y / 2
-
-	if pos.X+dx-halfWidth < 0 || pos.X+dx+halfWidth > float64(p.w.Width) {
-		dx = 0
-	} else {
-		pos.X += dx
-	}
-
-	if pos.Y+dy-halfHeight < 0 || pos.Y+dy+halfHeight > float64(p.w.Height) {
-		dy = 0
-	} else {
-		pos.Y += dy
-	}
-
+func (p *PhysicsSystem) collision(e *Entity, pos, box *Vec2D, dx, dy float64) bool {
 	rigidBody := e.GetBool(RIGIDBODY_)
 	if !*rigidBody {
-		return
+		return false
 	}
+
+	collision := false
+
 	// check collisions using spatial hasher
 	testCollision := func(i *Entity, j *Entity) bool {
 		iPos := i.GetVec2D(POSITION_)
@@ -116,9 +89,7 @@ func (p *PhysicsSystem) physics(e *Entity, dt_ms float64) {
 					continue
 				}
 				if testCollision(e, other) {
-					// undo the action if a collision occurs
-					pos.X -= dx
-					pos.Y -= dy
+					collision = true
 					if e.ID < other.ID {
 						p.c.DoCollide(e, other)
 					} else {
@@ -127,6 +98,45 @@ func (p *PhysicsSystem) physics(e *Entity, dt_ms float64) {
 				}
 			}
 		}
+	}
+	return collision
+}
+
+func (p *PhysicsSystem) physics(e *Entity, dt_ms float64) {
+
+	// the logic is simpler to read that way
+	pos := e.GetVec2D(POSITION_)
+	box := e.GetVec2D(BOX_)
+
+	// calculate velocity
+	acc := e.GetVec2D(ACCELERATION_)
+	vel := e.GetVec2D(VELOCITY_)
+	vel.X += acc.X * dt_ms
+	vel.Y += acc.Y * dt_ms
+	dx := vel.X * dt_ms
+	dy := vel.Y * dt_ms
+
+	halfWidth := box.X / 2
+	halfHeight := box.Y / 2
+
+	// motion in x
+	if pos.X+dx-halfWidth < 0 || pos.X+dx+halfWidth > float64(p.w.Width) {
+		dx = 0
+	} else {
+		pos.X += dx
+	}
+	if p.collision(e, pos, box, dx, dy) {
+		pos.X -= dx
+	}
+
+	// motion in y
+	if pos.Y+dy-halfHeight < 0 || pos.Y+dy+halfHeight > float64(p.w.Height) {
+		dy = 0
+	} else {
+		pos.Y += dy
+	}
+	if p.collision(e, pos, box, dx, dy) {
+		pos.Y -= dy
 	}
 }
 
