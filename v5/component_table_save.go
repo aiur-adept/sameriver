@@ -6,7 +6,7 @@ import (
 )
 
 func (ct *ComponentTable) Save(filename string) {
-	json, err := json.Marshal(ct)
+	json, err := json.MarshalIndent(ct, "", "  ")
 	if err != nil {
 		panic(err)
 	}

@@ -13,28 +13,28 @@ type SpriteSystem struct {
 	w              *World
 	SpriteEntities *UpdatedEntityList
 
-	Textures   map[string]*sdl.Texture
+	tm         *TextureManager
 	NilTexture *sdl.Texture
 }
 
-func NewSpriteSystem(renderer *sdl.Renderer) *SpriteSystem {
+func NewSpriteSystem(renderer *sdl.Renderer, tm *TextureManager) *SpriteSystem {
 	s := &SpriteSystem{}
-	s.Textures = make(map[string]*sdl.Texture, 256)
+	s.tm = tm
 	s.LoadFiles(renderer)
 	s.generateNilTexture(renderer)
 	return s
 }
 
 func (s *SpriteSystem) GetSprite(name string) Sprite {
-	texture, ok := s.Textures[name]
+	_, ok := s.tm.Textures[name]
 	if !ok {
-		texture = s.NilTexture
+		name = "__nil_texture__"
 	}
 	return Sprite{
-		texture,       // texture
-		0,             // frame
-		true,          // visible
-		sdl.FLIP_NONE, // flip
+		Texture: name,          // texture
+		Frame:   0,             // frame
+		Visible: true,          // visible
+		Flip:    sdl.FLIP_NONE, // flip
 	}
 }
 
@@ -58,7 +58,7 @@ func (s *SpriteSystem) generateNilTexture(renderer *sdl.Renderer) {
 	if err != nil {
 		panic(err)
 	}
-	s.NilTexture = texture
+	s.tm.Textures["__nil_texture__"] = texture
 }
 
 func (s *SpriteSystem) LoadFiles(renderer *sdl.Renderer) {
@@ -82,7 +82,7 @@ func (s *SpriteSystem) LoadFiles(renderer *sdl.Renderer) {
 			continue
 		}
 		mapkey := strings.Split(f.Name(), ".png")[0]
-		s.Textures[mapkey], err = renderer.CreateTextureFromSurface(surface)
+		s.tm.Textures[mapkey], err = renderer.CreateTextureFromSurface(surface)
 		if err != nil {
 			log_err(err)
 			continue

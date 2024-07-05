@@ -1,5 +1,27 @@
 package sameriver
 
+type ComponentKind int
+type ComponentID int
+
+// ComponentKinds
+const (
+	VEC2D ComponentKind = iota
+	BOOL
+	INT
+	FLOAT64
+	TIME
+	TIMEACCUMULATOR
+	STRING
+	SPRITE
+	TAGLIST
+	INTMAP
+	FLOATMAP
+	STRINGMAP
+	ITEM
+	INVENTORY
+)
+
+// ComponentIDs
 const (
 	POSITION_ ComponentID = iota
 	VELOCITY_

@@ -132,11 +132,12 @@ func TestItemSystemSpawnItemEntitySprite(t *testing.T) {
 		Width:      100,
 		Height:     100,
 		Fullscreen: false}
+	tm := NewTextureManager()
 	// in a real game, the scene Init() gets a Game object and creates a new
 	// sprite system by passing game.Renderer
 	SDLMainMediaThread(func() {
 		window, renderer := SDLCreateWindowAndRenderer(windowSpec)
-		sprites := NewSpriteSystem(renderer)
+		sprites := NewSpriteSystem(renderer, tm)
 
 		w.RegisterSystems(i, inventories, sprites)
 		i.LoadArchetypesFile("test_data/basic_archetypes.json")
@@ -154,7 +155,7 @@ func TestItemSystemSpawnItemEntitySprite(t *testing.T) {
 			int32(coinPos.Y + coinBox.Y),
 		}
 		coinSprite := coinEntity.GetSprite(BASESPRITE_)
-		renderer.Copy(coinSprite.Texture, &srcRect, &destRect)
+		renderer.Copy(tm.Textures[coinSprite.Texture], &srcRect, &destRect)
 		renderer.Present()
 		time.Sleep(200 * time.Millisecond)
 		window.Destroy()

@@ -406,12 +406,12 @@ func TestGOAPPlanSimpleIota(t *testing.T) {
 		name: "drunk",
 		check: func(ws *GOAPWorldState) int {
 			state := ws.GetModal(e, STATE_).(*IntMap)
-			return state.m["drunk"]
+			return state.M["drunk"]
 		},
 		effModalSet: func(ws *GOAPWorldState, op string, x int) {
 			state := ws.GetModal(e, STATE_).(*IntMap).CopyOf()
 			if op == "+" {
-				state.m["drunk"] += x
+				state.M["drunk"] += x
 			}
 			ws.SetModal(e, STATE_, &state)
 		},
@@ -471,12 +471,12 @@ func TestGOAPPlanSimpleEnough(t *testing.T) {
 		name: "drunk",
 		check: func(ws *GOAPWorldState) int {
 			state := ws.GetModal(e, STATE).(*IntMap)
-			return state.m["drunk"]
+			return state.M["drunk"]
 		},
 		effModalSet: func(ws *GOAPWorldState, op string, x int) {
 			state := ws.GetModal(e, STATE).(*IntMap).CopyOf()
 			if op == "+" {
-				state.m["drunk"] += x
+				state.M["drunk"] += x
 			}
 			ws.SetModal(e, STATE, &state)
 		},

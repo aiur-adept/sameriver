@@ -285,12 +285,12 @@ func BenchmarkGOAPAlanWatts(b *testing.B) {
 		name: "drunk",
 		check: func(ws *GOAPWorldState) int {
 			state := ws.GetModal(e, STATE).(*IntMap)
-			return state.m["drunk"]
+			return state.M["drunk"]
 		},
 		effModalSet: func(ws *GOAPWorldState, op string, x int) {
 			state := ws.GetModal(e, STATE).(*IntMap).CopyOf()
 			if op == "+" {
-				state.m["drunk"] += x
+				state.M["drunk"] += x
 			}
 			ws.SetModal(e, STATE, &state)
 		},
@@ -648,13 +648,13 @@ func BenchmarkGOAPFarmer2000(b *testing.B) {
 		nodes: []string{"field"},
 		check: func(ws *GOAPWorldState) int {
 			field := ws.ModalEntities["field"]
-			return ws.GetModal(field, STATE).(*IntMap).m["tilled"]
+			return ws.GetModal(field, STATE).(*IntMap).M["tilled"]
 		},
 		effModalSet: func(ws *GOAPWorldState, op string, x int) {
 			if op == "=" {
 				field := ws.ModalEntities["field"]
 				state := field.GetIntMap(STATE).CopyOf()
-				state.m["tilled"] = x
+				state.M["tilled"] = x
 				ws.SetModal(field, STATE, &state)
 			}
 		},

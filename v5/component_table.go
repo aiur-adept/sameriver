@@ -8,26 +8,6 @@ import (
 	"github.com/golang-collections/go-datastructures/bitarray"
 )
 
-type ComponentKind int
-type ComponentID int
-
-const (
-	VEC2D ComponentKind = iota
-	BOOL
-	INT
-	FLOAT64
-	TIME
-	TIMEACCUMULATOR
-	STRING
-	SPRITE
-	TAGLIST
-	INTMAP
-	FLOATMAP
-	STRINGMAP
-	ITEM
-	INVENTORY
-)
-
 var componentKindStrings = map[ComponentKind]string{
 	VEC2D:           "VEC2D",
 	BOOL:            "BOOL",

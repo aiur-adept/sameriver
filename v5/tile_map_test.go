@@ -16,11 +16,14 @@ func TestTileMap(t *testing.T) {
 		Width:      300,
 		Height:     300,
 		Fullscreen: false}
+
+	tm := NewTextureManager()
+
 	// in a real game, the scene Init() gets a Game object and creates a new
 	// sprite system by passing game.Renderer
 	SDLMainMediaThread(func() {
 		window, renderer := SDLCreateWindowAndRenderer(windowSpec)
-		tm := NewTileManager(renderer).SetDimension(32)
+		tm := NewTileManager(renderer, tm).SetDimension(32)
 		tm.LoadTile("grass", "assets/tile_grass.bmp")
 		tm.LoadTile("water", "assets/tile_water.bmp")
 
@@ -51,6 +54,9 @@ func TestTileMapSaveLoad(t *testing.T) {
 		Width:      300,
 		Height:     300,
 		Fullscreen: false}
+
+	tm := NewTextureManager()
+
 	// in a real game, the scene Init() gets a Game object and creates a new
 	// sprite system by passing game.Renderer
 	SDLMainMediaThread(func() {
@@ -58,7 +64,7 @@ func TestTileMapSaveLoad(t *testing.T) {
 		defer window.Destroy()
 		defer renderer.Destroy()
 
-		tm := NewTileManager(renderer).SetDimension(32)
+		tm := NewTileManager(renderer, tm).SetDimension(32)
 		tm.LoadTile("grass", "assets/tile_grass.bmp")
 		tm.LoadTile("water", "assets/tile_water.bmp")
 
@@ -96,6 +102,9 @@ func TestTileMapPerlinTerrain(t *testing.T) {
 		Width:      300,
 		Height:     300,
 		Fullscreen: false}
+
+	tm := NewTextureManager()
+
 	// in a real game, the scene Init() gets a Game object and creates a new
 	// sprite system by passing game.Renderer
 	SDLMainMediaThread(func() {
@@ -103,7 +112,7 @@ func TestTileMapPerlinTerrain(t *testing.T) {
 		defer window.Destroy()
 		defer renderer.Destroy()
 
-		tm := NewTileManager(renderer).SetDimension(32)
+		tm := NewTileManager(renderer, tm).SetDimension(32)
 		tm.LoadTile("grass", "assets/tile_grass.bmp")
 		tm.LoadTile("water", "assets/tile_water.bmp")
 

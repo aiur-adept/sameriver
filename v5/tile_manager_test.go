@@ -17,9 +17,11 @@ func TestTileManager(t *testing.T) {
 		Height:     300,
 		Fullscreen: false}
 
+	tm := NewTextureManager()
+
 	SDLMainMediaThread(func() {
 		window, renderer := SDLCreateWindowAndRenderer(windowSpec)
-		tm := NewTileManager(renderer).SetDimension(32)
+		tm := NewTileManager(renderer, tm).SetDimension(32)
 		tm.LoadTile("grass", "assets/tile_grass.bmp")
 
 		vp := &Viewport{20, 20, 50, 50}
@@ -49,12 +51,14 @@ func TestTileManagerSaveLoad(t *testing.T) {
 		Height:     300,
 		Fullscreen: false}
 
+	tm := NewTextureManager()
+
 	SDLMainMediaThread(func() {
 		window, renderer := SDLCreateWindowAndRenderer(windowSpec)
 		defer window.Destroy()
 		defer renderer.Destroy()
 
-		tm := NewTileManager(renderer).SetDimension(32)
+		tm := NewTileManager(renderer, tm).SetDimension(32)
 		tm.LoadTile("grass", "assets/tile_grass.bmp")
 		tm.Save("test.json")
 

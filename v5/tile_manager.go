@@ -9,15 +9,17 @@ import (
 
 type TileManager struct {
 	renderer  *sdl.Renderer
+	tm        *TextureManager
 	Files     map[string]string  `json:"files"`
 	Tiles     map[string]*Tile   `json:"-"`
 	Sprites   map[string]*Sprite `json:"-"`
 	Dimension int32              `json:"dimension"`
 }
 
-func NewTileManager(renderer *sdl.Renderer) *TileManager {
+func NewTileManager(renderer *sdl.Renderer, tm *TextureManager) *TileManager {
 	return &TileManager{
 		renderer: renderer,
+		tm:       tm,
 		Files:    make(map[string]string),
 		Tiles:    make(map[string]*Tile),
 		Sprites:  make(map[string]*Sprite),
@@ -76,12 +78,13 @@ func (tm *TileManager) LoadTiles() {
 // function to load a tile
 func (tm *TileManager) LoadTile(kind string, filename string) {
 	tm.Files[kind] = filename
-	sprite := NewSprite(tm.renderer, filename)
+	tm.tm.LoadTexture(tm.renderer, filename, kind)
+	sprite := tm.tm.CreateSprite(kind)
 	tm.Tiles[kind] = &Tile{
 		Kind: kind,
 	}
 	tm.Sprites[kind] = sprite
-	_, _, width, height, err := sprite.Texture.Query()
+	_, _, width, height, err := tm.tm.Textures[filename].Query()
 	if err != nil {
 		panic(err)
 	}
@@ -91,5 +94,5 @@ func (tm *TileManager) LoadTile(kind string, filename string) {
 func (tm *TileManager) DrawTile(kind string, x, y int32, viewport *Viewport, window *sdl.Window) {
 	// get the tile position relative to the viewport
 	destRect := viewport.DestRect(window, x, y, tm.Dimension, tm.Dimension)
-	tm.renderer.Copy(tm.Sprites[kind].Texture, &tm.Tiles[kind].srcRect, &destRect)
+	tm.renderer.Copy(tm.tm.Textures[kind], &tm.Tiles[kind].srcRect, &destRect)
 }
