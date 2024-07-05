@@ -289,3 +289,42 @@ func TestInventoryGetCountContains(t *testing.T) {
 		t.Fatal("Should've had some currency")
 	}
 }
+
+func TestInventoryMarshalUnmarshal(t *testing.T) {
+	w := testingWorld()
+	inventories := NewInventorySystem()
+	items := NewItemSystem(nil)
+	w.RegisterSystems(items, inventories)
+
+	e := w.Spawn(map[string]any{
+		"components": map[ComponentID]any{
+			INVENTORY: NewInventory(),
+		}})
+
+	inv := e.GetGeneric(INVENTORY).(*Inventory)
+
+	items.CreateArchetype(map[string]any{
+		"name":        "sword_iron",
+		"displayName": "iron sword",
+		"flavourText": "a good irons word, decently sharp",
+		"properties": map[string]int{
+			"damage":      3,
+			"value":       20,
+			"degradation": 0,
+			"durability":  5,
+		},
+		"tags": []string{"weapon"},
+	})
+
+	sword := items.CreateItem(map[string]any{
+		"archetype": "sword_iron",
+	})
+
+	inv.Credit(sword)
+
+	// inventory to json string
+	jsonInv := inv.String()
+
+	inv2 := InventoryFromJSON(jsonInv)
+	Logger.Println(inv2)
+}

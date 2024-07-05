@@ -326,3 +326,16 @@ func (i *Inventory) String() string {
 	b, _ := json.MarshalIndent(i, "", "\t")
 	return string(b)
 }
+
+func InventoryFromJSON(jsonStr string) *Inventory {
+	var obj map[string]interface{}
+	err := json.Unmarshal([]byte(jsonStr), &obj)
+	if err != nil {
+		panic(err)
+	}
+	inv := NewInventory()
+	for _, item := range obj["Stacks"].([]interface{}) {
+		inv.Credit(ItemFromJSON(item.(map[string]interface{})))
+	}
+	return inv
+}

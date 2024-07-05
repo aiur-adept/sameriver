@@ -1,6 +1,7 @@
 package sameriver
 
 import (
+	"os"
 	"sort"
 
 	"encoding/json"
@@ -83,4 +84,33 @@ func (l *TagList) AsSlice() []string {
 
 func (l *TagList) MarshalJSON() ([]byte, error) {
 	return json.Marshal(l.AsSlice())
+}
+
+func (l *TagList) Save(filename string) {
+	bytes, err := l.MarshalJSON()
+	if err != nil {
+		panic(err)
+	}
+	os.WriteFile(filename, bytes, 0644)
+}
+
+func TagListFromJSON(obj []interface{}) TagList {
+	l := NewTagList()
+	for _, tag := range obj {
+		l.Add(tag.(string))
+	}
+	return l
+}
+
+func TagListFromFile(filename string) TagList {
+	data, err := os.ReadFile(filename)
+	if err != nil {
+		panic(err)
+	}
+	var obj []interface{}
+	err = json.Unmarshal(data, &obj)
+	if err != nil {
+		panic(err)
+	}
+	return TagListFromJSON(obj)
 }

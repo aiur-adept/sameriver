@@ -34,3 +34,14 @@ func TestTagListCopy(t *testing.T) {
 		t.Fatal("taglists are still coupled to same underlying map")
 	}
 }
+
+func TestTagListSaveLoad(t *testing.T) {
+	t1 := NewTagList()
+	t1.Add("hello")
+	t1.Add("world")
+	t1.Save("test.json")
+	t2 := TagListFromFile("test.json")
+	if !t1.Has(t2.AsSlice()...) {
+		t.Fatal("taglist save/load failed")
+	}
+}

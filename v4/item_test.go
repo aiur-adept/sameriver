@@ -1,6 +1,7 @@
 package sameriver
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/veandco/go-sdl2/sdl"
@@ -238,4 +239,30 @@ func TestItemSystemRotting(t *testing.T) {
 	droppedBookInv := droppedBook.GetGeneric(INVENTORY).(*Inventory)
 	i.Update(timeToRot / 2)
 	Logger.Println(droppedBookInv)
+}
+
+func TestItemSaveLoad(t *testing.T) {
+	w := testingWorld()
+	i := NewItemSystem(nil)
+	inventories := NewInventorySystem()
+	w.RegisterSystems(i, inventories)
+
+	i.CreateArchetype(map[string]any{
+		"name":        "sword_iron",
+		"displayName": "iron sword",
+		"flavourText": "a good irons word, decently sharp",
+		"properties": map[string]int{
+			"damage":     3,
+			"value":      20,
+			"durability": 5,
+		},
+		"tags": []string{"weapon"},
+	})
+
+	manjushrisSword := i.CreateItem(map[string]any{
+		"archetype": "sword_iron",
+	})
+
+	jsonSword := manjushrisSword.String()
+	fmt.Println(jsonSword)
 }

@@ -3,6 +3,7 @@ package sameriver
 import (
 	"encoding/json"
 	"fmt"
+	"os"
 	"sort"
 )
 
@@ -274,4 +275,39 @@ func (i *Item) TagsForDisplay() []string {
 func (i *Item) String() string {
 	b, _ := json.MarshalIndent(i, "", "\t")
 	return string(b)
+}
+
+func LoadItem(sys *ItemSystem, inv *Inventory, filename string) *Item {
+	data, err := os.ReadFile(filename)
+	if err != nil {
+		panic(err)
+	}
+	var obj map[string]interface{}
+	err = json.Unmarshal(data, &obj)
+	if err != nil {
+		panic(err)
+	}
+	item := ItemFromJSON(obj)
+	item.sys = sys
+	item.inv = inv
+	item.reevaluateDisplayStr()
+	return item
+}
+
+func ItemFromJSON(obj map[string]interface{}) *Item {
+	item := &Item{
+		Archetype: obj["Archetype"].(string),
+		Count:     int(obj["Count"].(float64)),
+	}
+	item.Tags = TagListFromJSON(obj["Tags"].([]interface{}))
+	properties := obj["Properties"].(map[string]interface{})
+	item.Properties = make(map[string]float64)
+	for k, v := range properties {
+		item.Properties[k] = v.(float64)
+	}
+	item.Degradations = make([]float64, 0)
+	for _, v := range obj["Degradations"].([]interface{}) {
+		item.Degradations = append(item.Degradations, v.(float64))
+	}
+	return item
 }
