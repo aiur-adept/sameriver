@@ -57,12 +57,18 @@ func TestTileManagerSaveLoad(t *testing.T) {
 		tm.LoadTile("grass", "assets/tile_grass.bmp")
 		tm.Save("test.json")
 
-		tm2 := LoadTileManager(renderer, "test.json")
+		// unmarshal a TileManager from test.json
+		tm2 := TileManagerFromJSON(renderer, "test.json")
+		tm2.LoadTiles()
+
 		if tm.Files["grass"] != tm2.Files["grass"] {
 			t.Errorf("TileManager save/load failed")
 		}
-		if tm.TileDimension != tm2.TileDimension {
+		if tm.Dimension != tm2.Dimension {
 			t.Errorf("TileManager save/load failed")
 		}
+
+		// destroy test.json file
+		// os.Remove("test.json")
 	})
 }

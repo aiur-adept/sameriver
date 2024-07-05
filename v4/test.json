@@ -1,1 +1,6 @@
-{"files":{"grass":"assets/tile_grass.bmp"},"tile_dimension":{"X":0,"Y":0,"W":32,"H":32}}
+{
+  "files": {
+    "grass": "assets/tile_grass.bmp"
+  },
+  "dimension": 32
+}

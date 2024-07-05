@@ -41,6 +41,44 @@ func TestTileMap(t *testing.T) {
 	})
 }
 
+func TestTileMapSaveLoad(t *testing.T) {
+	// create test window
+	skipCI(t)
+
+	windowSpec := WindowSpec{
+		Title:      "testing game",
+		Width:      300,
+		Height:     300,
+		Fullscreen: false}
+	// in a real game, the scene Init() gets a Game object and creates a new
+	// sprite system by passing game.Renderer
+	SDLMainMediaThread(func() {
+		window, renderer := SDLCreateWindowAndRenderer(windowSpec)
+		defer window.Destroy()
+		defer renderer.Destroy()
+
+		tm := NewTileManager(renderer).SetDimension(32)
+		tm.LoadTile("grass", "assets/tile_grass.bmp")
+		tm.LoadTile("water", "assets/tile_water.bmp")
+
+		tmap := NewTileMap(tm, 100, 100)
+		tmap.SetTile(3, 3, "grass")
+		tmap.SetTile(4, 4, "water")
+
+		tmap.Save("test.json")
+
+		// tmap2 := LoadTileMap(renderer, "test.json")
+		// if tmap.tm.Files["grass"] != tmap2.tm.Files["grass"] {
+		// 	t.Errorf("TileManager save/load failed")
+		// }
+		// if tmap.tm.TileDimension != tmap2.tm.TileDimension {
+		// 	t.Errorf("TileManager save/load failed")
+		// }
+
+		// os.Remove("test.json")
+	})
+}
+
 func TestTileMapPerlinTerrain(t *testing.T) {
 	// create test window
 	skipCI(t)
@@ -54,6 +92,9 @@ func TestTileMapPerlinTerrain(t *testing.T) {
 	// sprite system by passing game.Renderer
 	SDLMainMediaThread(func() {
 		window, renderer := SDLCreateWindowAndRenderer(windowSpec)
+		defer window.Destroy()
+		defer renderer.Destroy()
+
 		tm := NewTileManager(renderer).SetDimension(32)
 		tm.LoadTile("grass", "assets/tile_grass.bmp")
 		tm.LoadTile("water", "assets/tile_water.bmp")
@@ -76,6 +117,5 @@ func TestTileMapPerlinTerrain(t *testing.T) {
 
 		renderer.Present()
 		time.Sleep(5000 * time.Millisecond)
-		window.Destroy()
 	})
 }
