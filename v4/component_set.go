@@ -35,7 +35,7 @@ func (ct *ComponentTable) makeCustomComponentSet(
 	baseCS.customComponentsMap = make(map[ComponentID]any)
 	baseCS.customComponentsImpl = make(map[ComponentID]CustomContiguousComponent)
 	for name, value := range customComponentSpecs {
-		kind := ct.kinds[name]
+		kind := ct.Kinds[name]
 		if kind != CUSTOM {
 			panic(fmt.Sprintf("custom component spec should have type Custom, it appears to be: %s", componentKindStrings[kind]))
 		}
@@ -57,10 +57,10 @@ func (ct *ComponentTable) makeComponentSet(componentSpecs map[ComponentID]any) C
 		names: make(map[ComponentID]bool),
 	}
 	for name, value := range componentSpecs {
-		if _, ok := ct.ixs[name]; !ok {
+		if _, ok := ct.Ixs[name]; !ok {
 			panic(fmt.Sprintf("unknown component id %d", name))
 		}
-		kind := ct.kinds[name]
+		kind := ct.Kinds[name]
 		// take note in names map that this component name occurs
 		cs.names[name] = true
 		// assign values into appropriate maps

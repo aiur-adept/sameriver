@@ -114,3 +114,16 @@ func TagListFromFile(filename string) TagList {
 	}
 	return TagListFromJSON(obj)
 }
+
+func (l *TagList) UnmarshalJSON(data []byte) error {
+	var tags []string
+	if err := json.Unmarshal(data, &tags); err != nil {
+		return err
+	}
+	l.tags = make(map[string]bool)
+	for _, tag := range tags {
+		l.tags[tag] = true
+	}
+	l.dirty = true // Assuming the slice needs to be recreated
+	return nil
+}

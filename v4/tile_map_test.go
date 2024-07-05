@@ -1,6 +1,7 @@
 package sameriver
 
 import (
+	"os"
 	"testing"
 	"time"
 )
@@ -82,7 +83,7 @@ func TestTileMapSaveLoad(t *testing.T) {
 			t.Errorf("TileMap save/load failed")
 		}
 
-		// os.Remove("test.json")
+		os.Remove("test.json")
 	})
 }
 

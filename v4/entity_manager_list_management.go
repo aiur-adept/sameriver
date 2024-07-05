@@ -29,7 +29,7 @@ func (m *EntityManager) GetUpdatedEntityListByName(
 func (m *EntityManager) GetUpdatedEntityListByComponents(names []ComponentID) *UpdatedEntityList {
 	strs := make([]string, 0)
 	for _, name := range names {
-		strs = append(strs, m.components.strings[name])
+		strs = append(strs, m.components.Strings[name])
 	}
 	name := strings.Join(strs, ",")
 	return m.GetSortedUpdatedEntityList(

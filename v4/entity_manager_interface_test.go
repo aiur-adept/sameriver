@@ -42,7 +42,7 @@ func EntityManagerInterfaceTestSpawnFail(
 		testingSpawnSimple(em)
 	}
 	testingSpawnSimple(em)
-	if len(em.Components().vec2DMap[POSITION]) == MAX_ENTITIES {
+	if len(em.Components().Vec2DMap[POSITION]) == MAX_ENTITIES {
 		t.Fatal("Did not resize component data tables")
 	}
 }

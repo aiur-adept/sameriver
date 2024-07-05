@@ -126,14 +126,14 @@ func (e *Entity) HasTags(tags ...string) bool {
 }
 
 func (e *Entity) HasComponent(name ComponentID) bool {
-	b, _ := e.ComponentBitArray.GetBit(uint64(e.World.em.components.ixs[name]))
+	b, _ := e.ComponentBitArray.GetBit(uint64(e.World.em.components.Ixs[name]))
 	return b
 }
 
 func (e *Entity) HasComponents(names ...ComponentID) bool {
 	has := true
 	for _, name := range names {
-		b, _ := e.ComponentBitArray.GetBit(uint64(e.World.em.components.ixs[name]))
+		b, _ := e.ComponentBitArray.GetBit(uint64(e.World.em.components.Ixs[name]))
 		has = has && b
 	}
 	return has
