@@ -61,19 +61,26 @@ func TestTileMapSaveLoad(t *testing.T) {
 		tm.LoadTile("grass", "assets/tile_grass.bmp")
 		tm.LoadTile("water", "assets/tile_water.bmp")
 
-		tmap := NewTileMap(tm, 100, 100)
+		tmap := NewTileMap(tm, 10, 10)
 		tmap.SetTile(3, 3, "grass")
 		tmap.SetTile(4, 4, "water")
 
 		tmap.Save("test.json")
 
-		// tmap2 := LoadTileMap(renderer, "test.json")
-		// if tmap.tm.Files["grass"] != tmap2.tm.Files["grass"] {
-		// 	t.Errorf("TileManager save/load failed")
-		// }
-		// if tmap.tm.TileDimension != tmap2.tm.TileDimension {
-		// 	t.Errorf("TileManager save/load failed")
-		// }
+		tmap2 := LoadTileMap(renderer, "test.json")
+		if tmap.tm.Files["grass"] != tmap2.tm.Files["grass"] {
+			t.Errorf("TileManager save/load failed")
+		}
+		if tmap.tm.Dimension != tmap2.tm.Dimension {
+			t.Errorf("TileManager save/load failed")
+		}
+
+		if tmap.Tiles[3][3] != tmap2.Tiles[3][3] {
+			t.Errorf("TileMap save/load failed")
+		}
+		if tmap.Tiles[4][4] != tmap2.Tiles[4][4] {
+			t.Errorf("TileMap save/load failed")
+		}
 
 		// os.Remove("test.json")
 	})

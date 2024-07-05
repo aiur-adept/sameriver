@@ -39,14 +39,28 @@ func (tm *TileManager) Save(filename string) {
 	os.WriteFile(filename, obj, 0644)
 }
 
-func TileManagerFromJSON(renderer *sdl.Renderer, filename string) *TileManager {
+func TileManagerFromFile(renderer *sdl.Renderer, filename string) *TileManager {
 	data, err := os.ReadFile(filename)
 	if err != nil {
 		panic(err)
 	}
+	var obj map[string]interface{}
+	err = json.Unmarshal(data, &obj)
+	if err != nil {
+		panic(err)
+	}
+	return TileManagerFromJSON(renderer, obj)
+}
+
+func TileManagerFromJSON(renderer *sdl.Renderer, obj map[string]interface{}) *TileManager {
 	var tm TileManager
-	json.Unmarshal(data, &tm)
 	tm.renderer = renderer
+	tm.Dimension = int32(obj["dimension"].(float64))
+	files := obj["files"].(map[string]interface{})
+	tm.Files = make(map[string]string)
+	for kind, filename := range files {
+		tm.Files[kind] = filename.(string)
+	}
 	tm.Tiles = make(map[string]*Tile)
 	tm.Sprites = make(map[string]*Sprite)
 	tm.LoadTiles()

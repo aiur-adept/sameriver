@@ -52,31 +52,44 @@ func (tm *TileMap) SetTile(x, y int32, kind string) {
 func (tm *TileMap) Save(filename string) {
 	// save to json
 	data := map[string]interface{}{
-		"tile_manager": tm,
+		"tile_manager": tm.tm,
 		"width":        tm.Width,
 		"height":       tm.Height,
 		"tiles":        tm.Tiles,
 	}
-	obj, err := json.Marshal(data)
+	obj, err := json.MarshalIndent(data, "", "  ")
 	if err != nil {
 		panic(err)
 	}
 	os.WriteFile(filename, obj, 0644)
 }
 
-// func LoadTileMap(renderer *sdl.Renderer, filename string) *TileMap {
-// 	data, err := os.ReadFile(filename)
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	var obj map[string]interface{}
-// 	err = json.Unmarshal(data, &obj)
-// 	if err != nil {
-// 		panic(err)
-// 	}
-// 	width := int32(obj["width"].(float64))
-// 	height := int32(obj["height"].(float64))
-// 	tmap := NewTileMap(tm, width, height)
-// 	tmap.Tiles = obj["tiles"].([][]string)
-// 	return tmap
-// }
+func TileMapFromJSON(renderer *sdl.Renderer, obj map[string]interface{}) *TileMap {
+	tm := TileManagerFromJSON(renderer, obj["tile_manager"].(map[string]interface{}))
+	width := int32(obj["width"].(float64))
+	height := int32(obj["height"].(float64))
+	tmap := NewTileMap(tm, width, height)
+	tiles := obj["tiles"].([]interface{})
+	tmap.Tiles = make([][]string, height)
+	for y, row := range tiles {
+		tmap.Tiles[y] = make([]string, width)
+		for x, kind := range row.([]interface{}) {
+			tmap.Tiles[y][x] = kind.(string)
+		}
+	}
+	return tmap
+}
+
+func LoadTileMap(renderer *sdl.Renderer, filename string) *TileMap {
+	data, err := os.ReadFile(filename)
+	if err != nil {
+		panic(err)
+	}
+	var obj map[string]interface{}
+	err = json.Unmarshal(data, &obj)
+	if err != nil {
+		panic(err)
+	}
+	tmap := TileMapFromJSON(renderer, obj)
+	return tmap
+}

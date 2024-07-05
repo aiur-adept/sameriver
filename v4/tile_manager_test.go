@@ -1,6 +1,7 @@
 package sameriver
 
 import (
+	"os"
 	"testing"
 	"time"
 )
@@ -58,7 +59,7 @@ func TestTileManagerSaveLoad(t *testing.T) {
 		tm.Save("test.json")
 
 		// unmarshal a TileManager from test.json
-		tm2 := TileManagerFromJSON(renderer, "test.json")
+		tm2 := TileManagerFromFile(renderer, "test.json")
 		tm2.LoadTiles()
 
 		if tm.Files["grass"] != tm2.Files["grass"] {
@@ -69,6 +70,6 @@ func TestTileManagerSaveLoad(t *testing.T) {
 		}
 
 		// destroy test.json file
-		// os.Remove("test.json")
+		os.Remove("test.json")
 	})
 }
