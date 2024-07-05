@@ -12,10 +12,10 @@ func TestInventoryDebitCredit(t *testing.T) {
 
 	e := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_INVENTORY: NewInventory(),
+			INVENTORY_: NewInventory(),
 		}})
 
-	inv := e.GetInventory(_INVENTORY)
+	inv := e.GetInventory(INVENTORY_)
 
 	items.CreateArchetype(map[string]any{
 		"name":        "sword_iron",
@@ -158,7 +158,7 @@ func TestInventoryFromListing(t *testing.T) {
 
 	e := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_INVENTORY: inventories.Create(map[string]int{
+			INVENTORY_: inventories.Create(map[string]int{
 				"sword_iron":  1,
 				"coin_copper": 100,
 				"heart_sutra": 1,
@@ -166,7 +166,7 @@ func TestInventoryFromListing(t *testing.T) {
 		},
 	})
 
-	inv := e.GetInventory(_INVENTORY)
+	inv := e.GetInventory(INVENTORY_)
 
 	coin := inv.FilterName("coin_copper")[0]
 	Logger.Println(coin)
@@ -183,7 +183,7 @@ func TestInventoryStacksForDisplay(t *testing.T) {
 
 	e := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_INVENTORY: inventories.Create(map[string]int{
+			INVENTORY_: inventories.Create(map[string]int{
 				"sword_iron":  1,
 				"coin_copper": 100,
 				"heart_sutra": 1,
@@ -191,7 +191,7 @@ func TestInventoryStacksForDisplay(t *testing.T) {
 		},
 	})
 
-	eInv := e.GetInventory(_INVENTORY)
+	eInv := e.GetInventory(INVENTORY_)
 	Logger.Println(eInv.StacksForDisplay())
 	for _, str := range eInv.StacksForDisplay() {
 		if str.DisplayStr == "copper coin x 100" {
@@ -211,14 +211,14 @@ func TestInventoryDebitNByFilter(t *testing.T) {
 
 	e := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_INVENTORY: inventories.Create(map[string]int{
+			INVENTORY_: inventories.Create(map[string]int{
 				"sword_iron":  1,
 				"coin_copper": 100,
 			}),
 		},
 	})
 
-	eInv := e.GetInventory(_INVENTORY)
+	eInv := e.GetInventory(INVENTORY_)
 	perishableSutraSpec := map[string]any{
 		"archetype":       "heart_sutra",
 		"tags":            []string{"perishable"},
@@ -244,20 +244,20 @@ func TestInventoryGetCountContains(t *testing.T) {
 
 	i := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_INVENTORY: inventories.Create(map[string]int{
+			INVENTORY_: inventories.Create(map[string]int{
 				"coin_copper": 100,
 			}),
 		},
 	})
 	j := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_INVENTORY: inventories.Create(map[string]int{
+			INVENTORY_: inventories.Create(map[string]int{
 				"sword_iron": 1,
 			}),
 		},
 	})
-	iInv := i.GetInventory(_INVENTORY)
-	jInv := j.GetInventory(_INVENTORY)
+	iInv := i.GetInventory(INVENTORY_)
+	jInv := j.GetInventory(INVENTORY_)
 	// i purchases a sword
 	jInv.GetNByName(iInv, 50, "coin_copper")
 	iInv.GetNByName(jInv, 1, "sword_iron")
@@ -298,10 +298,10 @@ func TestInventoryMarshalUnmarshal(t *testing.T) {
 
 	e := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_INVENTORY: NewInventory(),
+			INVENTORY_: NewInventory(),
 		}})
 
-	inv := e.GetInventory(_INVENTORY)
+	inv := e.GetInventory(INVENTORY_)
 
 	items.CreateArchetype(map[string]any{
 		"name":        "sword_iron",

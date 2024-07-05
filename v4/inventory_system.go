@@ -24,7 +24,7 @@ func (i *InventorySystem) Create(listing map[string]int) Inventory {
 
 func (i *InventorySystem) GetComponentDeps() []any {
 	return []any{
-		_INVENTORY, INVENTORY, "INVENTORY",
+		INVENTORY_, INVENTORY, "INVENTORY",
 	}
 }
 
@@ -33,7 +33,7 @@ func (i *InventorySystem) LinkWorld(w *World) {
 	i.InventoryEntities = w.em.GetSortedUpdatedEntityList(
 		EntityFilterFromComponentBitArray(
 			"inventory",
-			w.em.components.BitArrayFromIDs([]ComponentID{_INVENTORY})))
+			w.em.components.BitArrayFromIDs([]ComponentID{INVENTORY_})))
 }
 
 func (i *InventorySystem) Update(dt_ms float64) {

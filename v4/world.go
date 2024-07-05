@@ -134,10 +134,10 @@ func NewWorld(spec map[string]any) *World {
 	w.em = NewEntityManager(w)
 	// register basic components
 	w.RegisterComponents([]any{
-		_GENERICTAGS, TAGLIST, "GENERICTAGS",
-		_STATE, INTMAP, "STATE",
-		_POSITION, VEC2D, "POSITION",
-		_BOX, VEC2D, "BOX",
+		GENERICTAGS_, TAGLIST, "GENERICTAGS",
+		STATE_, INTMAP, "STATE",
+		POSITION_, VEC2D, "POSITION",
+		BOX_, VEC2D, "BOX",
 	})
 	// set up distance spatial hasher
 	w.SpatialHasher = NewSpatialHasher(

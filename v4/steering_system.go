@@ -11,13 +11,13 @@ func NewSteeringSystem() *SteeringSystem {
 
 func (s *SteeringSystem) GetComponentDeps() []any {
 	return []any{
-		_POSITION, VEC2D, "POSITION",
-		_VELOCITY, VEC2D, "VELOCITY",
-		_ACCELERATION, VEC2D, "ACCELERATION",
-		_MAXVELOCITY, FLOAT64, "MAXVELOCITY",
-		_MOVEMENTTARGET, VEC2D, "MOVEMENTTARGET",
-		_STEER, VEC2D, "STEER",
-		_MASS, FLOAT64, "MASS",
+		POSITION_, VEC2D, "POSITION",
+		VELOCITY_, VEC2D, "VELOCITY",
+		ACCELERATION_, VEC2D, "ACCELERATION",
+		MAXVELOCITY_, FLOAT64, "MAXVELOCITY",
+		MOVEMENTTARGET_, VEC2D, "MOVEMENTTARGET",
+		STEER_, VEC2D, "STEER",
+		MASS_, FLOAT64, "MASS",
 	}
 }
 
@@ -28,8 +28,8 @@ func (s *SteeringSystem) LinkWorld(w *World) {
 			"steering",
 			w.em.components.BitArrayFromIDs(
 				[]ComponentID{
-					_POSITION, _VELOCITY, _ACCELERATION,
-					_MAXVELOCITY, _MOVEMENTTARGET, _STEER, _MASS,
+					POSITION_, VELOCITY_, ACCELERATION_,
+					MAXVELOCITY_, MOVEMENTTARGET_, STEER_, MASS_,
 				})))
 }
 
@@ -41,11 +41,11 @@ func (s *SteeringSystem) Update(dt_ms float64) {
 }
 
 func (s *SteeringSystem) Seek(e *Entity) {
-	p0 := e.GetVec2D(_POSITION)
-	p1 := e.GetVec2D(_MOVEMENTTARGET)
-	v := e.GetVec2D(_VELOCITY)
-	maxV := e.GetFloat64(_MAXVELOCITY)
-	st := e.GetVec2D(_STEER)
+	p0 := e.GetVec2D(POSITION_)
+	p1 := e.GetVec2D(MOVEMENTTARGET_)
+	v := e.GetVec2D(VELOCITY_)
+	maxV := e.GetFloat64(MAXVELOCITY_)
+	st := e.GetVec2D(STEER_)
 	desired := p1.Sub(*p0)
 	distance := desired.Magnitude()
 	desired = desired.Unit()
@@ -62,10 +62,10 @@ func (s *SteeringSystem) Seek(e *Entity) {
 }
 
 func (s *SteeringSystem) Apply(e *Entity) {
-	v := e.GetVec2D(_VELOCITY)
-	maxV := e.GetFloat64(_MAXVELOCITY)
-	st := e.GetVec2D(_STEER)
-	mass := e.GetFloat64(_MASS)
+	v := e.GetVec2D(VELOCITY_)
+	maxV := e.GetFloat64(MAXVELOCITY_)
+	st := e.GetVec2D(STEER_)
+	mass := e.GetFloat64(MASS_)
 	// TODO: define this properly
 	maxSteerForce := 3.0
 	*st = st.Truncate(maxSteerForce)

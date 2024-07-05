@@ -40,8 +40,8 @@ func TestSpatialHashInsertion(t *testing.T) {
 			}
 			if !inCell {
 				t.Fatalf("%v,%v was not mapped to cell %v",
-					e.GetVec2D(_POSITION),
-					e.GetVec2D(_BOX),
+					e.GetVec2D(POSITION_),
+					e.GetVec2D(BOX_),
 					cell)
 			}
 		}
@@ -107,8 +107,8 @@ func TestSpatialHashLargeEntity(t *testing.T) {
 		}
 		if !inCell {
 			t.Fatalf("%v,%v was not mapped to cell %v",
-				e.GetVec2D(_POSITION),
-				e.GetVec2D(_BOX),
+				e.GetVec2D(POSITION_),
+				e.GetVec2D(BOX_),
 				cell)
 		}
 	}
@@ -170,7 +170,7 @@ func TestSpatialHashEntitiesWithinDistance(t *testing.T) {
 				spawnRadius * math.Sin(theta),
 			}
 			spawned := testingSpawnSpatial(w,
-				e.GetVec2D(_POSITION).Add(offset),
+				e.GetVec2D(POSITION_).Add(offset),
 				Vec2D{5, 5})
 			if spawnRadius == 30.0 {
 				near = append(near, spawned)
@@ -181,8 +181,8 @@ func TestSpatialHashEntitiesWithinDistance(t *testing.T) {
 	}
 	w.Update(FRAME_MS / 2)
 	nearGot := w.EntitiesWithinDistance(
-		*e.GetVec2D(_POSITION),
-		*e.GetVec2D(_BOX),
+		*e.GetVec2D(POSITION_),
+		*e.GetVec2D(BOX_),
 		30.0)
 	if len(nearGot) != 37 {
 		t.Fatalf("Should be 37 near entities; got %d", len(nearGot))
@@ -219,7 +219,7 @@ func TestSpatialHashEntitiesWithinDistanceApprox(t *testing.T) {
 				spawnRadius * math.Sin(theta),
 			}
 			spawned := testingSpawnSpatial(w,
-				e.GetVec2D(_POSITION).Add(offset),
+				e.GetVec2D(POSITION_).Add(offset),
 				Vec2D{5, 5})
 			if spawnRadius == 30.0 {
 				near = append(near, spawned)
@@ -228,8 +228,8 @@ func TestSpatialHashEntitiesWithinDistanceApprox(t *testing.T) {
 	}
 	w.Update(FRAME_MS / 2)
 	nearGot := sh.Hasher.EntitiesWithinDistanceApprox(
-		*e.GetVec2D(_POSITION),
-		*e.GetVec2D(_BOX),
+		*e.GetVec2D(POSITION_),
+		*e.GetVec2D(BOX_),
 		30.0)
 	// somehow by coincidence - and this can only be a sign that god exists -
 	// the number of near entities by exact calculation is 37, but the number

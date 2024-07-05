@@ -11,16 +11,16 @@ func TestPhysicsSystemWithGranularity(t *testing.T) {
 	p := NewPhysicsSystem()
 	w.RegisterSystems(p)
 	e := testingSpawnPhysics(w)
-	*e.GetVec2D(_VELOCITY) = Vec2D{1, 1}
-	pos := e.GetVec2D(_POSITION)
+	*e.GetVec2D(VELOCITY_) = Vec2D{1, 1}
+	pos := e.GetVec2D(POSITION_)
 	pos0 := *pos
 	// granular setup
 	wg := testingWorld()
 	pg := NewPhysicsSystemWithGranularity(4)
 	wg.RegisterSystems(pg)
 	eg := testingSpawnPhysics(wg)
-	*eg.GetVec2D(_VELOCITY) = Vec2D{1, 1}
-	posg := eg.GetVec2D(_POSITION)
+	*eg.GetVec2D(VELOCITY_) = Vec2D{1, 1}
+	posg := eg.GetVec2D(POSITION_)
 	posg0 := *posg
 
 	// simulate constant load of other logics with a ratio
@@ -91,13 +91,13 @@ func TestPhysicsSystemMotion(t *testing.T) {
 	ps := NewPhysicsSystem()
 	w.RegisterSystems(ps)
 	e := testingSpawnPhysics(w)
-	*e.GetVec2D(_VELOCITY) = Vec2D{1, 1}
-	pos := *e.GetVec2D(_POSITION)
+	*e.GetVec2D(VELOCITY_) = Vec2D{1, 1}
+	pos := *e.GetVec2D(POSITION_)
 	// Update twice since physics system won't run the first time(needs a dt)
 	w.Update(FRAME_MS / 2)
 	time.Sleep(FRAME_DURATION)
 	w.Update(FRAME_MS / 2)
-	if *e.GetVec2D(_POSITION) == pos {
+	if *e.GetVec2D(POSITION_) == pos {
 		t.Fatal("failed to update position")
 	}
 }
@@ -128,9 +128,9 @@ func TestPhysicsSystemBounds(t *testing.T) {
 	}
 	worldCenter := Vec2D{w.Width / 2, w.Height / 2}
 	worldTopRight := Vec2D{w.Width, w.Height}
-	pos := e.GetVec2D(_POSITION)
-	box := e.GetVec2D(_BOX)
-	vel := e.GetVec2D(_VELOCITY)
+	pos := e.GetVec2D(POSITION_)
+	box := e.GetVec2D(BOX_)
+	vel := e.GetVec2D(VELOCITY_)
 	for _, d := range directions {
 		*pos = Vec2D{512, 512}
 		*vel = d
@@ -155,23 +155,23 @@ func TestPhysicsSystemRigidBody(t *testing.T) {
 
 	e := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_POSITION: Vec2D{0, 0},
+			POSITION_: Vec2D{0, 0},
 			// velocity slow enough to avoid tunneling
-			_VELOCITY:     Vec2D{0.1, 0.1},
-			_ACCELERATION: Vec2D{0, 0},
-			_BOX:          Vec2D{1, 1},
-			_MASS:         3.0,
-			_RIGIDBODY:    true,
+			VELOCITY_:     Vec2D{0.1, 0.1},
+			ACCELERATION_: Vec2D{0, 0},
+			BOX_:          Vec2D{1, 1},
+			MASS_:         3.0,
+			RIGIDBODY_:    true,
 		}})
 
 	e2 := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_POSITION:     Vec2D{10, 10},
-			_VELOCITY:     Vec2D{0, 0},
-			_ACCELERATION: Vec2D{0, 0},
-			_BOX:          Vec2D{1, 1},
-			_MASS:         3.0,
-			_RIGIDBODY:    true,
+			POSITION_:     Vec2D{10, 10},
+			VELOCITY_:     Vec2D{0, 0},
+			ACCELERATION_: Vec2D{0, 0},
+			BOX_:          Vec2D{1, 1},
+			MASS_:         3.0,
+			RIGIDBODY_:    true,
 		}})
 
 	// Update twice since physics system won't run the first time(needs a dt)
@@ -180,8 +180,8 @@ func TestPhysicsSystemRigidBody(t *testing.T) {
 		time.Sleep(FRAME_DURATION)
 		w.Update(FRAME_MS / 2)
 	}
-	Logger.Printf("e: %v", *e.GetVec2D(_POSITION))
-	Logger.Printf("e2: %v", *e2.GetVec2D(_POSITION))
+	Logger.Printf("e: %v", *e.GetVec2D(POSITION_))
+	Logger.Printf("e2: %v", *e2.GetVec2D(POSITION_))
 
 	// should have collision events
 	select {

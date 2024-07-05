@@ -28,7 +28,7 @@ func testingSpawnPosition(
 	em EntityManagerInterface, pos Vec2D) *Entity {
 	return em.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_POSITION: pos,
+			POSITION_: pos,
 		}})
 }
 
@@ -43,48 +43,48 @@ func testingSpawnSpatial(
 	em EntityManagerInterface, pos Vec2D, box Vec2D) *Entity {
 	return em.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_POSITION: pos,
-			_BOX:      box,
+			POSITION_: pos,
+			BOX_:      box,
 		}})
 }
 
 func testingSpawnCollision(em EntityManagerInterface) *Entity {
 	return em.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_POSITION: Vec2D{10, 10},
-			_BOX:      Vec2D{4, 4},
+			POSITION_: Vec2D{10, 10},
+			BOX_:      Vec2D{4, 4},
 		}})
 }
 
 func testingSpawnCollisionRandom(em EntityManagerInterface) *Entity {
 	return em.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_POSITION: Vec2D{100 * rand.Float64(), 100 * rand.Float64()},
-			_BOX:      Vec2D{5, 5},
+			POSITION_: Vec2D{100 * rand.Float64(), 100 * rand.Float64()},
+			BOX_:      Vec2D{5, 5},
 		}})
 }
 
 func testingSpawnSteering(em EntityManagerInterface) *Entity {
 	return em.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_POSITION:       Vec2D{0, 0},
-			_VELOCITY:       Vec2D{0, 0},
-			_ACCELERATION:   Vec2D{0, 0},
-			_MAXVELOCITY:    3.0,
-			_MOVEMENTTARGET: Vec2D{1, 1},
-			_STEER:          Vec2D{0, 0},
-			_MASS:           3.0,
+			POSITION_:       Vec2D{0, 0},
+			VELOCITY_:       Vec2D{0, 0},
+			ACCELERATION_:   Vec2D{0, 0},
+			MAXVELOCITY_:    3.0,
+			MOVEMENTTARGET_: Vec2D{1, 1},
+			STEER_:          Vec2D{0, 0},
+			MASS_:           3.0,
 		}})
 }
 
 func testingSpawnPhysics(em EntityManagerInterface) *Entity {
 	return em.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_POSITION:     Vec2D{10, 10},
-			_VELOCITY:     Vec2D{0, 0},
-			_ACCELERATION: Vec2D{0, 0},
-			_BOX:          Vec2D{1, 1},
-			_MASS:         3.0,
-			_RIGIDBODY:    true,
+			POSITION_:     Vec2D{10, 10},
+			VELOCITY_:     Vec2D{0, 0},
+			ACCELERATION_: Vec2D{0, 0},
+			BOX_:          Vec2D{1, 1},
+			MASS_:         3.0,
+			RIGIDBODY_:    true,
 		}})
 }

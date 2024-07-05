@@ -95,14 +95,14 @@ func (s *SpriteSystem) LoadFiles(renderer *sdl.Renderer) {
 
 func (s *SpriteSystem) GetComponentDeps() []any {
 	return []any{
-		_BASESPRITE, SPRITE, "BASESPRITE",
+		BASESPRITE_, SPRITE, "BASESPRITE",
 	}
 }
 
 func (s *SpriteSystem) LinkWorld(w *World) {
 	s.w = w
 
-	s.SpriteEntities = w.GetUpdatedEntityListByComponents([]ComponentID{_BASESPRITE})
+	s.SpriteEntities = w.GetUpdatedEntityListByComponents([]ComponentID{BASESPRITE_})
 }
 
 func (s *SpriteSystem) Update(dt_ms float64) {

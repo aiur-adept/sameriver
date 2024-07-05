@@ -33,7 +33,7 @@ func EntityFilterFromTag(tag string) EntityFilter {
 	return EntityFilter{
 		Name: tag,
 		Predicate: func(e *Entity) bool {
-			return e.GetTagList(_GENERICTAGS).Has(tag)
+			return e.GetTagList(GENERICTAGS_).Has(tag)
 		}}
 }
 
@@ -54,7 +54,7 @@ func EntityFilterFromCanBe(canBe map[string]int) EntityFilter {
 		Name: "canbe",
 		Predicate: func(e *Entity) bool {
 			for k, v := range canBe {
-				if !e.GetIntMap(_STATE).ValCanBeSetTo(k, v) {
+				if !e.GetIntMap(STATE_).ValCanBeSetTo(k, v) {
 					return false
 				}
 			}
@@ -70,8 +70,8 @@ func EntityFilterFromClosest(to *Entity, filter EntityFilter) EntityFilter {
 		Name: "closest",
 		Predicate: func(e *Entity) bool {
 			return e == to.World.ClosestEntityFilter(
-				*to.GetVec2D(_POSITION),
-				*to.GetVec2D(_BOX),
+				*to.GetVec2D(POSITION_),
+				*to.GetVec2D(BOX_),
 				filter.Predicate)
 		},
 	}

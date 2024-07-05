@@ -59,8 +59,8 @@ func BenchmarkGOAPClassic(b *testing.B) {
 
 	e := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_POSITION:  Vec2D{0, 0},
-			_INVENTORY: inventories.Create(nil),
+			POSITION_:  Vec2D{0, 0},
+			INVENTORY_: inventories.Create(nil),
 		},
 	})
 
@@ -68,11 +68,11 @@ func BenchmarkGOAPClassic(b *testing.B) {
 		return GOAPModalVal{
 			name: fmt.Sprintf("has%s", name),
 			check: func(ws *GOAPWorldState) int {
-				inv := ws.GetModal(e, _INVENTORY).(*Inventory)
+				inv := ws.GetModal(e, INVENTORY_).(*Inventory)
 				return inv.CountName(archetype)
 			},
 			effModalSet: func(ws *GOAPWorldState, op string, x int) {
-				inv := ws.GetModal(e, _INVENTORY).(*Inventory).CopyOf()
+				inv := ws.GetModal(e, INVENTORY_).(*Inventory).CopyOf()
 				if op == "-" {
 					inv.DebitNTags(x, archetype)
 				}
@@ -92,7 +92,7 @@ func BenchmarkGOAPClassic(b *testing.B) {
 						inv.SetCountName(count+x, archetype)
 					}
 				}
-				ws.SetModal(e, _INVENTORY, inv)
+				ws.SetModal(e, INVENTORY_, inv)
 			},
 		}
 	}
@@ -124,7 +124,7 @@ func BenchmarkGOAPClassic(b *testing.B) {
 		return GOAPModalVal{
 			name: fmt.Sprintf("at%s", name),
 			check: func(ws *GOAPWorldState) int {
-				ourPos := ws.GetModal(e, _POSITION).(*Vec2D)
+				ourPos := ws.GetModal(e, POSITION_).(*Vec2D)
 				_, _, d := ourPos.Distance(pos)
 				if d < 2 {
 					return 1
@@ -134,7 +134,7 @@ func BenchmarkGOAPClassic(b *testing.B) {
 			},
 			effModalSet: func(ws *GOAPWorldState, op string, x int) {
 				near := pos.Add(Vec2D{1, 0})
-				ws.SetModal(e, _POSITION, &near)
+				ws.SetModal(e, POSITION_, &near)
 			},
 		}
 	}
@@ -216,7 +216,7 @@ func BenchmarkGOAPAlanWatts(b *testing.B) {
 	inventories := NewInventorySystem()
 	w.RegisterSystems(ps, items, inventories)
 	const (
-		STATE = _GENERICTAGS + 1 + iota
+		STATE = GENERICTAGS_ + 1 + iota
 	)
 	w.RegisterComponents([]any{
 		STATE, INTMAP, "STATE",
@@ -238,11 +238,11 @@ func BenchmarkGOAPAlanWatts(b *testing.B) {
 			STATE: map[string]int{
 				"drunk": 0,
 			},
-			_INVENTORY: inventories.Create(nil),
-			_POSITION:  Vec2D{10, 10},
-			_VELOCITY:  Vec2D{0, 0},
-			_BOX:       Vec2D{1, 1},
-			_MASS:      3.0,
+			INVENTORY_: inventories.Create(nil),
+			POSITION_:  Vec2D{10, 10},
+			VELOCITY_:  Vec2D{0, 0},
+			BOX_:       Vec2D{1, 1},
+			MASS_:      3.0,
 		},
 	})
 
@@ -252,7 +252,7 @@ func BenchmarkGOAPAlanWatts(b *testing.B) {
 	inTempleModal := GOAPModalVal{
 		name: "inTemple",
 		check: func(ws *GOAPWorldState) int {
-			ourPos := ws.GetModal(e, _POSITION).(*Vec2D)
+			ourPos := ws.GetModal(e, POSITION_).(*Vec2D)
 			_, _, d := ourPos.Distance(*templePos)
 			if d < 2 {
 				return 1
@@ -262,13 +262,13 @@ func BenchmarkGOAPAlanWatts(b *testing.B) {
 		},
 		effModalSet: func(ws *GOAPWorldState, op string, x int) {
 			nearTemple := templePos.Add(Vec2D{1, 0})
-			ws.SetModal(e, _POSITION, &nearTemple)
+			ws.SetModal(e, POSITION_, &nearTemple)
 		},
 	}
 	atBoozeModal := GOAPModalVal{
 		name: "atBooze",
 		check: func(ws *GOAPWorldState) int {
-			ourPos := ws.GetModal(e, _POSITION).(*Vec2D)
+			ourPos := ws.GetModal(e, POSITION_).(*Vec2D)
 			_, _, d := ourPos.Distance(*boozePos)
 			if d < 2 {
 				return 1
@@ -278,7 +278,7 @@ func BenchmarkGOAPAlanWatts(b *testing.B) {
 		},
 		effModalSet: func(ws *GOAPWorldState, op string, x int) {
 			nearBooze := boozePos.Add(Vec2D{1, 0})
-			ws.SetModal(e, _POSITION, &nearBooze)
+			ws.SetModal(e, POSITION_, &nearBooze)
 		},
 	}
 	drunkModal := GOAPModalVal{
@@ -298,12 +298,12 @@ func BenchmarkGOAPAlanWatts(b *testing.B) {
 	hasBoozeModal := GOAPModalVal{
 		name: "hasBooze",
 		check: func(ws *GOAPWorldState) int {
-			inv := ws.GetModal(e, _INVENTORY).(*Inventory)
+			inv := ws.GetModal(e, INVENTORY_).(*Inventory)
 			count := inv.CountTags("booze")
 			return count
 		},
 		effModalSet: func(ws *GOAPWorldState, op string, x int) {
-			inv := ws.GetModal(e, _INVENTORY).(*Inventory).CopyOf()
+			inv := ws.GetModal(e, INVENTORY_).(*Inventory).CopyOf()
 			if op == "-" {
 				inv.DebitNTags(x, "booze")
 			}
@@ -325,7 +325,7 @@ func BenchmarkGOAPAlanWatts(b *testing.B) {
 					inv.SetCountTags(count+x, "booze")
 				}
 			}
-			ws.SetModal(e, _INVENTORY, inv)
+			ws.SetModal(e, INVENTORY_, inv)
 		},
 	}
 	goToBooze := NewGOAPAction(map[string]any{
@@ -434,8 +434,8 @@ func BenchmarkGOAPSimple(b *testing.B) {
 
 	e := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_POSITION:  Vec2D{0, 0},
-			_INVENTORY: inventories.Create(nil),
+			POSITION_:  Vec2D{0, 0},
+			INVENTORY_: inventories.Create(nil),
 		},
 	})
 
@@ -511,7 +511,7 @@ func BenchmarkGOAPFarmer2000(b *testing.B) {
 	inventories := NewInventorySystem()
 	w.RegisterSystems(ps, items, inventories)
 	const (
-		STATE = _GENERICTAGS + 1 + iota
+		STATE = GENERICTAGS_ + 1 + iota
 	)
 	w.RegisterComponents([]any{
 		STATE, INTMAP, "STATE",
@@ -542,9 +542,9 @@ func BenchmarkGOAPFarmer2000(b *testing.B) {
 	// villager
 	e := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_POSITION:  Vec2D{0, 0},
-			_BOX:       Vec2D{1, 1},
-			_INVENTORY: inventories.Create(nil),
+			POSITION_:  Vec2D{0, 0},
+			BOX_:       Vec2D{1, 1},
+			INVENTORY_: inventories.Create(nil),
 		},
 	})
 	// yoke
@@ -555,8 +555,8 @@ func BenchmarkGOAPFarmer2000(b *testing.B) {
 		for i := 0; i < len(positions); i++ {
 			w.Spawn(map[string]any{
 				"components": map[ComponentID]any{
-					_POSITION: positions[i],
-					_BOX:      Vec2D{3, 2},
+					POSITION_: positions[i],
+					BOX_:      Vec2D{3, 2},
 				},
 				"tags": []string{"ox"},
 			})
@@ -566,8 +566,8 @@ func BenchmarkGOAPFarmer2000(b *testing.B) {
 	// field
 	field := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_POSITION: Vec2D{0, 100},
-			_BOX:      Vec2D{100, 100},
+			POSITION_: Vec2D{0, 100},
+			BOX_:      Vec2D{100, 100},
 			STATE: map[string]int{
 				"tilled": 0,
 			},
@@ -583,10 +583,10 @@ func BenchmarkGOAPFarmer2000(b *testing.B) {
 		nodes: []string{"ox", "field"},
 		check: func(ws *GOAPWorldState) int {
 			ox := ws.ModalEntities["ox"]
-			oxPos := ws.GetModal(ox, _POSITION).(*Vec2D)
+			oxPos := ws.GetModal(ox, POSITION_).(*Vec2D)
 			if RectIntersectsRect(
-				*oxPos, *ox.GetVec2D(_BOX),
-				*field.GetVec2D(_POSITION), *field.GetVec2D(_BOX)) {
+				*oxPos, *ox.GetVec2D(BOX_),
+				*field.GetVec2D(POSITION_), *field.GetVec2D(BOX_)) {
 				return 1
 			} else {
 				return 0
@@ -601,11 +601,11 @@ func BenchmarkGOAPFarmer2000(b *testing.B) {
 					// TODO: this should really be a call to some kind of sophisticated
 					// relocation function that avoids obstacles and makes sure there's a path
 					// to be able to get there via navmesh/grid
-					awayFromField := field.GetVec2D(_POSITION).Add(Vec2D{200, 200})
-					ws.SetModal(ox, _POSITION, &awayFromField)
+					awayFromField := field.GetVec2D(POSITION_).Add(Vec2D{200, 200})
+					ws.SetModal(ox, POSITION_, &awayFromField)
 				case 1:
-					fieldCenter := *field.GetVec2D(_POSITION)
-					ws.SetModal(ox, _POSITION, &fieldCenter)
+					fieldCenter := *field.GetVec2D(POSITION_)
+					ws.SetModal(ox, POSITION_, &fieldCenter)
 				}
 			}
 		},
@@ -613,12 +613,12 @@ func BenchmarkGOAPFarmer2000(b *testing.B) {
 	hasYokeModal := GOAPModalVal{
 		name: "hasYoke",
 		check: func(ws *GOAPWorldState) int {
-			inv := ws.GetModal(e, _INVENTORY).(*Inventory)
+			inv := ws.GetModal(e, INVENTORY_).(*Inventory)
 			count := inv.CountName("yoke")
 			return count
 		},
 		effModalSet: func(ws *GOAPWorldState, op string, x int) {
-			inv := ws.GetModal(e, _INVENTORY).(*Inventory).CopyOf()
+			inv := ws.GetModal(e, INVENTORY_).(*Inventory).CopyOf()
 			if op == "-" {
 				inv.DebitNName(x, "yoke")
 			}
@@ -640,7 +640,7 @@ func BenchmarkGOAPFarmer2000(b *testing.B) {
 					inv.SetCountName(count+x, "yoke")
 				}
 			}
-			ws.SetModal(e, _INVENTORY, inv)
+			ws.SetModal(e, INVENTORY_, inv)
 		},
 	}
 	fieldTilledModal := GOAPModalVal{
@@ -737,10 +737,10 @@ func BenchmarkGOAPFarmer2000(b *testing.B) {
 		planField := e.GetMind("plan.field").(*Entity)
 		// this would really be a filtering not of all entities but of perception
 		closestOxToField := e.World.ClosestEntityFilter(
-			*planField.GetVec2D(_POSITION),
-			*planField.GetVec2D(_BOX),
+			*planField.GetVec2D(POSITION_),
+			*planField.GetVec2D(BOX_),
 			func(e *Entity) bool {
-				return e.GetTagList(_GENERICTAGS).Has("ox")
+				return e.GetTagList(GENERICTAGS_).Has("ox")
 			})
 		e.SetMind("plan.ox", closestOxToField)
 	}

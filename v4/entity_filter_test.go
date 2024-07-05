@@ -12,7 +12,7 @@ func TestEntityFilter(t *testing.T) {
 	q := EntityFilter{
 		"positionFilter",
 		func(e *Entity) bool {
-			return *e.GetVec2D(_POSITION) == pos
+			return *e.GetVec2D(POSITION_) == pos
 		},
 	}
 	if !q.Test(e) {
@@ -35,9 +35,9 @@ func TestEntityFilterFromCanBe(t *testing.T) {
 	w := testingWorld()
 	ox := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_POSITION: Vec2D{0, 0},
-			_BOX:      Vec2D{3, 2},
-			_STATE: map[string]int{
+			POSITION_: Vec2D{0, 0},
+			BOX_:      Vec2D{3, 2},
+			STATE_: map[string]int{
 				"yoked": 0,
 			},
 		},
@@ -47,7 +47,7 @@ func TestEntityFilterFromCanBe(t *testing.T) {
 	if !q.Test(ox) {
 		t.Fatal("Should've responded to ox that can be yoked")
 	}
-	ox.GetIntMap(_STATE).SetValidInterval("yoked", 0, 0)
+	ox.GetIntMap(STATE_).SetValidInterval("yoked", 0, 0)
 	if q.Test(ox) {
 		t.Fatal("Should've failed for unyokable ox")
 	}

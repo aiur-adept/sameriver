@@ -145,7 +145,7 @@ func TestGOAPGoalRemaining(t *testing.T) {
 func TestGOAPGoalRemainingsOfPath(t *testing.T) {
 	w := testingWorld()
 	const (
-		BOOZEAMOUNT = _GENERICTAGS + 1 + iota
+		BOOZEAMOUNT = GENERICTAGS_ + 1 + iota
 	)
 	w.RegisterComponents([]any{
 		BOOZEAMOUNT, INT, "BOOZEAMOUNT",
@@ -153,8 +153,8 @@ func TestGOAPGoalRemainingsOfPath(t *testing.T) {
 
 	e := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_POSITION:   Vec2D{0, 0},
-			_BOX:        Vec2D{0.5, 0.5},
+			POSITION_:   Vec2D{0, 0},
+			BOX_:        Vec2D{0.5, 0.5},
 			BOOZEAMOUNT: 0,
 		},
 	})
@@ -349,7 +349,7 @@ func TestGOAPPlanSimple(t *testing.T) {
 	atTreeModal := GOAPModalVal{
 		name: "atTree",
 		check: func(ws *GOAPWorldState) int {
-			ourPos := ws.GetModal(e, _POSITION).(*Vec2D)
+			ourPos := ws.GetModal(e, POSITION_).(*Vec2D)
 			_, _, d := ourPos.Distance(*treePos)
 			if d < 2 {
 				return 1
@@ -359,7 +359,7 @@ func TestGOAPPlanSimple(t *testing.T) {
 		},
 		effModalSet: func(ws *GOAPWorldState, op string, x int) {
 			nearTree := treePos.Add(Vec2D{1, 0})
-			ws.SetModal(e, _POSITION, &nearTree)
+			ws.SetModal(e, POSITION_, &nearTree)
 		},
 	}
 	goToTree := NewGOAPAction(map[string]any{
@@ -376,7 +376,7 @@ func TestGOAPPlanSimple(t *testing.T) {
 		"atTree,=": 1,
 	}
 
-	Logger.Println(*e.GetVec2D(_POSITION))
+	Logger.Println(*e.GetVec2D(POSITION_))
 
 	ws := NewGOAPWorldState(nil)
 
@@ -395,25 +395,25 @@ func TestGOAPPlanSimpleIota(t *testing.T) {
 
 	e := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_STATE: map[string]int{
+			STATE_: map[string]int{
 				"drunk": 0,
 			},
-			_POSITION: Vec2D{0, 0},
+			POSITION_: Vec2D{0, 0},
 		},
 	})
 
 	drunkModal := GOAPModalVal{
 		name: "drunk",
 		check: func(ws *GOAPWorldState) int {
-			state := ws.GetModal(e, _STATE).(*IntMap)
+			state := ws.GetModal(e, STATE_).(*IntMap)
 			return state.m["drunk"]
 		},
 		effModalSet: func(ws *GOAPWorldState, op string, x int) {
-			state := ws.GetModal(e, _STATE).(*IntMap).CopyOf()
+			state := ws.GetModal(e, STATE_).(*IntMap).CopyOf()
 			if op == "+" {
 				state.m["drunk"] += x
 			}
-			ws.SetModal(e, _STATE, &state)
+			ws.SetModal(e, STATE_, &state)
 		},
 	}
 	drink := NewGOAPAction(map[string]any{
@@ -451,7 +451,7 @@ func TestGOAPPlanSimpleEnough(t *testing.T) {
 	w.RegisterSystems(ps)
 
 	const (
-		STATE = _GENERICTAGS + 1 + iota
+		STATE = GENERICTAGS_ + 1 + iota
 	)
 
 	w.RegisterComponents([]any{
@@ -463,7 +463,7 @@ func TestGOAPPlanSimpleEnough(t *testing.T) {
 			STATE: map[string]int{
 				"drunk": 0,
 			},
-			_POSITION: Vec2D{0, 0},
+			POSITION_: Vec2D{0, 0},
 		},
 	})
 
@@ -543,17 +543,17 @@ func TestGOAPPlanClassic(t *testing.T) {
 
 	e := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_POSITION:  Vec2D{0, 0},
-			_BOX:       Vec2D{1, 1},
-			_INVENTORY: inventories.Create(nil),
+			POSITION_:  Vec2D{0, 0},
+			BOX_:       Vec2D{1, 1},
+			INVENTORY_: inventories.Create(nil),
 		},
 	})
 
 	// spawn tree
 	w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_POSITION: Vec2D{6, 6},
-			_BOX:      Vec2D{1, 1},
+			POSITION_: Vec2D{6, 6},
+			BOX_:      Vec2D{1, 1},
 		},
 		"tags": []string{"tree"},
 	})
@@ -571,11 +571,11 @@ func TestGOAPPlanClassic(t *testing.T) {
 		return GOAPModalVal{
 			name: fmt.Sprintf("has%s", name),
 			check: func(ws *GOAPWorldState) int {
-				inv := ws.GetModal(e, _INVENTORY).(*Inventory)
+				inv := ws.GetModal(e, INVENTORY_).(*Inventory)
 				return inv.CountName(archetype)
 			},
 			effModalSet: func(ws *GOAPWorldState, op string, x int) {
-				inv := ws.GetModal(e, _INVENTORY).(*Inventory).CopyOf()
+				inv := ws.GetModal(e, INVENTORY_).(*Inventory).CopyOf()
 				if op == "-" {
 					inv.DebitNTags(x, archetype)
 				}
@@ -595,7 +595,7 @@ func TestGOAPPlanClassic(t *testing.T) {
 						inv.SetCountName(count+x, archetype)
 					}
 				}
-				ws.SetModal(e, _INVENTORY, inv)
+				ws.SetModal(e, INVENTORY_, inv)
 			},
 		}
 	}
@@ -658,16 +658,16 @@ func TestGOAPPlanResponsibleFridgeUsage(t *testing.T) {
 
 	e := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_POSITION: Vec2D{0, 0},
-			_BOX:      Vec2D{1, 1},
+			POSITION_: Vec2D{0, 0},
+			BOX_:      Vec2D{1, 1},
 		},
 	})
 
 	// spawn a fridge entity
 	w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_POSITION: Vec2D{5, 5},
-			_BOX:      Vec2D{1, 1},
+			POSITION_: Vec2D{5, 5},
+			BOX_:      Vec2D{1, 1},
 		},
 		"tags": []string{"fridge"},
 	})
@@ -761,9 +761,9 @@ func TestGOAPPlanFarmer2000(t *testing.T) {
 	// villager
 	e := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_POSITION:  Vec2D{0, 0},
-			_BOX:       Vec2D{1, 1},
-			_INVENTORY: inventories.Create(nil),
+			POSITION_:  Vec2D{0, 0},
+			BOX_:       Vec2D{1, 1},
+			INVENTORY_: inventories.Create(nil),
 		},
 	})
 	// yoke
@@ -775,9 +775,9 @@ func TestGOAPPlanFarmer2000(t *testing.T) {
 		for i := 0; i < len(positions); i++ {
 			oxen[i] = w.Spawn(map[string]any{
 				"components": map[ComponentID]any{
-					_POSITION: positions[i],
-					_BOX:      Vec2D{3, 2},
-					_STATE: map[string]int{
+					POSITION_: positions[i],
+					BOX_:      Vec2D{3, 2},
+					STATE_: map[string]int{
 						"yoked": 0,
 					},
 				},
@@ -789,9 +789,9 @@ func TestGOAPPlanFarmer2000(t *testing.T) {
 	// field
 	field := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_POSITION: Vec2D{0, 100},
-			_BOX:      Vec2D{100, 100},
-			_STATE: map[string]int{
+			POSITION_: Vec2D{0, 100},
+			BOX_:      Vec2D{100, 100},
+			STATE_: map[string]int{
 				"tilled": 0,
 			},
 		},
@@ -876,13 +876,13 @@ func TestGOAPPlanFarmer2000(t *testing.T) {
 		planField := e.GetMind("plan.field").(*Entity)
 		// this would really be a filtering not of all entities but of perception
 		closestOxToField := e.World.ClosestEntityFilter(
-			*planField.GetVec2D(_POSITION),
-			*planField.GetVec2D(_BOX),
+			*planField.GetVec2D(POSITION_),
+			*planField.GetVec2D(BOX_),
 			func(e *Entity) bool {
-				return e.HasTag("ox") && e.GetIntMap(_STATE).ValCanBeSetTo("yoked", 1)
+				return e.HasTag("ox") && e.GetIntMap(STATE_).ValCanBeSetTo("yoked", 1)
 			})
 		if closestOxToField != nil {
-			Logger.Printf("closest ox to field: (position: %v)%v", *closestOxToField.GetVec2D(_POSITION), closestOxToField)
+			Logger.Printf("closest ox to field: (position: %v)%v", *closestOxToField.GetVec2D(POSITION_), closestOxToField)
 		}
 		e.SetMind("plan.ox", closestOxToField)
 	}
@@ -944,24 +944,24 @@ func TestGOAPPlanFarmer2000(t *testing.T) {
 	// we will want to use {0, 20}, so let's make it unyokable
 	const BECOME_UNGOVERNABLE = true
 	if BECOME_UNGOVERNABLE {
-		oxen[1].GetIntMap(_STATE).SetValidInterval("yoked", 0, 0)
+		oxen[1].GetIntMap(STATE_).SetValidInterval("yoked", 0, 0)
 		// inside runAPlan, when we plan the bb, the bound selector should check
 		// for yokable on state intmap
 		dt_ms = runAPlan(true)
 		Logger.Printf("Took %f ms to find solution", dt_ms)
 
 		// all oxen either despawned or unyokable
-		oxen[2].GetIntMap(_STATE).SetValidInterval("yoked", 0, 0)
+		oxen[2].GetIntMap(STATE_).SetValidInterval("yoked", 0, 0)
 		Logger.Println("No *yokable* oxen")
 		dt_ms = runAPlan(false)
 		Logger.Printf("Took %f ms to fail", dt_ms)
 
 		// restore the humility of these brave beasts, make them fit to work!
-		oxen[1].GetIntMap(_STATE).SetValidInterval("yoked", 0, 1)
-		oxen[2].GetIntMap(_STATE).SetValidInterval("yoked", 0, 1)
+		oxen[1].GetIntMap(STATE_).SetValidInterval("yoked", 0, 1)
+		oxen[2].GetIntMap(STATE_).SetValidInterval("yoked", 0, 1)
 		Logger.Println("Pick the good ox!")
 		dt_ms = runAPlan(true)
-		if !e.GetMind("plan.ox").(*Entity).GetVec2D(_POSITION).Equals(Vec2D{0, 20}) {
+		if !e.GetMind("plan.ox").(*Entity).GetVec2D(POSITION_).Equals(Vec2D{0, 20}) {
 			t.Fatalf("Didn't grandpappy learn ya right? Always pick the best ox!!! Ya done picked %v", e.GetMind("plan.ox").(*Entity))
 		}
 		Logger.Printf("Took %f ms to find solution", dt_ms)

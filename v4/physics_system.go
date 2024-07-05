@@ -28,12 +28,12 @@ func (p *PhysicsSystem) GetComponentDeps() []any {
 	// TODO: do something with mass
 	// TODO: impart momentum to collided objects?
 	return []any{
-		_POSITION, VEC2D, "POSITION",
-		_VELOCITY, VEC2D, "VELOCITY",
-		_ACCELERATION, VEC2D, "ACCELERATION",
-		_BOX, VEC2D, "BOX",
-		_MASS, FLOAT64, "MASS",
-		_RIGIDBODY, BOOL, "RIGIDBODY",
+		POSITION_, VEC2D, "POSITION",
+		VELOCITY_, VEC2D, "VELOCITY",
+		ACCELERATION_, VEC2D, "ACCELERATION",
+		BOX_, VEC2D, "BOX",
+		MASS_, FLOAT64, "MASS",
+		RIGIDBODY_, BOOL, "RIGIDBODY",
 	}
 }
 
@@ -42,7 +42,7 @@ func (p *PhysicsSystem) LinkWorld(w *World) {
 	p.physicsEntities = w.em.GetSortedUpdatedEntityList(
 		EntityFilterFromComponentBitArray(
 			"physical",
-			w.em.components.BitArrayFromIDs([]ComponentID{_POSITION, _VELOCITY, _ACCELERATION, _BOX, _MASS})))
+			w.em.components.BitArrayFromIDs([]ComponentID{POSITION_, VELOCITY_, ACCELERATION_, BOX_, MASS_})))
 	p.h = NewSpatialHasher(10, 10, w)
 }
 
@@ -58,14 +58,14 @@ func (p *PhysicsSystem) Update(dt_ms float64) {
 func (p *PhysicsSystem) physics(e *Entity, dt_ms float64) {
 
 	// the logic is simpler to read that way
-	pos := e.GetVec2D(_POSITION)
-	box := e.GetVec2D(_BOX)
+	pos := e.GetVec2D(POSITION_)
+	box := e.GetVec2D(BOX_)
 	pos.ShiftCenterToBottomLeft(*box)
 	defer pos.ShiftBottomLeftToCenter(*box)
 
 	// calculate velocity
-	acc := e.GetVec2D(_ACCELERATION)
-	vel := e.GetVec2D(_VELOCITY)
+	acc := e.GetVec2D(ACCELERATION_)
+	vel := e.GetVec2D(VELOCITY_)
 	vel.X += acc.X * dt_ms
 	vel.Y += acc.Y * dt_ms
 	dx := vel.X * dt_ms
@@ -89,16 +89,16 @@ func (p *PhysicsSystem) physics(e *Entity, dt_ms float64) {
 		pos.Y += dy
 	}
 
-	rigidBody := e.GetBool(_RIGIDBODY)
+	rigidBody := e.GetBool(RIGIDBODY_)
 	if !*rigidBody {
 		return
 	}
 	// check collisions using spatial hasher
 	testCollision := func(i *Entity, j *Entity) bool {
-		iPos := i.GetVec2D(_POSITION)
-		iBox := i.GetVec2D(_BOX)
-		jPos := j.GetVec2D(_POSITION)
-		jBox := j.GetVec2D(_BOX)
+		iPos := i.GetVec2D(POSITION_)
+		iBox := i.GetVec2D(BOX_)
+		jPos := j.GetVec2D(POSITION_)
+		jBox := j.GetVec2D(BOX_)
 		return RectIntersectsRect(*iPos, *iBox, *jPos, *jBox)
 	}
 	cellX0, cellX1, cellY0, cellY1 := p.h.CellRangeOfRect(*pos, *box)
@@ -113,7 +113,7 @@ func (p *PhysicsSystem) physics(e *Entity, dt_ms float64) {
 				if other.ID == e.ID {
 					continue
 				}
-				otherRigidBody := other.GetBool(_RIGIDBODY)
+				otherRigidBody := other.GetBool(RIGIDBODY_)
 				if !*otherRigidBody {
 					continue
 				}

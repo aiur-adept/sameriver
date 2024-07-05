@@ -78,7 +78,7 @@ func (m *EntityManager) Spawn(spec map[string]any) *Entity {
 
 	// add empty generictags (overwriting the spec? boo hoo,
 	// shouldn't be specifying tags this way anyway)
-	componentSpecs[_GENERICTAGS] = NewTagList()
+	componentSpecs[GENERICTAGS_] = NewTagList()
 
 	return m.doSpawn(
 		active,

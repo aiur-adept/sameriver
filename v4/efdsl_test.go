@@ -51,9 +51,9 @@ func TestEFDSLEvaluator(t *testing.T) {
 	w := testingWorld()
 	ox := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
-			_POSITION: Vec2D{0, 0},
-			_BOX:      Vec2D{3, 2},
-			_STATE: map[string]int{
+			POSITION_: Vec2D{0, 0},
+			BOX_:      Vec2D{3, 2},
+			STATE_: map[string]int{
 				"yoked": 0,
 			},
 		},

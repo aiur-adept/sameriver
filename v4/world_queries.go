@@ -54,8 +54,8 @@ func (w *World) ClosestEntityFilter(pos Vec2D, box Vec2D, filter func(*Entity) b
 	closest := (*Entity)(nil)
 	closestDistance := math.MaxFloat64
 	for _, e := range w.FilterAllEntities(filter) {
-		entityPos := e.GetVec2D(_POSITION)
-		entityBox := e.GetVec2D(_BOX)
+		entityPos := e.GetVec2D(POSITION_)
+		entityBox := e.GetVec2D(BOX_)
 		distance := RectDistance(pos, box, *entityPos, *entityBox)
 		if distance < closestDistance {
 			closestDistance = distance
