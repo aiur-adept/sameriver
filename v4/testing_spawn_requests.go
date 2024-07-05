@@ -85,5 +85,6 @@ func testingSpawnPhysics(em EntityManagerInterface) *Entity {
 			_ACCELERATION: Vec2D{0, 0},
 			_BOX:          Vec2D{1, 1},
 			_MASS:         3.0,
+			_RIGIDBODY:    true,
 		}})
 }

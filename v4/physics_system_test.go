@@ -144,3 +144,50 @@ func TestPhysicsSystemBounds(t *testing.T) {
 		}
 	}
 }
+
+func TestPhysicsSystemRigidBody(t *testing.T) {
+	w := testingWorld()
+	cs := NewCollisionSystem(FRAME_DURATION / 2)
+	ps := NewPhysicsSystem()
+	w.RegisterSystems(cs, ps)
+
+	ec := cs.w.Events.Subscribe(SimpleEventFilter("collision"))
+
+	e := w.Spawn(map[string]any{
+		"components": map[ComponentID]any{
+			_POSITION: Vec2D{0, 0},
+			// velocity slow enough to avoid tunneling
+			_VELOCITY:     Vec2D{0.1, 0.1},
+			_ACCELERATION: Vec2D{0, 0},
+			_BOX:          Vec2D{1, 1},
+			_MASS:         3.0,
+			_RIGIDBODY:    true,
+		}})
+
+	e2 := w.Spawn(map[string]any{
+		"components": map[ComponentID]any{
+			_POSITION:     Vec2D{10, 10},
+			_VELOCITY:     Vec2D{0, 0},
+			_ACCELERATION: Vec2D{0, 0},
+			_BOX:          Vec2D{1, 1},
+			_MASS:         3.0,
+			_RIGIDBODY:    true,
+		}})
+
+	// Update twice since physics system won't run the first time(needs a dt)
+	w.Update(FRAME_MS / 2)
+	for i := 0; i < 100; i++ {
+		time.Sleep(FRAME_DURATION)
+		w.Update(FRAME_MS / 2)
+	}
+	Logger.Printf("e: %v", *e.GetVec2D(_POSITION))
+	Logger.Printf("e2: %v", *e2.GetVec2D(_POSITION))
+
+	// should have collision events
+	select {
+	case <-ec.C:
+		break
+	default:
+		t.Fatal("collision event wasn't received within 1 frame")
+	}
+}

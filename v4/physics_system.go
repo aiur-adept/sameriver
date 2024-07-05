@@ -11,6 +11,7 @@ type PhysicsSystem struct {
 	w               *World
 	physicsEntities *UpdatedEntityList
 	h               *SpatialHasher
+	c               *CollisionSystem `sameriver-system-dependency:"-"`
 }
 
 func NewPhysicsSystem() *PhysicsSystem {
@@ -32,6 +33,7 @@ func (p *PhysicsSystem) GetComponentDeps() []any {
 		_ACCELERATION, VEC2D, "ACCELERATION",
 		_BOX, VEC2D, "BOX",
 		_MASS, FLOAT64, "MASS",
+		_RIGIDBODY, BOOL, "RIGIDBODY",
 	}
 }
 
@@ -87,36 +89,47 @@ func (p *PhysicsSystem) physics(e *Entity, dt_ms float64) {
 		pos.Y += dy
 	}
 
-	// TODO: we should check and fire collision events in here too
-	// // check collisions using spatial hasher
-	// // TODO: really we should check / resolve all collisions after applying dx,dy
-	// testCollision := func(i *Entity, j *Entity) bool {
-	// 	iPos := i.GetVec2D(POSITION)
-	// 	iBox := i.GetVec2D(BOX)
-	// 	jPos := j.GetVec2D(POSITION)
-	// 	jBox := j.GetVec2D(BOX)
-	// 	return RectIntersectsRect(*iPos, *iBox, *jPos, *jBox)
-	// }
-	// cellX0, cellX1, cellY0, cellY1 := p.h.CellRangeOfRect(*pos, *box)
-	// collided := false
-	// for y := cellY0; y <= cellY1 && !collided; y++ {
-	// 	for x := cellX0; x <= cellX1 && !collided; x++ {
-	// 		if x < 0 || x >= p.h.GridX || y < 0 || y >= p.h.GridY {
-	// 			continue
-	// 		}
-	// 		entities := p.h.Entities(x, y)
-	// 		for i := 0; i < len(entities) && !collided; i++ {
-	// 			other := entities[i]
-	// 			if other != e && testCollision(e, other) {
-	// 				// undo the action if a collision occurs
-	// 				pos.X -= dx
-	// 				pos.Y -= dy
-	// 				collided = true
-	// 				break
-	// 			}
-	// 		}
-	// 	}
-	// }
+	rigidBody := e.GetBool(_RIGIDBODY)
+	if !*rigidBody {
+		return
+	}
+	// check collisions using spatial hasher
+	testCollision := func(i *Entity, j *Entity) bool {
+		iPos := i.GetVec2D(_POSITION)
+		iBox := i.GetVec2D(_BOX)
+		jPos := j.GetVec2D(_POSITION)
+		jBox := j.GetVec2D(_BOX)
+		return RectIntersectsRect(*iPos, *iBox, *jPos, *jBox)
+	}
+	cellX0, cellX1, cellY0, cellY1 := p.h.CellRangeOfRect(*pos, *box)
+	for y := cellY0; y <= cellY1; y++ {
+		for x := cellX0; x <= cellX1; x++ {
+			if x < 0 || x >= p.h.GridX || y < 0 || y >= p.h.GridY {
+				continue
+			}
+			entities := p.h.Entities(x, y)
+			for i := 0; i < len(entities); i++ {
+				other := entities[i]
+				if other.ID == e.ID {
+					continue
+				}
+				otherRigidBody := other.GetBool(_RIGIDBODY)
+				if !*otherRigidBody {
+					continue
+				}
+				if testCollision(e, other) {
+					// undo the action if a collision occurs
+					pos.X -= dx
+					pos.Y -= dy
+					if e.ID < other.ID {
+						p.c.DoCollide(e, other)
+					} else {
+						p.c.DoCollide(other, e)
+					}
+				}
+			}
+		}
+	}
 }
 
 func (p *PhysicsSystem) ParallelUpdate(dt_ms float64) {
