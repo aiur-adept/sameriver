@@ -17,15 +17,7 @@ func TestAudioManagerInitAndPlay(t *testing.T) {
 
 	mix.Init(mix.INIT_MP3)
 
-	sampleHz := 48000
-	spec := &sdl.AudioSpec{
-		Freq:     int32(sampleHz),
-		Format:   sdl.AUDIO_U8,
-		Channels: 8,
-		Samples:  uint16(sampleHz),
-		Callback: sdl.AudioCallback(nil),
-	}
-	if err := sdl.OpenAudio(spec, nil); err != nil {
+	if err := mix.OpenAudio(48000, mix.DEFAULT_FORMAT, 2, 4096); err != nil {
 		Logger.Println(err)
 		return
 	}
@@ -41,6 +33,9 @@ func TestAudioManagerInitAndPlay(t *testing.T) {
 
 	// Attempt to play the "bell.wav" sound
 	manager.Play("bell.wav")
-
+	time.Sleep(1000 * time.Millisecond)
+	manager.Play("bell.wav")
+	time.Sleep(1000 * time.Millisecond)
+	manager.Play("bell.wav")
 	time.Sleep(1000 * time.Millisecond)
 }
