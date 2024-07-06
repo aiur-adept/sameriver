@@ -38,7 +38,7 @@ import (
 // AudioManager stores audio as mix.Chunk pointers,
 // keyed by strings (filenames)
 type AudioManager struct {
-	Audio       map[string](*mix.Chunk)
+	Audio       map[string](*mix.Chunk) `json:"-"`
 	PlayChannel int
 }
 

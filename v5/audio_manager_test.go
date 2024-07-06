@@ -15,15 +15,11 @@ func TestAudioManagerInitAndPlay(t *testing.T) {
 	}
 	defer sdl.Quit()
 
-	mix.Init(mix.INIT_MP3)
-
 	if err := mix.OpenAudio(48000, mix.DEFAULT_FORMAT, 2, 4096); err != nil {
 		Logger.Println(err)
 		return
 	}
 	defer sdl.CloseAudio()
-
-	sdl.PauseAudio(false)
 
 	// Create an instance of AudioManager
 	manager := AudioManager{}
