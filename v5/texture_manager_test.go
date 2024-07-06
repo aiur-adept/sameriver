@@ -16,18 +16,15 @@ func TestTextureManagerBasic(t *testing.T) {
 		Fullscreen: false}
 	tm := NewTextureManager()
 
-	// in a real game, the scene Init() gets a Game object and creates a new
-	// sprite system by passing game.Renderer
 	SDLMainMediaThread(func() {
 		window, renderer := SDLCreateWindowAndRenderer(windowSpec)
-		tm.LoadTexture(renderer, "assets/tile_grass.bmp", "grass")
-		tm.LoadTexture(renderer, "assets/tile_water.bmp", "water")
+		tm.Init(renderer)
 
 		for i := 0; i < 3; i++ {
-			tm.Render(renderer, "grass", 0, 0, 100, 100)
+			tm.Render(renderer, "tile_grass", 0, 0, 100, 100)
 			renderer.Present()
 			time.Sleep(500 * time.Millisecond)
-			tm.Render(renderer, "water", 0, 0, 100, 100)
+			tm.Render(renderer, "tile_water", 0, 0, 100, 100)
 			renderer.Present()
 			time.Sleep(500 * time.Millisecond)
 		}
@@ -45,12 +42,9 @@ func TestTextureManagerSaveLoad(t *testing.T) {
 		Fullscreen: false}
 	tm := NewTextureManager()
 
-	// in a real game, the scene Init() gets a Game object and creates a new
-	// sprite system by passing game.Renderer
 	SDLMainMediaThread(func() {
 		window, renderer := SDLCreateWindowAndRenderer(windowSpec)
-		tm.LoadTexture(renderer, "assets/tile_grass.bmp", "grass")
-		tm.LoadTexture(renderer, "assets/tile_water.bmp", "water")
+		tm.Init(renderer)
 
 		jsonStr := tm.String()
 
@@ -61,10 +55,10 @@ func TestTextureManagerSaveLoad(t *testing.T) {
 		tm2.LoadFiles(renderer)
 
 		for i := 0; i < 3; i++ {
-			tm2.Render(renderer, "grass", 0, 0, 100, 100)
+			tm2.Render(renderer, "tile_grass", 0, 0, 100, 100)
 			renderer.Present()
 			time.Sleep(500 * time.Millisecond)
-			tm2.Render(renderer, "water", 0, 0, 100, 100)
+			tm2.Render(renderer, "tile_water", 0, 0, 100, 100)
 			renderer.Present()
 			time.Sleep(500 * time.Millisecond)
 		}

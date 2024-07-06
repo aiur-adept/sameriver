@@ -78,7 +78,7 @@ func (tm *TileManager) LoadTiles() {
 // function to load a tile
 func (tm *TileManager) LoadTile(kind string, filename string) {
 	tm.Files[kind] = filename
-	tm.tm.LoadTexture(tm.renderer, filename, kind)
+	tm.tm.loadTexture(tm.renderer, filename, kind)
 	sprite := tm.tm.CreateSprite(kind)
 	tm.Tiles[kind] = &Tile{
 		Kind: kind,

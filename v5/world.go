@@ -37,6 +37,9 @@ type World struct {
 	// logics invoked regularly by RuntimeSharer
 	worldLogics map[string]*LogicUnit
 
+	// entity logics
+	entityLogics map[string]*LogicUnit
+
 	// funcs that can be called by name with data and get a result,
 	// or to produce an effect
 	funcs *FuncSet
@@ -114,6 +117,7 @@ func NewWorld(spec map[string]any) *World {
 		systemLogics:  make(map[string]*LogicUnit),
 		systemsIDs:    make(map[System]int),
 		worldLogics:   make(map[string]*LogicUnit),
+		entityLogics:  make(map[string]*LogicUnit),
 		funcs:         NewFuncSet(nil),
 		blackboards:   make(map[string]*Blackboard),
 		RuntimeSharer: NewRuntimeLimitSharer(),

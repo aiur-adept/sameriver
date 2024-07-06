@@ -2,6 +2,7 @@ package sameriver
 
 import (
 	"encoding/json"
+	"path/filepath"
 
 	"github.com/veandco/go-sdl2/sdl"
 )
@@ -18,13 +19,25 @@ func NewTextureManager() *TextureManager {
 	}
 }
 
-func (tm *TextureManager) LoadFiles(renderer *sdl.Renderer) {
-	for kind, filename := range tm.Files {
-		tm.LoadTexture(renderer, filename, kind)
+func (tm *TextureManager) Init(renderer *sdl.Renderer) {
+	// LoadTexture for each file in assets/textures/
+	files, err := filepath.Glob("assets/textures/*.bmp")
+	if err != nil {
+		panic(err)
+	}
+	for _, filename := range files {
+		kind := filepath.Base(filename[:len(filename)-len(filepath.Ext(filename))])
+		tm.loadTexture(renderer, filename, kind)
 	}
 }
 
-func (tm *TextureManager) LoadTexture(renderer *sdl.Renderer, filename string, kind string) {
+func (tm *TextureManager) LoadFiles(renderer *sdl.Renderer) {
+	for kind, filename := range tm.Files {
+		tm.loadTexture(renderer, filename, kind)
+	}
+}
+
+func (tm *TextureManager) loadTexture(renderer *sdl.Renderer, filename string, kind string) {
 	surface, err := sdl.LoadBMP(filename)
 	if err != nil {
 		panic(err)
