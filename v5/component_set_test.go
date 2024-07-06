@@ -12,14 +12,14 @@ func TestInvalidComponentType(t *testing.T) {
 		}
 	}()
 	var UNREGISTEREDCOMPONENT ComponentID = 1337
-	w.em.components.makeComponentSet(map[ComponentID]any{
+	w.Em.components.makeComponentSet(map[ComponentID]any{
 		UNREGISTEREDCOMPONENT: Vec2D{0, 0},
 	})
 }
 
 func TestComponentSetToBitArray(t *testing.T) {
 	w := testingWorld()
-	b := w.em.components.BitArrayFromComponentSet(map[ComponentID]any{
+	b := w.Em.components.BitArrayFromComponentSet(map[ComponentID]any{
 		POSITION_: Vec2D{0, 0},
 	})
 	// TODO: convert to proper string and actually test
@@ -33,9 +33,9 @@ func TestComponentSetApply(t *testing.T) {
 	cs := map[ComponentID]any{
 		GENERICTAGS_: l,
 	}
-	w.em.components.ApplyComponentSet(e, cs)
+	w.Em.components.ApplyComponentSet(e, cs)
 	eb := e.ComponentBitArray
-	csb := w.em.components.BitArrayFromComponentSet(cs)
+	csb := w.Em.components.BitArrayFromComponentSet(cs)
 	Logger.Println(eb)
 	Logger.Println(csb)
 	if !eb.Equals(csb) {

@@ -41,9 +41,9 @@ func NewSpatialHasher(gridX, gridY int, w *World) *SpatialHasher {
 	h.allocTable()
 	h.allocTableMutexes()
 	// get spatial entities from world
-	h.SpatialEntities = w.em.GetSortedUpdatedEntityList(
+	h.SpatialEntities = w.Em.GetSortedUpdatedEntityList(
 		EntityFilterFromComponentBitArray("spatial",
-			w.em.components.BitArrayFromIDs([]ComponentID{POSITION_, BOX_})))
+			w.Em.components.BitArrayFromIDs([]ComponentID{POSITION_, BOX_})))
 
 	return h
 }

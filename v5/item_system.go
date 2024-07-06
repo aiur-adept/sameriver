@@ -458,7 +458,7 @@ func (i *ItemSystem) GetComponentDeps() []any {
 func (i *ItemSystem) LinkWorld(w *World) {
 	i.w = w
 
-	i.ItemEntities = w.em.GetSortedUpdatedEntityList(
+	i.ItemEntities = w.Em.GetSortedUpdatedEntityList(
 		EntityFilterFromTag("item"))
 }
 

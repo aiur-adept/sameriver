@@ -26,7 +26,7 @@ func (s *SteeringSystem) LinkWorld(w *World) {
 	s.movementEntities = w.GetUpdatedEntityList(
 		EntityFilterFromComponentBitArray(
 			"steering",
-			w.em.components.BitArrayFromIDs(
+			w.Em.components.BitArrayFromIDs(
 				[]ComponentID{
 					POSITION_, VELOCITY_, ACCELERATION_,
 					MAXVELOCITY_, MOVEMENTTARGET_, STEER_, MASS_,

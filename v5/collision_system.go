@@ -120,10 +120,10 @@ func (s *CollisionSystem) LinkWorld(w *World) {
 
 	// Filter a regularly updated list of the entities which are collidable
 	// (position and hitbox)
-	s.collidableEntities = w.em.GetSortedUpdatedEntityList(
+	s.collidableEntities = w.Em.GetSortedUpdatedEntityList(
 		EntityFilterFromComponentBitArray(
 			"collidable",
-			w.em.components.BitArrayFromIDs([]ComponentID{POSITION_, BOX_})))
+			w.Em.components.BitArrayFromIDs([]ComponentID{POSITION_, BOX_})))
 	// add a callback to the UpdatedEntityList of collidable entities
 	// so that whenever an entity is removed, we will reset its rate limiters
 	// in the collision rate limiter array (to guard against an entity

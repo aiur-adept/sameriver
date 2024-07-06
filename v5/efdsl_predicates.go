@@ -54,7 +54,7 @@ func EFDSLPredicatesBase(e *EFDSLEvaluator) EFDSLPredicateMap {
 					// do a little odd access pattern since we only have
 					// HasComponent for ComponentID (int) not strings.
 					w := x.World
-					ct := w.em.components
+					ct := w.Em.components
 					componentID := ct.StringsRev[componentStr]
 					return x.HasComponent(componentID)
 				}

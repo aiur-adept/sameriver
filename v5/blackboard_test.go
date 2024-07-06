@@ -1,6 +1,7 @@
 package sameriver
 
 import (
+	"fmt"
 	"testing"
 
 	"math/rand"
@@ -124,4 +125,20 @@ func TestBlackboardWorldEntities(t *testing.T) {
 	for e, role := range bb.Get("todayRoles").(map[*Entity]string) {
 		Logger.Printf("%d will be doing '%s'", e.ID, role)
 	}
+}
+
+func TestBlackboardSaveLoad(t *testing.T) {
+	w := testingWorld()
+
+	bname := "village-12"
+	bb := w.Blackboard(bname)
+
+	bb.Set("roles", []string{"farmer", "baker", "fisher", "crafts"})
+
+	jsonStr := bb.String()
+
+	bb2 := NewBlackboard(bname + "-reloaded")
+	bb2.UnmarshalJSON([]byte(jsonStr))
+
+	fmt.Println(bb2.State)
 }

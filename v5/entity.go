@@ -126,14 +126,14 @@ func (e *Entity) HasTags(tags ...string) bool {
 }
 
 func (e *Entity) HasComponent(name ComponentID) bool {
-	b, _ := e.ComponentBitArray.GetBit(uint64(e.World.em.components.Ixs[name]))
+	b, _ := e.ComponentBitArray.GetBit(uint64(e.World.Em.components.Ixs[name]))
 	return b
 }
 
 func (e *Entity) HasComponents(names ...ComponentID) bool {
 	has := true
 	for _, name := range names {
-		b, _ := e.ComponentBitArray.GetBit(uint64(e.World.em.components.Ixs[name]))
+		b, _ := e.ComponentBitArray.GetBit(uint64(e.World.Em.components.Ixs[name]))
 		has = has && b
 	}
 	return has
@@ -154,7 +154,7 @@ func (e *Entity) String() string {
 	return fmt.Sprintf("{id:%d, tags:%s, components:%s}",
 		e.ID,
 		e.GetTagList(GENERICTAGS_).AsSlice(),
-		e.World.em.components.BitArrayToString(e.ComponentBitArray),
+		e.World.Em.components.BitArrayToString(e.ComponentBitArray),
 	)
 }
 

@@ -1,14 +1,26 @@
 package sameriver
 
-import "github.com/veandco/go-sdl2/sdl"
+import (
+	"encoding/json"
+
+	"github.com/veandco/go-sdl2/sdl"
+)
 
 type TextureManager struct {
-	Textures map[string]*sdl.Texture
+	Files    map[string]string
+	Textures map[string]*sdl.Texture `json:"-"`
 }
 
 func NewTextureManager() *TextureManager {
 	return &TextureManager{
+		Files:    make(map[string]string),
 		Textures: make(map[string]*sdl.Texture),
+	}
+}
+
+func (tm *TextureManager) LoadFiles(renderer *sdl.Renderer) {
+	for kind, filename := range tm.Files {
+		tm.LoadTexture(renderer, filename, kind)
 	}
 }
 
@@ -23,6 +35,7 @@ func (tm *TextureManager) LoadTexture(renderer *sdl.Renderer, filename string, k
 		panic(err)
 	}
 	tm.Textures[kind] = texture
+	tm.Files[kind] = filename
 }
 
 func (tm *TextureManager) CreateSprite(kind string) *Sprite {
@@ -40,4 +53,23 @@ func (tm *TextureManager) Render(renderer *sdl.Renderer, kind string, x, y, w, h
 	srcRect := sdl.Rect{0, 0, width, height}
 	destRect := sdl.Rect{x, y, w, h}
 	renderer.Copy(tm.Textures[kind], &srcRect, &destRect)
+}
+
+func (tm *TextureManager) String() string {
+	// marshal to json
+	json, err := json.MarshalIndent(tm, "", "  ")
+	if err != nil {
+		panic(err)
+	}
+	return string(json)
+}
+
+func (tm *TextureManager) UnmarshalJSON(data []byte) error {
+	type Alias TextureManager
+	aux := &struct {
+		*Alias
+	}{
+		Alias: (*Alias)(tm),
+	}
+	return json.Unmarshal(data, &aux)
 }

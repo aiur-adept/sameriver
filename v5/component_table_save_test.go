@@ -16,7 +16,7 @@ func TestComponentTableSave(t *testing.T) {
 	e := testingSpawnPhysics(w)
 	*e.GetVec2D(VELOCITY_) = Vec2D{1, 1}
 
-	w.em.components.Save("test.json")
+	w.Em.components.Save("test.json")
 
 	ct := ComponentTableFromJSON("test.json")
 	Logger.Println(ct)
@@ -42,9 +42,9 @@ func TestComponentTableSaveState(t *testing.T) {
 		},
 	})
 
-	fmt.Println(w.em.components.IntMapMap[STATE_][e.ID].M)
+	fmt.Println(w.Em.components.IntMapMap[STATE_][e.ID].M)
 
-	w.em.components.Save("test.json")
+	w.Em.components.Save("test.json")
 
 	ct := ComponentTableFromJSON("test.json")
 
@@ -73,8 +73,8 @@ func TestComponentTableSaveTime(t *testing.T) {
 		},
 	})
 
-	w.em.components.Save("test.json")
-	fmt.Println(w.em.components.TimeMap[TIME_][e.ID])
+	w.Em.components.Save("test.json")
+	fmt.Println(w.Em.components.TimeMap[TIME_][e.ID])
 
 	ct := ComponentTableFromJSON("test.json")
 
@@ -105,8 +105,8 @@ func TestComponentTableSaveTimeAccumulator(t *testing.T) {
 		},
 	})
 
-	w.em.components.Save("test.json")
-	fmt.Println(w.em.components.TimeAccumulatorMap[TIME_ACCUM_][e.ID])
+	w.Em.components.Save("test.json")
+	fmt.Println(w.Em.components.TimeAccumulatorMap[TIME_ACCUM_][e.ID])
 
 	ct := ComponentTableFromJSON("test.json")
 

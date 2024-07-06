@@ -1,97 +1,97 @@
 package sameriver
 
 func (w *World) MaxEntities() int {
-	return w.em.MaxEntities()
+	return w.Em.MaxEntities()
 }
 
 func (w *World) Components() *ComponentTable {
-	return w.em.components
+	return w.Em.components
 }
 
 func (w *World) Spawn(spec map[string]any) *Entity {
-	return w.em.Spawn(spec)
+	return w.Em.Spawn(spec)
 }
 
 func (w *World) QueueSpawn(spec map[string]any) {
-	w.em.QueueSpawn(spec)
+	w.Em.QueueSpawn(spec)
 }
 
 func (w *World) Despawn(e *Entity) {
-	w.em.Despawn(e)
+	w.Em.Despawn(e)
 	w.RemoveAllEntityLogics(e)
 }
 
 func (w *World) DespawnAll() {
-	for e := range w.em.GetCurrentEntitiesSetCopy() {
+	for e := range w.Em.GetCurrentEntitiesSetCopy() {
 		w.RemoveAllEntityLogics(e)
 	}
-	w.em.DespawnAll()
+	w.Em.DespawnAll()
 }
 
 func (w *World) Activate(e *Entity) {
-	w.em.Activate(e)
+	w.Em.Activate(e)
 }
 
 func (w *World) Deactivate(e *Entity) {
-	w.em.Deactivate(e)
+	w.Em.Deactivate(e)
 }
 
 func (w *World) GetUpdatedEntityList(q EntityFilter) *UpdatedEntityList {
-	return w.em.GetUpdatedEntityList(q)
+	return w.Em.GetUpdatedEntityList(q)
 }
 
 func (w *World) GetSortedUpdatedEntityList(q EntityFilter) *UpdatedEntityList {
-	return w.em.GetSortedUpdatedEntityList(q)
+	return w.Em.GetSortedUpdatedEntityList(q)
 }
 
 func (w *World) GetUpdatedEntityListByName(name string) *UpdatedEntityList {
-	return w.em.GetUpdatedEntityListByName(name)
+	return w.Em.GetUpdatedEntityListByName(name)
 }
 
 func (w *World) GetUpdatedEntityListByComponents(names []ComponentID) *UpdatedEntityList {
-	return w.em.GetUpdatedEntityListByComponents(names)
+	return w.Em.GetUpdatedEntityListByComponents(names)
 }
 
 func (w *World) UniqueTaggedEntity(tag string) (*Entity, error) {
-	return w.em.UniqueTaggedEntity(tag)
+	return w.Em.UniqueTaggedEntity(tag)
 }
 
 func (w *World) UpdatedEntitiesWithTag(tag string) *UpdatedEntityList {
-	return w.em.UpdatedEntitiesWithTag(tag)
+	return w.Em.UpdatedEntitiesWithTag(tag)
 }
 
 func (w *World) TagEntity(e *Entity, tags ...string) {
-	w.em.TagEntity(e, tags...)
+	w.Em.TagEntity(e, tags...)
 }
 
 func (w *World) TagEntities(entities []*Entity, tag string) {
-	w.em.TagEntities(entities, tag)
+	w.Em.TagEntities(entities, tag)
 }
 
 func (w *World) UntagEntity(e *Entity, tag string) {
-	w.em.UntagEntity(e, tag)
+	w.Em.UntagEntity(e, tag)
 }
 
 func (w *World) UntagEntities(entities []*Entity, tag string) {
-	w.em.UntagEntities(entities, tag)
+	w.Em.UntagEntities(entities, tag)
 }
 
 func (w *World) NumEntities() (total int, active int) {
-	return w.em.NumEntities()
+	return w.Em.NumEntities()
 }
 
 func (w *World) GetActiveEntitiesSet() map[*Entity]bool {
-	return w.em.GetActiveEntitiesSet()
+	return w.Em.GetActiveEntitiesSet()
 }
 
 func (w *World) GetCurrentEntitiesSet() map[*Entity]bool {
-	return w.em.GetCurrentEntitiesSet()
+	return w.Em.GetCurrentEntitiesSet()
 }
 
 func (w *World) GetCurrentEntitiesSetCopy() map[*Entity]bool {
-	return w.em.GetCurrentEntitiesSetCopy()
+	return w.Em.GetCurrentEntitiesSetCopy()
 }
 
 func (w *World) DumpEntities() string {
-	return w.em.DumpEntities()
+	return w.Em.DumpEntities()
 }

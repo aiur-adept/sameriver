@@ -23,7 +23,7 @@ type World struct {
 
 	IdGen  *IDGenerator
 	Events *EventBus
-	em     *EntityManager
+	Em     *EntityManager
 
 	// systems registered
 	systems map[string]System
@@ -131,7 +131,7 @@ func NewWorld(spec map[string]any) *World {
 	w.intervals = w.RuntimeSharer.RunnerMap["world-interval"]
 
 	// init entitymanager
-	w.em = NewEntityManager(w)
+	w.Em = NewEntityManager(w)
 	// register basic components
 	w.RegisterComponents([]any{
 		GENERICTAGS_, TAGLIST, "GENERICTAGS",
@@ -152,7 +152,7 @@ func NewWorld(spec map[string]any) *World {
 func (w *World) Update(allowance_ms float64) (overunder_ms float64) {
 	t0 := time.Now()
 	// process entity manager and spatial hash before anything
-	w.em.Update(allowance_ms / 8)
+	w.Em.Update(allowance_ms / 8)
 	w.SpatialHasher.Update()
 	remaining_ms := allowance_ms - float64(time.Since(t0).Nanoseconds())/1e6
 	w.RuntimeSharer.Share(remaining_ms)
@@ -176,12 +176,12 @@ func (w *World) RegisterComponents(components []any) {
 		name := components[i].(ComponentID)
 		kind := components[i+1].(ComponentKind)
 		str := components[i+2].(string)
-		if w.em.components.ComponentExists(name) {
+		if w.Em.components.ComponentExists(name) {
 			Logger.Printf("[component %s already exists. Skipping...]", str)
 			continue
 		} else {
 			Logger.Printf("%s%s%s", color.InGreen("[registering component: "), fmt.Sprintf("%s,%s", str, componentKindStrings[kind]), color.InGreen("]"))
-			w.em.components.addComponent(kind, name, str)
+			w.Em.components.addComponent(kind, name, str)
 		}
 	}
 }
@@ -201,7 +201,7 @@ func (w *World) RegisterSystems(systems ...System) {
 			name := componentDeps[i].(ComponentID)
 			kind := componentDeps[i+1].(ComponentKind)
 			str := componentDeps[i+2].(string)
-			if w.em.components.ComponentExists(name) {
+			if w.Em.components.ComponentExists(name) {
 				Logger.Printf("System %s depends on component %s, which is already registered.", systemName, str)
 				continue
 			}
@@ -496,7 +496,7 @@ func (w *World) Blackboard(name string) *Blackboard {
 }
 
 func (w *World) ApplyComponentSet(e *Entity, spec map[ComponentID]any) {
-	w.em.components.ApplyComponentSet(e, spec)
+	w.Em.components.ApplyComponentSet(e, spec)
 }
 
 func (w *World) String() string {

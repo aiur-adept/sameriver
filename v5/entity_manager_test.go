@@ -12,7 +12,7 @@ func TestEntityManagerConstruct(t *testing.T) {
 }
 
 func TestEntityManagerSpawn(t *testing.T) {
-	EntityManagerInterfaceTestSpawn(testingWorld().em, t)
+	EntityManagerInterfaceTestSpawn(testingWorld().Em, t)
 }
 
 func TestWorldSpawn(t *testing.T) {
@@ -20,7 +20,7 @@ func TestWorldSpawn(t *testing.T) {
 }
 
 func TestEntityManagerSpawnFail(t *testing.T) {
-	EntityManagerInterfaceTestSpawnFail(testingWorld().em, t)
+	EntityManagerInterfaceTestSpawnFail(testingWorld().Em, t)
 }
 
 func TestWorldSpawnFail(t *testing.T) {
@@ -28,7 +28,7 @@ func TestWorldSpawnFail(t *testing.T) {
 }
 
 func TestEntityManagerQueueSpawn(t *testing.T) {
-	EntityManagerInterfaceTestQueueSpawn(testingWorld().em, t)
+	EntityManagerInterfaceTestQueueSpawn(testingWorld().Em, t)
 }
 
 func TestWorldQueueSpawn(t *testing.T) {
@@ -36,7 +36,7 @@ func TestWorldQueueSpawn(t *testing.T) {
 }
 
 func TestEntityManagerDespawn(t *testing.T) {
-	EntityManagerInterfaceTestDespawn(testingWorld().em, t)
+	EntityManagerInterfaceTestDespawn(testingWorld().Em, t)
 }
 
 func TestWorldDespawn(t *testing.T) {
@@ -44,7 +44,7 @@ func TestWorldDespawn(t *testing.T) {
 }
 
 func TestEntityManagerDespawnAll(t *testing.T) {
-	EntityManagerInterfaceTestDespawnAll(testingWorld().em, t)
+	EntityManagerInterfaceTestDespawnAll(testingWorld().Em, t)
 }
 
 func TestWorldDespawnAll(t *testing.T) {
@@ -52,7 +52,7 @@ func TestWorldDespawnAll(t *testing.T) {
 }
 
 func TestEntityManagerEntityHasComponent(t *testing.T) {
-	EntityManagerInterfaceTestEntityHasComponent(testingWorld().em, t)
+	EntityManagerInterfaceTestEntityHasComponent(testingWorld().Em, t)
 }
 
 func TestWorldEntityHasComponent(t *testing.T) {
@@ -60,7 +60,7 @@ func TestWorldEntityHasComponent(t *testing.T) {
 }
 
 func TestEntityManagerEntitiesWithTag(t *testing.T) {
-	EntityManagerInterfaceTestEntitiesWithTag(testingWorld().em, t)
+	EntityManagerInterfaceTestEntitiesWithTag(testingWorld().Em, t)
 }
 
 func TestWorldEntitiesWithTag(t *testing.T) {
@@ -68,7 +68,7 @@ func TestWorldEntitiesWithTag(t *testing.T) {
 }
 
 func TestEntityManagerSpawnUnique(t *testing.T) {
-	EntityManagerInterfaceTestSpawnUnique(testingWorld().em, t)
+	EntityManagerInterfaceTestSpawnUnique(testingWorld().Em, t)
 }
 
 func TestWorldSpawnUnique(t *testing.T) {
@@ -76,7 +76,7 @@ func TestWorldSpawnUnique(t *testing.T) {
 }
 
 func TestEntityManagerTagUntagEntity(t *testing.T) {
-	EntityManagerInterfaceTestTagUntagEntity(testingWorld().em, t)
+	EntityManagerInterfaceTestTagUntagEntity(testingWorld().Em, t)
 }
 
 func TestWorldTagUntagEntity(t *testing.T) {
@@ -84,7 +84,7 @@ func TestWorldTagUntagEntity(t *testing.T) {
 }
 
 func TestEntityManagerTagEntities(t *testing.T) {
-	EntityManagerInterfaceTestTagEntities(testingWorld().em, t)
+	EntityManagerInterfaceTestTagEntities(testingWorld().Em, t)
 }
 
 func TestWorldTagEntities(t *testing.T) {
@@ -92,7 +92,7 @@ func TestWorldTagEntities(t *testing.T) {
 }
 
 func TestEntityManagerUntagEntities(t *testing.T) {
-	EntityManagerInterfaceTestUntagEntities(testingWorld().em, t)
+	EntityManagerInterfaceTestUntagEntities(testingWorld().Em, t)
 }
 
 func TestWorldUntagEntities(t *testing.T) {
@@ -100,7 +100,7 @@ func TestWorldUntagEntities(t *testing.T) {
 }
 
 func TestEntityManagerDeactivateActivateEntity(t *testing.T) {
-	EntityManagerInterfaceTestDeactivateActivateEntity(testingWorld().em, t)
+	EntityManagerInterfaceTestDeactivateActivateEntity(testingWorld().Em, t)
 }
 
 func TestWorldDeactivateActivateEntity(t *testing.T) {
@@ -108,7 +108,7 @@ func TestWorldDeactivateActivateEntity(t *testing.T) {
 }
 
 func TestEntityManagerGetUpdatedEntityList(t *testing.T) {
-	EntityManagerInterfaceTestGetUpdatedEntityList(testingWorld().em, t)
+	EntityManagerInterfaceTestGetUpdatedEntityList(testingWorld().Em, t)
 }
 
 func TestWorldGetUpdatedEntityList(t *testing.T) {
@@ -116,7 +116,7 @@ func TestWorldGetUpdatedEntityList(t *testing.T) {
 }
 
 func TestEntityManagerGetSortedUpdatedEntityList(t *testing.T) {
-	EntityManagerInterfaceTestGetSortedUpdatedEntityList(testingWorld().em, t)
+	EntityManagerInterfaceTestGetSortedUpdatedEntityList(testingWorld().Em, t)
 }
 
 func TestWorldGetSortedUpdatedEntityList(t *testing.T) {
@@ -124,7 +124,7 @@ func TestWorldGetSortedUpdatedEntityList(t *testing.T) {
 }
 
 func TestEntityManagerGetUpdatedEntityListByName(t *testing.T) {
-	EntityManagerInterfaceTestGetUpdatedEntityListByName(testingWorld().em, t)
+	EntityManagerInterfaceTestGetUpdatedEntityListByName(testingWorld().Em, t)
 }
 
 func TestWorldGetUpdatedEntityListByName(t *testing.T) {
@@ -132,7 +132,7 @@ func TestWorldGetUpdatedEntityListByName(t *testing.T) {
 }
 
 func TestEntityManagerGetCurrentEntitiesSet(t *testing.T) {
-	EntityManagerInterfaceTestGetCurrentEntitiesSet(testingWorld().em, t)
+	EntityManagerInterfaceTestGetCurrentEntitiesSet(testingWorld().Em, t)
 }
 
 func TestWorldGetCurrentEntitiesSet(t *testing.T) {
@@ -140,7 +140,7 @@ func TestWorldGetCurrentEntitiesSet(t *testing.T) {
 }
 
 func TestEntityManagerString(t *testing.T) {
-	EntityManagerInterfaceTestString(testingWorld().em, t)
+	EntityManagerInterfaceTestString(testingWorld().Em, t)
 }
 
 func TestWorldString(t *testing.T) {
@@ -148,7 +148,7 @@ func TestWorldString(t *testing.T) {
 }
 
 func TestEntityManagerDumpEntities(t *testing.T) {
-	EntityManagerInterfaceTestDumpEntities(testingWorld().em, t)
+	EntityManagerInterfaceTestDumpEntities(testingWorld().Em, t)
 }
 
 func TestWorldDumpEntities(t *testing.T) {
