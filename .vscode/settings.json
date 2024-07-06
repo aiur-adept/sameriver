@@ -1,0 +1,11 @@
+{
+    "terminal.integrated.env.linux": {
+        "CGO_ENABLED": "1"
+    },
+    "terminal.integrated.env.windows": {
+        "CGO_ENABLED": "1"
+    },
+    "terminal.integrated.env.osx": {
+        "CGO_ENABLED": "1"
+    }
+}

@@ -38,7 +38,8 @@ import (
 // AudioManager stores audio as mix.Chunk pointers,
 // keyed by strings (filenames)
 type AudioManager struct {
-	Audio map[string](*mix.Chunk)
+	Audio       map[string](*mix.Chunk)
+	PlayChannel int
 }
 
 // Init the map which stores the audio chunks
@@ -56,9 +57,17 @@ func (m *AudioManager) Init() {
 
 // loads an audio file in the assets/ folder into the map, making it playable
 func (m *AudioManager) Load(file string) {
-	chunk, err := mix.LoadWAV(fmt.Sprintf("assets/audio/%s", file))
+	filepath := fmt.Sprintf("assets/audio/%s", file)
+	// check if file exists
+	if _, err := os.Stat(filepath); err != nil {
+		Logger.Printf("[Audio manager] file does not exist: %s", filepath)
+		m.Audio[file] = nil
+		return
+	}
+	chunk, err := mix.LoadWAV(filepath)
 	if err != nil {
-		Logger.Printf("[Audio manager] failed to load assets/%s", file)
+		Logger.Printf("[Audio manager] mix.LoadWav error: %s", err)
+		Logger.Printf("[Audio manager] failed to load %s", filepath)
 		m.Audio[file] = nil
 	} else {
 		m.Audio[file] = chunk
@@ -74,8 +83,8 @@ func (m *AudioManager) Play(file string) {
 			file)
 		return
 	} else {
-		// play on channel 1 (so that sounds cut each other off)
-		// loop 0 times
-		m.Audio[file].Play(1, 0)
+		// play on a new channel
+		m.Audio[file].Play(m.PlayChannel, 0)
+		m.PlayChannel = (m.PlayChannel + 1) % 8
 	}
 }
