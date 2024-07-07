@@ -19,7 +19,7 @@ func (m *EntityManager) GetSortedUpdatedEntityList(
 func (m *EntityManager) GetUpdatedEntityListByName(
 	name string) *UpdatedEntityList {
 
-	if list, ok := m.lists[name]; ok {
+	if list, ok := m.Lists[name]; ok {
 		return list
 	} else {
 		return nil
@@ -29,13 +29,13 @@ func (m *EntityManager) GetUpdatedEntityListByName(
 func (m *EntityManager) GetUpdatedEntityListByComponents(names []ComponentID) *UpdatedEntityList {
 	strs := make([]string, 0)
 	for _, name := range names {
-		strs = append(strs, m.components.Strings[name])
+		strs = append(strs, m.ComponentsTable.Strings[name])
 	}
 	name := strings.Join(strs, ",")
 	return m.GetSortedUpdatedEntityList(
 		EntityFilterFromComponentBitArray(
 			name,
-			m.components.BitArrayFromIDs(names)))
+			m.ComponentsTable.BitArrayFromIDs(names)))
 }
 
 func (m *EntityManager) getUpdatedEntityList(
@@ -44,7 +44,7 @@ func (m *EntityManager) getUpdatedEntityList(
 	// helper func that goes through already-existing entities to add them
 	// to the list
 	processExisting := func(q EntityFilter, list *UpdatedEntityList) {
-		for _, e := range m.entityIDAllocator.AllocatedEntities {
+		for _, e := range m.EntityIDAllocator.AllocatedEntities {
 			if e.NonNil && q.Test(e) {
 				list.Signal(EntitySignal{ENTITY_ADD, e})
 			}
@@ -54,26 +54,26 @@ func (m *EntityManager) getUpdatedEntityList(
 	// return the list if it already exists (this is why Filter names should
 	// be unique if they expect to be unique!)
 	// TODO: document this requirement
-	if list, exists := m.lists[q.Name]; exists {
+	if list, exists := m.Lists[q.Name]; exists {
 		return list
 	}
 	// register a Filter watcher for the Filter given
 	var list *UpdatedEntityList
 	if sorted {
-		list = NewSortedUpdatedEntityList()
+		list = NewSortedUpdatedEntityList(q.Name)
 	} else {
-		list = NewUpdatedEntityList()
+		list = NewUpdatedEntityList(q.Name)
 	}
 	list.Filter = &q
 	processExisting(q, list)
-	m.lists[q.Name] = list
+	m.Lists[q.Name] = list
 	return list
 }
 
 // send add / remove signal to all lists according to active state of
 // entity and whether its in the list
 func (m *EntityManager) notifyActiveState(e *Entity, active bool) {
-	for _, list := range m.lists {
+	for _, list := range m.Lists {
 		if list.Filter.Test(e) {
 			if active {
 				list.Signal(EntitySignal{ENTITY_ADD, e})
@@ -86,14 +86,15 @@ func (m *EntityManager) notifyActiveState(e *Entity, active bool) {
 
 // check if the entity needs to be added to or removed from any lists
 func (m *EntityManager) checkActiveEntity(e *Entity) {
-	for _, list := range m.lists {
+	for _, list := range m.Lists {
 		if list.Filter.Test(e) {
 			list.Signal(EntitySignal{ENTITY_ADD, e})
 		}
 	}
 	// check whether the entity needs to be removed from any lists it's on
 	toRemove := make([]*UpdatedEntityList, 0)
-	for _, list := range e.Lists {
+	for _, listName := range e.Lists {
+		list := m.Lists[listName]
 		if list.Filter != nil && !list.Filter.Test(e) {
 			toRemove = append(toRemove, list)
 		}

@@ -21,6 +21,7 @@ type EntitySignal struct {
 // a list of entities which have active = true, which receives updates to its
 // contents via the Signal() method
 type UpdatedEntityList struct {
+	Name string
 	// the entities in the list (tagged with gen)
 	entities []*Entity
 	// possibly nil Filter defining the list
@@ -34,8 +35,9 @@ type UpdatedEntityList struct {
 
 // create a new UpdatedEntityList by giving it a channel on which it will
 // receive entity IDs
-func NewUpdatedEntityList() *UpdatedEntityList {
+func NewUpdatedEntityList(name string) *UpdatedEntityList {
 	l := UpdatedEntityList{
+		Name:     name,
 		entities: make([]*Entity, 0),
 		sorted:   false,
 	}
@@ -44,8 +46,9 @@ func NewUpdatedEntityList() *UpdatedEntityList {
 
 // create a new SORTED UpdatedEntityList by giving it a channel on which it will
 // receive entity IDs
-func NewSortedUpdatedEntityList() *UpdatedEntityList {
+func NewSortedUpdatedEntityList(name string) *UpdatedEntityList {
 	l := UpdatedEntityList{
+		Name:     name,
 		entities: make([]*Entity, 0),
 		sorted:   true,
 	}
@@ -69,16 +72,12 @@ func (l *UpdatedEntityList) Signal(signal EntitySignal) {
 // adds an entity into the list (private so only called by the update loop)
 func (l *UpdatedEntityList) add(e *Entity) {
 	// NOTE: idempotent
-	lenBefore := len(l.entities)
 	if l.sorted {
 		SortedEntitySliceInsertIfNotPresent(&l.entities, e)
 	} else {
 		if indexOfEntityInSlice(&l.entities, e) == -1 {
 			l.entities = append(l.entities, e)
 		}
-	}
-	if len(l.entities) == lenBefore+1 {
-		e.Lists = append(e.Lists, l)
 	}
 }
 
@@ -90,7 +89,6 @@ func (l *UpdatedEntityList) remove(e *Entity) {
 	} else {
 		removeEntityFromSlice(&l.entities, e)
 	}
-	removeUpdatedEntityListFromSlice(&e.Lists, l)
 }
 
 // add a callback to the callbacks slice
@@ -130,5 +128,5 @@ func (l *UpdatedEntityList) RandomEntity() (*Entity, error) {
 
 // For printing the list
 func (l *UpdatedEntityList) String() string {
-	return EntitySliceToString(l.entities)
+	return l.Name
 }

@@ -33,7 +33,7 @@ func (i *InventorySystem) LinkWorld(w *World) {
 	i.InventoryEntities = w.Em.GetSortedUpdatedEntityList(
 		EntityFilterFromComponentBitArray(
 			"inventory",
-			w.Em.components.BitArrayFromIDs([]ComponentID{INVENTORY_})))
+			w.Em.ComponentsTable.BitArrayFromIDs([]ComponentID{INVENTORY_})))
 }
 
 func (i *InventorySystem) Update(dt_ms float64) {

@@ -62,7 +62,7 @@ func TestBlackboardWorldEntities(t *testing.T) {
 			selectRole(randomRole)
 		}
 
-		e.AddLogic("village-blackboard", func(e *Entity, dt_ms float64) {
+		w.AddWorldLogic(fmt.Sprintf("village-blackboard-%d", e.ID), func(dt_ms float64) {
 			// subscribe to blackboard events
 			if villageEvents == nil {
 				villageEvents = bb.Events.Subscribe(SimpleEventFilter("village-events"))

@@ -2,6 +2,7 @@ package sameriver
 
 import (
 	"bytes"
+	"encoding/json"
 	"errors"
 	"fmt"
 	"time"
@@ -12,18 +13,18 @@ type EntityManager struct {
 	// the world this EntityManager is inside
 	w *World
 	// Component data for entities
-	components *ComponentTable
+	ComponentsTable ComponentTable
 	// EntityIDALlocator stores: a list of allocated Entitys and a
 	// list of available IDs from previous deallocations
-	entityIDAllocator *EntityIDAllocator
-	// updated entity lists created by the user according to provided filters
-	lists map[string]*UpdatedEntityList
+	EntityIDAllocator EntityIDAllocator
+	// updated entity Lists created by the user according to provided filters
+	Lists map[string]*UpdatedEntityList
 	// updated entity lists of entities with given tags
 	entitiesWithTag map[string]*UpdatedEntityList
 	// entities which have been tagged uniquely
 	uniqueEntities map[string]*Entity
 	// entities that are active
-	activeEntities map[*Entity]bool
+	ActiveEntities map[int]bool
 	// Channel for spawn entity requests (processed as a batch each Update())
 	spawnSubscription *EventChannel
 	// Channel for despawn entity requests (processed as a batch each Update())
@@ -34,12 +35,12 @@ type EntityManager struct {
 func NewEntityManager(w *World) *EntityManager {
 	em := &EntityManager{
 		w:                   w,
-		components:          NewComponentTable(MAX_ENTITIES),
-		entityIDAllocator:   NewEntityIDAllocator(MAX_ENTITIES, w.IdGen),
-		lists:               make(map[string]*UpdatedEntityList),
+		ComponentsTable:     NewComponentTable(MAX_ENTITIES),
+		EntityIDAllocator:   NewEntityIDAllocator(MAX_ENTITIES, w.IdGen),
+		Lists:               make(map[string]*UpdatedEntityList),
 		entitiesWithTag:     make(map[string]*UpdatedEntityList),
 		uniqueEntities:      make(map[string]*Entity),
-		activeEntities:      make(map[*Entity]bool),
+		ActiveEntities:      make(map[int]bool),
 		spawnSubscription:   w.Events.Subscribe(SimpleEventFilter("spawn-request")),
 		despawnSubscription: w.Events.Subscribe(SimpleEventFilter("despawn-request")),
 	}
@@ -47,7 +48,7 @@ func NewEntityManager(w *World) *EntityManager {
 }
 
 func (m *EntityManager) Components() *ComponentTable {
-	return m.components
+	return &m.ComponentsTable
 }
 
 // called once per scene Update() for scenes holding an entity manager
@@ -74,15 +75,11 @@ func (m *EntityManager) setActiveState(e *Entity, state bool) {
 	// only act if the state is different to that which exists
 	if e.Active != state {
 		if state {
-			m.entityIDAllocator.Active++
-			m.activeEntities[e] = true
+			m.EntityIDAllocator.Active++
+			m.ActiveEntities[e.ID] = true
 		} else {
-			m.entityIDAllocator.Active--
-			delete(m.activeEntities, e)
-		}
-		// start / stop all logics of this entity accordingly
-		for _, l := range e.Logics {
-			l.active = state
+			m.EntityIDAllocator.Active--
+			delete(m.ActiveEntities, e.ID)
 		}
 		// set active state
 		e.Active = state
@@ -151,24 +148,24 @@ func (m *EntityManager) UntagEntities(entities []*Entity, tag string) {
 // get the maximum number of entities without a resizing and reallocating of
 // components and system data (if Expand() is not a nil function for that system)
 func (m *EntityManager) MaxEntities() int {
-	return m.entityIDAllocator.Capacity
+	return m.EntityIDAllocator.Capacity
 }
 
 // Get the number of allocated entities (not number of active, mind you)
 func (m *EntityManager) NumEntities() (total int, active int) {
-	return m.entityIDAllocator.Allocated, m.entityIDAllocator.Active
+	return m.EntityIDAllocator.Allocated, m.EntityIDAllocator.Active
 }
 
 // returns a map of all active entities
-func (m *EntityManager) GetActiveEntitiesSet() map[*Entity]bool {
-	return m.activeEntities
+func (m *EntityManager) GetActiveEntitiesSet() map[int]bool {
+	return m.ActiveEntities
 }
 
 // return a map where the keys are the current entities (aka an idiomatic
 // go "set")
 func (m *EntityManager) GetCurrentEntitiesSet() map[int]*Entity {
-	result := make(map[int]*Entity, m.entityIDAllocator.Allocated)
-	for ID, e := range m.entityIDAllocator.AllocatedEntities {
+	result := make(map[int]*Entity, m.EntityIDAllocator.Allocated)
+	for ID, e := range m.EntityIDAllocator.AllocatedEntities {
 		if e.NonNil {
 			result[ID] = e
 		}
@@ -177,19 +174,22 @@ func (m *EntityManager) GetCurrentEntitiesSet() map[int]*Entity {
 }
 
 func (m *EntityManager) ApplyComponentSet(e *Entity, spec map[ComponentID]any) {
-	m.components.ApplyComponentSet(e, spec)
+	m.ComponentsTable.ApplyComponentSet(e, spec)
 }
 
 func (m *EntityManager) String() string {
-	return fmt.Sprintf("EntityManager[ %d / %d active ]\n",
-		m.entityIDAllocator.Allocated, m.entityIDAllocator.Active)
+	json, err := json.Marshal(m)
+	if err != nil {
+		panic(err)
+	}
+	return string(json)
 }
 
 // dump entities with tags
 func (m *EntityManager) DumpEntities() string {
 	var buffer bytes.Buffer
 	buffer.WriteString("[\n")
-	for _, e := range m.entityIDAllocator.AllocatedEntities {
+	for _, e := range m.EntityIDAllocator.AllocatedEntities {
 		tags := e.GetTagList(GENERICTAGS_)
 		entityRepresentation := fmt.Sprintf("{id: %d, tags: %v}",
 			e.ID, tags)

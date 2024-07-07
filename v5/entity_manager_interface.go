@@ -19,7 +19,7 @@ type EntityManagerInterface interface {
 	UntagEntities(entities []*Entity, tag string)
 
 	NumEntities() (total int, active int)
-	GetActiveEntitiesSet() map[*Entity]bool
+	GetActiveEntitiesSet() map[int]bool
 	GetCurrentEntitiesSet() map[int]*Entity
 
 	UniqueTaggedEntity(tag string) (*Entity, error)

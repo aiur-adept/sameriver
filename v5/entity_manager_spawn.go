@@ -2,8 +2,6 @@ package sameriver
 
 import (
 	"fmt"
-	"strconv"
-	"strings"
 )
 
 // get the current number of requests in the channel and only process
@@ -29,7 +27,6 @@ func (m *EntityManager) Spawn(spec map[string]any) *Entity {
 	var tags []string
 	var componentSpecs map[ComponentID]any
 	var logics map[string](func(e *Entity, dt_ms float64))
-	var funcs map[string](func(e *Entity, params any) any)
 	var mind map[string]any
 
 	// type assert spec vars
@@ -64,12 +61,6 @@ func (m *EntityManager) Spawn(spec map[string]any) *Entity {
 		logics = make(map[string](func(e *Entity, dt_ms float64)))
 	}
 
-	if _, ok := spec["funcs"]; ok {
-		funcs = spec["funcs"].(map[string](func(e *Entity, params any) any))
-	} else {
-		funcs = make(map[string](func(e *Entity, params any) any))
-	}
-
 	if _, ok := spec["mind"]; ok {
 		mind = spec["mind"].(map[string]any)
 	} else {
@@ -84,9 +75,8 @@ func (m *EntityManager) Spawn(spec map[string]any) *Entity {
 		active,
 		uniqueTag,
 		tags,
-		m.components.makeComponentSet(componentSpecs),
+		m.ComponentsTable.makeComponentSet(componentSpecs),
 		logics,
-		funcs,
 		mind,
 	)
 }
@@ -111,7 +101,6 @@ func (m *EntityManager) doSpawn(
 	tags []string,
 	components ComponentSet,
 	logics map[string](func(e *Entity, dt_ms float64)),
-	funcs map[string](func(e *Entity, params any) any),
 	mind map[string]any,
 ) *Entity {
 
@@ -122,11 +111,11 @@ func (m *EntityManager) doSpawn(
 			"; expanding component tables, system storage, and id pool", m.MaxEntities())
 		m.ExpandEntityTables()
 	}
-	e := m.entityIDAllocator.allocateID()
+	e := m.EntityIDAllocator.allocateID()
 
 	e.World = m.w
 	// copy the data into the component storage for each component
-	m.components.applyComponentSet(e, components)
+	m.ComponentsTable.applyComponentSet(e, components)
 	// create (if doesn't exist) entitiesWithTag lists for each tag
 	m.TagEntity(e, tags...)
 	// apply the unique tag if provided
@@ -139,35 +128,8 @@ func (m *EntityManager) doSpawn(
 		m.TagEntity(e, uniqueTag)
 		m.uniqueEntities[uniqueTag] = e
 	}
-	// add logics
-	e.Logics = make(map[string]*LogicUnit)
-	for name, f := range logics {
-		split := strings.Split(name, ",")
-		if len(split) == 1 {
-			e.AddLogic(name, f)
-		} else if len(split) == 2 {
-			fName := split[0]
-			period, err := strconv.Atoi(split[1])
-			if err != nil {
-				Logger.Printf("[ERROR] failed to Atoi the specified ms period of a scheduled logic (%s)", name)
-				panic(err)
-			}
-			e.AddLogicWithSchedule(fName, f, float64(period))
-		} else {
-			panic("malformed logic name! wants <name> or <name>,<ms_schedule>")
-		}
-	}
-	// create funcset
-	closureFuncs := make(map[string](func(params any) any))
-	for name, f := range funcs {
-		closureF := func(params any) any {
-			return f(e, params)
-		}
-		closureFuncs[name] = closureF
-	}
-	e.funcs = NewFuncSet(closureFuncs)
 	// add mind
-	e.mind = mind
+	e.Mind = mind
 	// set entity active and notify entity is active
 	m.setActiveState(e, active)
 	// return Entity
@@ -175,9 +137,9 @@ func (m *EntityManager) doSpawn(
 }
 
 func (m *EntityManager) ExpandEntityTables() {
-	n := m.entityIDAllocator.Allocated / 2
-	m.entityIDAllocator.expand(n)
-	m.components.expand(n)
+	n := m.EntityIDAllocator.Allocated / 2
+	m.EntityIDAllocator.expand(n)
+	m.ComponentsTable.expand(n)
 	for _, s := range m.w.systems {
 		s.Expand(n)
 	}

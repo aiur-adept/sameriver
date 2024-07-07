@@ -20,8 +20,8 @@ type EntityIDAllocator struct {
 	Capacity int
 }
 
-func NewEntityIDAllocator(capacity int, IDGen *IDGenerator) *EntityIDAllocator {
-	return &EntityIDAllocator{
+func NewEntityIDAllocator(capacity int, IDGen *IDGenerator) EntityIDAllocator {
+	return EntityIDAllocator{
 		IdGen:             IDGen,
 		Entities:          make([]Entity, capacity),
 		AllocatedEntities: make(map[int]*Entity),

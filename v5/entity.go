@@ -2,7 +2,7 @@ package sameriver
 
 import (
 	"bytes"
-	"fmt"
+	"encoding/json"
 
 	"github.com/golang-collections/go-datastructures/bitarray"
 )
@@ -10,108 +10,23 @@ import (
 type Entity struct {
 	NonNil            bool
 	ID                int
-	World             *World
+	World             *World `json:"-"`
 	Active            bool
 	Despawned         bool
-	ComponentBitArray bitarray.BitArray
-	Lists             []*UpdatedEntityList
-	Logics            map[string]*LogicUnit
-	funcs             *FuncSet
-	mind              map[string]any
-}
-
-func (e *Entity) LogicUnitName(name string) string {
-	return fmt.Sprintf("entity-logic-%d-%s", e.ID, name)
-}
-
-func (e *Entity) makeLogicUnit(name string, F func(dt_ms float64)) *LogicUnit {
-	return &LogicUnit{
-		name:        e.LogicUnitName(name),
-		f:           F,
-		active:      true,
-		worldID:     e.World.IdGen.Next(),
-		runSchedule: nil,
-	}
-}
-
-func (e *Entity) AddLogic(name string, F func(e *Entity, dt_ms float64)) *LogicUnit {
-	closureF := func(dt_ms float64) {
-		F(e, dt_ms)
-	}
-	l := e.makeLogicUnit(name, closureF)
-	e.Logics[name] = l
-	e.World.addEntityLogic(e, l)
-	return l
-}
-
-func (e *Entity) AddLogicWithSchedule(name string, F func(e *Entity, dt_ms float64), period float64) *LogicUnit {
-	l := e.AddLogic(name, F)
-	runSchedule := NewTimeAccumulator(period)
-	l.runSchedule = &runSchedule
-	return l
-}
-
-func (e *Entity) RemoveLogic(name string) {
-	if _, ok := e.Logics[name]; !ok {
-		panic(fmt.Sprintf("Trying to remove logic %s - but entity doesn't have it!", name))
-	}
-	e.World.removeEntityLogic(e, e.Logics[name])
-	delete(e.Logics, name)
-}
-
-func (e *Entity) RemoveAllLogics() {
-	for _, l := range e.Logics {
-		e.World.RuntimeSharer.RunnerMap["entities"].Remove(l)
-	}
-}
-
-func (e *Entity) ActivateLogics() {
-	for _, logic := range e.Logics {
-		logic.Activate()
-	}
-}
-
-func (e *Entity) DeactivateLogics() {
-	for _, logic := range e.Logics {
-		logic.Deactivate()
-	}
-}
-
-func (e *Entity) AddFuncs(funcs map[string](func(e *Entity, params any) any)) {
-	for name, f := range funcs {
-		e.AddFunc(name, f)
-
-	}
-}
-
-func (e *Entity) AddFunc(name string, f func(e *Entity, params any) any) {
-	closureF := func(params any) any {
-		return f(e, params)
-	}
-	e.funcs.Add(name, closureF)
-}
-
-func (e *Entity) RemoveFunc(name string) {
-	e.funcs.Remove(name)
-}
-
-func (e *Entity) GetFunc(name string) func(any) any {
-	return e.funcs.funcs[name]
-}
-
-func (e *Entity) HasFunc(name string) bool {
-	return e.funcs.Has(name)
+	ComponentBitArray bitarray.BitArray `json:"-"`
+	Lists             []string
+	Mind              map[string]any
 }
 
 func (e *Entity) GetMind(name string) any {
-	if v, ok := e.mind[name]; ok {
+	if v, ok := e.Mind[name]; ok {
 		return v
 	}
 	return nil
 }
 
 func (e *Entity) SetMind(name string, val any) {
-	e.mind[name] = val
+	e.Mind[name] = val
 }
 
 func (e *Entity) HasTag(tag string) bool {
@@ -127,14 +42,14 @@ func (e *Entity) HasTags(tags ...string) bool {
 }
 
 func (e *Entity) HasComponent(name ComponentID) bool {
-	b, _ := e.ComponentBitArray.GetBit(uint64(e.World.Em.components.Ixs[name]))
+	b, _ := e.ComponentBitArray.GetBit(uint64(e.World.Em.ComponentsTable.Ixs[name]))
 	return b
 }
 
 func (e *Entity) HasComponents(names ...ComponentID) bool {
 	has := true
 	for _, name := range names {
-		b, _ := e.ComponentBitArray.GetBit(uint64(e.World.Em.components.Ixs[name]))
+		b, _ := e.ComponentBitArray.GetBit(uint64(e.World.Em.ComponentsTable.Ixs[name]))
 		has = has && b
 	}
 	return has
@@ -151,12 +66,35 @@ func (e *Entity) DistanceFromRect(pos Vec2D, box Vec2D) float64 {
 	return RectDistance(*ePos, *eBox, pos, box)
 }
 
+func (e *Entity) MarshalJSON() ([]byte, error) {
+	type Alias Entity
+	return json.Marshal(&struct {
+		*Alias
+		ComponentBitArray []string `json:"ComponentBitArray"`
+	}{
+		Alias:             (*Alias)(e),
+		ComponentBitArray: e.World.Em.ComponentsTable.BitArrayToStringArray(e.ComponentBitArray),
+	})
+}
+
 func (e *Entity) String() string {
-	return fmt.Sprintf("{id:%d, tags:%s, components:%s}",
-		e.ID,
-		e.GetTagList(GENERICTAGS_).AsSlice(),
-		e.World.Em.components.BitArrayToString(e.ComponentBitArray),
-	)
+	jsonStr, _ := json.Marshal(e)
+	return string(jsonStr)
+}
+
+func (e *Entity) UnmarshalJSON(data []byte) error {
+	type Alias Entity
+	aux := &struct {
+		*Alias
+		ComponentBitArray []string `json:"ComponentBitArray"`
+	}{
+		Alias: (*Alias)(e),
+	}
+	if err := json.Unmarshal(data, &aux); err != nil {
+		return err
+	}
+	e.ComponentBitArray = e.World.Em.ComponentsTable.BitArrayFromStrings(aux.ComponentBitArray)
+	return nil
 }
 
 func EntitySliceToString(entities []*Entity) string {

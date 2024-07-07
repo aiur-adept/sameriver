@@ -42,7 +42,7 @@ func (p *PhysicsSystem) LinkWorld(w *World) {
 	p.physicsEntities = w.Em.GetSortedUpdatedEntityList(
 		EntityFilterFromComponentBitArray(
 			"physical",
-			w.Em.components.BitArrayFromIDs([]ComponentID{POSITION_, VELOCITY_, ACCELERATION_, BOX_, MASS_, RIGIDBODY_})))
+			w.Em.ComponentsTable.BitArrayFromIDs([]ComponentID{POSITION_, VELOCITY_, ACCELERATION_, BOX_, MASS_, RIGIDBODY_})))
 	p.h = NewSpatialHasher(10, 10, w)
 }
 

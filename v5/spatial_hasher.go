@@ -43,7 +43,7 @@ func NewSpatialHasher(gridX, gridY int, w *World) *SpatialHasher {
 	// get spatial entities from world
 	h.SpatialEntities = w.Em.GetSortedUpdatedEntityList(
 		EntityFilterFromComponentBitArray("spatial",
-			w.Em.components.BitArrayFromIDs([]ComponentID{POSITION_, BOX_})))
+			w.Em.ComponentsTable.BitArrayFromIDs([]ComponentID{POSITION_, BOX_})))
 
 	return h
 }

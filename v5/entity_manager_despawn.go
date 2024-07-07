@@ -18,8 +18,7 @@ func (m *EntityManager) Despawn(e *Entity) {
 	// guard against multiple logics per tick despawning an entity
 	if !e.Despawned {
 		e.Despawned = true
-		m.entityIDAllocator.deallocate(e)
-		e.RemoveAllLogics()
+		m.EntityIDAllocator.deallocate(e)
 		m.setActiveState(e, false)
 	}
 }

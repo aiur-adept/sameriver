@@ -5,7 +5,7 @@ import (
 )
 
 func TestUpdatedEntityListAddRemove(t *testing.T) {
-	list := NewUpdatedEntityList()
+	list := NewUpdatedEntityList("test")
 	e := &Entity{ID: 0, Active: true, Despawned: false}
 	list.Signal(EntitySignal{ENTITY_ADD, e})
 	if list.Length() != 1 {
@@ -18,7 +18,7 @@ func TestUpdatedEntityListAddRemove(t *testing.T) {
 }
 
 func TestSortedUpdatedEntityListAddRemove(t *testing.T) {
-	list := NewSortedUpdatedEntityList()
+	list := NewSortedUpdatedEntityList("test")
 	e8 := &Entity{ID: 8, Active: true, Despawned: false}
 	e0 := &Entity{ID: 0, Active: true, Despawned: false}
 	list.Signal(EntitySignal{ENTITY_ADD, e8})
@@ -29,7 +29,7 @@ func TestSortedUpdatedEntityListAddRemove(t *testing.T) {
 }
 
 func TestUpdatedEntityListCallback(t *testing.T) {
-	list := NewUpdatedEntityList()
+	list := NewUpdatedEntityList("test")
 	ran := false
 	list.AddCallback(func(signal EntitySignal) {
 		ran = true
@@ -42,7 +42,7 @@ func TestUpdatedEntityListCallback(t *testing.T) {
 }
 
 func TestUpdatedEntityListAccess(t *testing.T) {
-	list := NewUpdatedEntityList()
+	list := NewUpdatedEntityList("test")
 	e0 := &Entity{ID: 0, Active: true, Despawned: false}
 	list.Signal(EntitySignal{ENTITY_ADD, e0})
 	entities := list.GetEntities()

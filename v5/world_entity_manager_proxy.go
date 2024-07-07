@@ -5,7 +5,7 @@ func (w *World) MaxEntities() int {
 }
 
 func (w *World) Components() *ComponentTable {
-	return w.Em.components
+	return &w.Em.ComponentsTable
 }
 
 func (w *World) Spawn(spec map[string]any) *Entity {
@@ -18,13 +18,9 @@ func (w *World) QueueSpawn(spec map[string]any) {
 
 func (w *World) Despawn(e *Entity) {
 	w.Em.Despawn(e)
-	w.RemoveAllEntityLogics(e)
 }
 
 func (w *World) DespawnAll() {
-	for _, e := range w.Em.GetCurrentEntitiesSet() {
-		w.RemoveAllEntityLogics(e)
-	}
 	w.Em.DespawnAll()
 }
 
@@ -80,7 +76,7 @@ func (w *World) NumEntities() (total int, active int) {
 	return w.Em.NumEntities()
 }
 
-func (w *World) GetActiveEntitiesSet() map[*Entity]bool {
+func (w *World) GetActiveEntitiesSet() map[int]bool {
 	return w.Em.GetActiveEntitiesSet()
 }
 

@@ -48,7 +48,7 @@ func NewGOAPWorldState(vals map[string]int) *GOAPWorldState {
 }
 
 func (ws *GOAPWorldState) ecKey(e *Entity, name ComponentID) string {
-	return fmt.Sprintf("%d-%s", e.ID, ws.w.Em.components.Strings[name])
+	return fmt.Sprintf("%d-%s", e.ID, ws.w.Em.ComponentsTable.Strings[name])
 }
 
 func (ws *GOAPWorldState) GetModal(e *Entity, name ComponentID) any {

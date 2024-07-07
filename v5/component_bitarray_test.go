@@ -6,8 +6,8 @@ import (
 
 func TestComponentBitArrayToString(t *testing.T) {
 	w := testingWorld()
-	b := w.Em.components.BitArrayFromIDs([]ComponentID{POSITION_, BOX_, GENERICTAGS_})
-	s := w.Em.components.BitArrayToString(b)
+	b := w.Em.ComponentsTable.BitArrayFromIDs([]ComponentID{POSITION_, BOX_, GENERICTAGS_})
+	s := w.Em.ComponentsTable.BitArrayToString(b)
 	// TODO: check s
 	Logger.Printf(s)
 }

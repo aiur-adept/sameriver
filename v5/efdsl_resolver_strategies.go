@@ -86,7 +86,7 @@ func valueOrEntityAccess(value any, identifier string) any {
 
 	switch bracket {
 	case "[":
-		ct := entity.World.Em.components
+		ct := entity.World.Em.ComponentsTable
 		componentID, ok := ct.StringsRev[accessor]
 		if !ok {
 			logDSLError("Component %s doesn't exist for DSL expression \"%s\"", accessor, identifier)

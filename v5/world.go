@@ -180,12 +180,12 @@ func (w *World) RegisterComponents(components []any) {
 		name := components[i].(ComponentID)
 		kind := components[i+1].(ComponentKind)
 		str := components[i+2].(string)
-		if w.Em.components.ComponentExists(name) {
+		if w.Em.ComponentsTable.ComponentExists(name) {
 			Logger.Printf("[component %s already exists. Skipping...]", str)
 			continue
 		} else {
 			Logger.Printf("%s%s%s", color.InGreen("[registering component: "), fmt.Sprintf("%s,%s", str, componentKindStrings[kind]), color.InGreen("]"))
-			w.Em.components.addComponent(kind, name, str)
+			w.Em.ComponentsTable.addComponent(kind, name, str)
 		}
 	}
 }
@@ -205,7 +205,7 @@ func (w *World) RegisterSystems(systems ...System) {
 			name := componentDeps[i].(ComponentID)
 			kind := componentDeps[i+1].(ComponentKind)
 			str := componentDeps[i+2].(string)
-			if w.Em.components.ComponentExists(name) {
+			if w.Em.ComponentsTable.ComponentExists(name) {
 				Logger.Printf("System %s depends on component %s, which is already registered.", systemName, str)
 				continue
 			}
@@ -435,41 +435,6 @@ func (w *World) DeactivateWorldLogic(name string) {
 	}
 }
 
-func (w *World) addEntityLogic(e *Entity, l *LogicUnit) *LogicUnit {
-	w.RuntimeSharer.RunnerMap["entities"].Add(l)
-	return l
-}
-
-func (w *World) removeEntityLogic(e *Entity, l *LogicUnit) {
-	w.RuntimeSharer.RunnerMap["entities"].Remove(l)
-}
-
-func (w *World) RemoveAllEntityLogics(e *Entity) {
-	for _, l := range e.Logics {
-		w.RuntimeSharer.RunnerMap["entities"].Remove(l)
-	}
-}
-
-func (w *World) ActivateAllEntityLogics() {
-	w.RuntimeSharer.RunnerMap["entities"].ActivateAll()
-}
-
-func (w *World) DeactivateAllEntityLogics() {
-	w.RuntimeSharer.RunnerMap["entities"].DeactivateAll()
-}
-
-func (w *World) ActivateEntityLogics(e *Entity) {
-	for _, logic := range e.Logics {
-		logic.Activate()
-	}
-}
-
-func (w *World) DeactivateEntityLogics(e *Entity) {
-	for _, logic := range e.Logics {
-		logic.Deactivate()
-	}
-}
-
 func (w *World) AddFuncs(funcs map[string](func(any) any)) {
 	for name, f := range funcs {
 		w.funcs.Add(name, f)
@@ -500,7 +465,7 @@ func (w *World) Blackboard(name string) *Blackboard {
 }
 
 func (w *World) ApplyComponentSet(e *Entity, spec map[ComponentID]any) {
-	w.Em.components.ApplyComponentSet(e, spec)
+	w.Em.ComponentsTable.ApplyComponentSet(e, spec)
 }
 
 func (w *World) String() string {
