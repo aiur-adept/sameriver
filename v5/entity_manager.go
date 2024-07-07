@@ -74,10 +74,10 @@ func (m *EntityManager) setActiveState(e *Entity, state bool) {
 	// only act if the state is different to that which exists
 	if e.Active != state {
 		if state {
-			m.entityIDAllocator.active++
+			m.entityIDAllocator.Active++
 			m.activeEntities[e] = true
 		} else {
-			m.entityIDAllocator.active--
+			m.entityIDAllocator.Active--
 			delete(m.activeEntities, e)
 		}
 		// start / stop all logics of this entity accordingly
@@ -151,12 +151,12 @@ func (m *EntityManager) UntagEntities(entities []*Entity, tag string) {
 // get the maximum number of entities without a resizing and reallocating of
 // components and system data (if Expand() is not a nil function for that system)
 func (m *EntityManager) MaxEntities() int {
-	return m.entityIDAllocator.capacity
+	return m.entityIDAllocator.Capacity
 }
 
 // Get the number of allocated entities (not number of active, mind you)
 func (m *EntityManager) NumEntities() (total int, active int) {
-	return len(m.entityIDAllocator.currentEntities), m.entityIDAllocator.active
+	return len(m.entityIDAllocator.Entities), m.entityIDAllocator.Active
 }
 
 // returns a map of all active entities
@@ -166,18 +166,14 @@ func (m *EntityManager) GetActiveEntitiesSet() map[*Entity]bool {
 
 // return a map where the keys are the current entities (aka an idiomatic
 // go "set")
-func (m *EntityManager) GetCurrentEntitiesSet() map[*Entity]bool {
-	return m.entityIDAllocator.currentEntities
-}
-
-// return a copy of the current entities map (allowing you to spawn/despawn
-// while iterating over it)
-func (m *EntityManager) GetCurrentEntitiesSetCopy() map[*Entity]bool {
-	setCopy := make(map[*Entity]bool, len(m.entityIDAllocator.currentEntities))
-	for e := range m.entityIDAllocator.currentEntities {
-		setCopy[e] = true
+func (m *EntityManager) GetCurrentEntitiesSet() map[int]*Entity {
+	result := make(map[int]*Entity, m.entityIDAllocator.Allocated)
+	for ID, e := range m.entityIDAllocator.AllocatedEntities {
+		if e.NonNil {
+			result[ID] = e
+		}
 	}
-	return setCopy
+	return result
 }
 
 func (m *EntityManager) ApplyComponentSet(e *Entity, spec map[ComponentID]any) {
@@ -186,17 +182,14 @@ func (m *EntityManager) ApplyComponentSet(e *Entity, spec map[ComponentID]any) {
 
 func (m *EntityManager) String() string {
 	return fmt.Sprintf("EntityManager[ %d / %d active ]\n",
-		len(m.entityIDAllocator.currentEntities), m.entityIDAllocator.active)
+		len(m.entityIDAllocator.Entities), m.entityIDAllocator.Active)
 }
 
 // dump entities with tags
 func (m *EntityManager) DumpEntities() string {
 	var buffer bytes.Buffer
 	buffer.WriteString("[\n")
-	for e := range m.entityIDAllocator.currentEntities {
-		if e == nil {
-			continue
-		}
+	for _, e := range m.entityIDAllocator.Entities {
 		tags := e.GetTagList(GENERICTAGS_)
 		entityRepresentation := fmt.Sprintf("{id: %d, tags: %v}",
 			e.ID, tags)

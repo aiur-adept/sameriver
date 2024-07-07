@@ -1,6 +1,7 @@
 package sameriver
 
 import (
+	"reflect"
 	"testing"
 )
 
@@ -13,10 +14,10 @@ func TestEntityIDAllocatorDeallocateID(t *testing.T) {
 	et := NewEntityIDAllocator(MAX_ENTITIES, NewIDGenerator())
 	e := et.allocateID()
 	et.deallocate(e)
-	if len(et.currentEntities) != 0 {
+	if et.Allocated != 0 {
 		t.Fatal("didn't update allocated count")
 	}
-	if !(len(et.availableIDs) == 1 && et.availableIDs[0] == e.ID) {
+	if !(len(et.AvailableIDs) == 1 && et.AvailableIDs[0] == e.ID) {
 		t.Fatal("didn't add deallocated ID to list of available IDs")
 	}
 }
@@ -44,5 +45,29 @@ func TestEntityIDAllocatorReallocateDeallocatedID(t *testing.T) {
 	e = et.allocateID()
 	if e.ID != MAX_ENTITIES/2 {
 		t.Fatal("should have used deallocated ID to serve new allocate request")
+	}
+}
+
+func TestEntityIDAllocatorSaveLoad(t *testing.T) {
+	et := NewEntityIDAllocator(MAX_ENTITIES, NewIDGenerator())
+	et.allocateID()
+	e2 := et.allocateID()
+	et.deallocate(e2)
+
+	jsonStr := et.String()
+	Logger.Println(jsonStr)
+
+	et2 := EntityIDAllocator{}
+	et2.UnmarshalJSON([]byte(jsonStr))
+
+	if et.Capacity != et2.Capacity {
+		t.Fatal("capacity didn't match")
+	}
+	if et.Active != et2.Active {
+		t.Fatal("active didn't match")
+	}
+	// deep equals et and et2 AvailableIDs
+	if !reflect.DeepEqual(et.AvailableIDs, et2.AvailableIDs) {
+		t.Fatal("available IDs didn't match")
 	}
 }

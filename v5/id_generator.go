@@ -1,37 +1,38 @@
 package sameriver
 
 import (
+	"encoding/json"
 	"math"
 
 	"go.uber.org/atomic"
 )
 
 type IDGenerator struct {
-	universe map[int]bool
-	freed    map[int]bool
-	x        atomic.Uint32
+	Universe map[int]bool
+	Freed    map[int]bool
+	X        atomic.Uint32
 }
 
 func NewIDGenerator() *IDGenerator {
 	return &IDGenerator{
-		universe: make(map[int]bool),
-		freed:    make(map[int]bool),
+		Universe: make(map[int]bool),
+		Freed:    make(map[int]bool),
 	}
 }
 
 func (g *IDGenerator) Next() (ID int) {
 	// try to get ID from already-available freed IDs
-	if len(g.freed) > 0 {
+	if len(g.Freed) > 0 {
 		// get first of freed (break immediately)
-		for freeID := range g.freed {
+		for freeID := range g.Freed {
 			ID = freeID
-			delete(g.freed, freeID)
+			delete(g.Freed, freeID)
 			break
 		}
 	} else {
 		// if there are no free id's, we're chock-full up to the latest
 		// value of x.Inc()
-		u32ID := g.x.Inc()
+		u32ID := g.X.Inc()
 		if u32ID > math.MaxUint32/64 {
 			panic("tried to generate more than (2^32 - 1) / 64 simultaneous " +
 				"ID's without free. This is surely a logic error. If you're" +
@@ -40,11 +41,29 @@ func (g *IDGenerator) Next() (ID int) {
 		}
 		ID = int(u32ID)
 	}
-	g.universe[ID] = true
+	g.Universe[ID] = true
 	return ID
 }
 
 func (g *IDGenerator) Free(ID int) {
-	delete(g.universe, ID)
-	g.freed[ID] = true
+	delete(g.Universe, ID)
+	g.Freed[ID] = true
+}
+
+func (g *IDGenerator) String() string {
+	jsonStr, err := json.Marshal(g)
+	if err != nil {
+		Logger.Println(err)
+	}
+	return string(jsonStr)
+}
+
+func (g *IDGenerator) UnmarshalJSON(data []byte) error {
+	type Alias IDGenerator
+	aux := &struct {
+		*Alias
+	}{
+		Alias: (*Alias)(g),
+	}
+	return json.Unmarshal(data, &aux)
 }

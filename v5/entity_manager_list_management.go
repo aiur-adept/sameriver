@@ -44,8 +44,8 @@ func (m *EntityManager) getUpdatedEntityList(
 	// helper func that goes through already-existing entities to add them
 	// to the list
 	processExisting := func(q EntityFilter, list *UpdatedEntityList) {
-		for e := range m.entityIDAllocator.currentEntities {
-			if q.Test(e) {
+		for _, e := range m.entityIDAllocator.AllocatedEntities {
+			if e.NonNil && q.Test(e) {
 				list.Signal(EntitySignal{ENTITY_ADD, e})
 			}
 		}

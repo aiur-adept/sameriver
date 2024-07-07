@@ -12,7 +12,8 @@ func TestComponentTableSave(t *testing.T) {
 	// normal setup
 	w := testingWorld()
 	p := NewPhysicsSystem()
-	w.RegisterSystems(p)
+	cs := NewCollisionSystem(FRAME_DURATION / 2)
+	w.RegisterSystems(p, cs)
 	e := testingSpawnPhysics(w)
 	*e.GetVec2D(VELOCITY_) = Vec2D{1, 1}
 
@@ -26,7 +27,7 @@ func TestComponentTableSave(t *testing.T) {
 		t.Errorf("Vec2DMap[%v][0] = %v, want %v", VELOCITY_, ct.Vec2DMap[VELOCITY_][0], *e.GetVec2D(VELOCITY_))
 	}
 
-	os.Remove("test.json")
+	// os.Remove("test.json")
 }
 
 func TestComponentTableSaveState(t *testing.T) {

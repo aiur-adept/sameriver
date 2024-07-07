@@ -4,7 +4,7 @@ import "math"
 
 func (w *World) FilterAllEntities(filter func(*Entity) bool) []*Entity {
 	results := make([]*Entity, 0)
-	for e := range w.GetCurrentEntitiesSet() {
+	for _, e := range w.GetCurrentEntitiesSet() {
 		if !e.Active {
 			continue
 		}
@@ -17,7 +17,7 @@ func (w *World) FilterAllEntities(filter func(*Entity) bool) []*Entity {
 
 func (w *World) EntitiesWithTags(tags ...string) []*Entity {
 	entities := make([]*Entity, 0)
-	for e := range w.GetCurrentEntitiesSet() {
+	for _, e := range w.GetCurrentEntitiesSet() {
 		has := true
 		for _, tag := range tags {
 			has = has && e.HasTag(tag)
@@ -31,7 +31,7 @@ func (w *World) EntitiesWithTags(tags ...string) []*Entity {
 
 func (w *World) ActiveEntitiesWithTags(tags ...string) []*Entity {
 	entities := make([]*Entity, 0)
-	for e := range w.GetCurrentEntitiesSet() {
+	for _, e := range w.GetCurrentEntitiesSet() {
 		if !e.Active {
 			continue
 		}

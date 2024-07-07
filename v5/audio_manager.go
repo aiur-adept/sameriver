@@ -75,7 +75,7 @@ func (m *AudioManager) Load(file string) {
 }
 
 // on execution of this function, the given audio will begin to play
-func (m *AudioManager) Play(file string) {
+func (m *AudioManager) Play(file string, volume int) {
 	if m.Audio[file] == nil {
 		// the value in the map will be nil if the asset
 		// failed to load in Load()
@@ -84,6 +84,7 @@ func (m *AudioManager) Play(file string) {
 		return
 	} else {
 		// play on a new channel
+		mix.Volume(m.PlayChannel, volume)
 		m.Audio[file].Play(m.PlayChannel, 0)
 		m.PlayChannel = (m.PlayChannel + 1) % 8
 	}

@@ -22,7 +22,7 @@ func (w *World) Despawn(e *Entity) {
 }
 
 func (w *World) DespawnAll() {
-	for e := range w.Em.GetCurrentEntitiesSetCopy() {
+	for _, e := range w.Em.GetCurrentEntitiesSet() {
 		w.RemoveAllEntityLogics(e)
 	}
 	w.Em.DespawnAll()
@@ -84,12 +84,8 @@ func (w *World) GetActiveEntitiesSet() map[*Entity]bool {
 	return w.Em.GetActiveEntitiesSet()
 }
 
-func (w *World) GetCurrentEntitiesSet() map[*Entity]bool {
+func (w *World) GetCurrentEntitiesSet() map[int]*Entity {
 	return w.Em.GetCurrentEntitiesSet()
-}
-
-func (w *World) GetCurrentEntitiesSetCopy() map[*Entity]bool {
-	return w.Em.GetCurrentEntitiesSetCopy()
 }
 
 func (w *World) DumpEntities() string {

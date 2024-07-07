@@ -175,7 +175,7 @@ func (m *EntityManager) doSpawn(
 }
 
 func (m *EntityManager) ExpandEntityTables() {
-	n := len(m.entityIDAllocator.currentEntities) / 2
+	n := m.entityIDAllocator.Allocated / 2
 	m.entityIDAllocator.expand(n)
 	m.components.expand(n)
 	for _, s := range m.w.systems {

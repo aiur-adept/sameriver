@@ -9,7 +9,8 @@ func TestPhysicsSystemWithGranularity(t *testing.T) {
 	// normal setup
 	w := testingWorld()
 	p := NewPhysicsSystem()
-	w.RegisterSystems(p)
+	cs := NewCollisionSystem(FRAME_DURATION / 2)
+	w.RegisterSystems(p, cs)
 	e := testingSpawnPhysics(w)
 	*e.GetVec2D(VELOCITY_) = Vec2D{1, 1}
 	pos := e.GetVec2D(POSITION_)
@@ -89,7 +90,8 @@ func TestPhysicsSystemWithGranularity(t *testing.T) {
 func TestPhysicsSystemMotion(t *testing.T) {
 	w := testingWorld()
 	ps := NewPhysicsSystem()
-	w.RegisterSystems(ps)
+	cs := NewCollisionSystem(FRAME_DURATION / 2)
+	w.RegisterSystems(ps, cs)
 	e := testingSpawnPhysics(w)
 	*e.GetVec2D(VELOCITY_) = Vec2D{1, 1}
 	pos := *e.GetVec2D(POSITION_)
@@ -105,7 +107,8 @@ func TestPhysicsSystemMotion(t *testing.T) {
 func TestPhysicsSystemMany(t *testing.T) {
 	w := testingWorld()
 	ps := NewPhysicsSystem()
-	w.RegisterSystems(ps)
+	cs := NewCollisionSystem(FRAME_DURATION / 2)
+	w.RegisterSystems(ps, cs)
 	for i := 0; i < 500; i++ {
 		testingSpawnPhysics(w)
 	}
@@ -118,7 +121,8 @@ func TestPhysicsSystemMany(t *testing.T) {
 func TestPhysicsSystemBounds(t *testing.T) {
 	w := testingWorld()
 	ps := NewPhysicsSystem()
-	w.RegisterSystems(ps)
+	cs := NewCollisionSystem(FRAME_DURATION / 2)
+	w.RegisterSystems(ps, cs)
 	e := testingSpawnPhysics(w)
 	directions := []Vec2D{
 		Vec2D{100, 0},
@@ -149,7 +153,7 @@ func TestPhysicsSystemRigidBody(t *testing.T) {
 	w := testingWorld()
 	cs := NewCollisionSystem(FRAME_DURATION / 2)
 	ps := NewPhysicsSystem()
-	w.RegisterSystems(cs, ps)
+	w.RegisterSystems(ps, cs)
 
 	ec := cs.w.Events.Subscribe(SimpleEventFilter("collision"))
 

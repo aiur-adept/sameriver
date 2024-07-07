@@ -8,6 +8,7 @@ import (
 )
 
 type Entity struct {
+	NonNil            bool
 	ID                int
 	World             *World
 	Active            bool

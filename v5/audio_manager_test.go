@@ -28,10 +28,10 @@ func TestAudioManagerInitAndPlay(t *testing.T) {
 	manager.Init()
 
 	// Attempt to play the "bell.wav" sound
-	manager.Play("bell.wav")
+	manager.Play("bell.wav", 10)
 	time.Sleep(1000 * time.Millisecond)
-	manager.Play("bell.wav")
+	manager.Play("bell.wav", 10)
 	time.Sleep(1000 * time.Millisecond)
-	manager.Play("bell.wav")
+	manager.Play("bell.wav", 10)
 	time.Sleep(1000 * time.Millisecond)
 }

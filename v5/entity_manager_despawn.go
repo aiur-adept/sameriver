@@ -8,7 +8,7 @@ func (m *EntityManager) DespawnAll() {
 		<-m.spawnSubscription.C
 	}
 	// iterate all entities which have been allocated and despawn them
-	for e := range m.GetCurrentEntitiesSetCopy() {
+	for _, e := range m.GetCurrentEntitiesSet() {
 		m.Despawn(e)
 	}
 }

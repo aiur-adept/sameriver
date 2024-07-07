@@ -13,9 +13,11 @@ func TestDSLBasic(t *testing.T) {
 	//
 	w := testingWorld()
 	ps := NewPhysicsSystem()
+	cs := NewCollisionSystem(FRAME_DURATION / 2)
+
 	items := NewItemSystem(nil)
 	inventories := NewInventorySystem()
-	w.RegisterSystems(ps, items, inventories)
+	w.RegisterSystems(ps, cs, items, inventories)
 
 	items.CreateArchetype(map[string]any{
 		"name":        "yoke",

@@ -20,8 +20,7 @@ type EntityManagerInterface interface {
 
 	NumEntities() (total int, active int)
 	GetActiveEntitiesSet() map[*Entity]bool
-	GetCurrentEntitiesSet() map[*Entity]bool
-	GetCurrentEntitiesSetCopy() map[*Entity]bool
+	GetCurrentEntitiesSet() map[int]*Entity
 
 	UniqueTaggedEntity(tag string) (*Entity, error)
 	UpdatedEntitiesWithTag(tag string) *UpdatedEntityList
