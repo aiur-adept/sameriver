@@ -5,6 +5,45 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "TestTileManagerSaveLoad",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/v5/",
+            "args": [
+                "-test.run",
+                "TestTileManagerSaveLoad"
+            ]
+        },
+        {
+            "name": "TestGOAPPlanFarmer2000",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/v5/",
+            "args": [
+                "-test.run",
+                "TestGOAPPlanFarmer2000"
+            ],
+            "env": {
+                "DEBUG_GOAP": "true"
+            }
+        },
+        {
+            "name": "TestGOAPPlanSimple",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/v5/",
+            "args": [
+                "-test.run",
+                "TestGOAPPlanSimple"
+            ],
+            "env": {
+                "DEBUG_GOAP": "true"
+            }
+        },
+        {
             "name": "TestPhysicsSystemRigidBody",
             "type": "go",
             "request": "launch",

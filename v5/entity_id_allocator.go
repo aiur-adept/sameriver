@@ -11,7 +11,7 @@ type EntityIDAllocator struct {
 	// map of allocated entities
 	AllocatedEntities map[int]*Entity
 	// storage for the actual entity objects
-	Entities [MAX_ENTITIES]Entity
+	Entities []Entity
 	// how many entities are allocated
 	Allocated int
 	// how many entities are Active
@@ -23,7 +23,7 @@ type EntityIDAllocator struct {
 func NewEntityIDAllocator(capacity int, IDGen *IDGenerator) *EntityIDAllocator {
 	return &EntityIDAllocator{
 		IdGen:             IDGen,
-		Entities:          [MAX_ENTITIES]Entity{},
+		Entities:          make([]Entity, capacity),
 		AllocatedEntities: make(map[int]*Entity),
 		Capacity:          capacity,
 	}
@@ -31,6 +31,7 @@ func NewEntityIDAllocator(capacity int, IDGen *IDGenerator) *EntityIDAllocator {
 
 func (a *EntityIDAllocator) expand(n int) {
 	a.Capacity += n
+	a.Entities = append(a.Entities, make([]Entity, n)...)
 }
 
 // get the ID for a new e. Only called by SpawnEntity, which locks
@@ -85,10 +86,5 @@ func (a *EntityIDAllocator) UnmarshalJSON(data []byte) error {
 		Alias: (*Alias)(a),
 	}
 	err := json.Unmarshal(data, &aux)
-	if err != nil {
-		Logger.Println(err)
-	} else {
-		a.Entities = [MAX_ENTITIES]Entity{}
-	}
 	return err
 }

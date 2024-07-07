@@ -341,7 +341,8 @@ func TestGOAPActionPresFulfilled(t *testing.T) {
 func TestGOAPPlanSimple(t *testing.T) {
 	w := testingWorld()
 	ps := NewPhysicsSystem()
-	w.RegisterSystems(ps)
+	cs := NewCollisionSystem(FRAME_DURATION / 2)
+	w.RegisterSystems(ps, cs)
 	e := testingSpawnPhysics(w)
 
 	treePos := &Vec2D{19, 19}
@@ -391,7 +392,8 @@ func TestGOAPPlanSimple(t *testing.T) {
 func TestGOAPPlanSimpleIota(t *testing.T) {
 	w := testingWorld()
 	ps := NewPhysicsSystem()
-	w.RegisterSystems(ps)
+	cs := NewCollisionSystem(FRAME_DURATION / 2)
+	w.RegisterSystems(ps, cs)
 
 	e := w.Spawn(map[string]any{
 		"components": map[ComponentID]any{
@@ -448,7 +450,8 @@ func TestGOAPPlanSimpleIota(t *testing.T) {
 func TestGOAPPlanSimpleEnough(t *testing.T) {
 	w := testingWorld()
 	ps := NewPhysicsSystem()
-	w.RegisterSystems(ps)
+	cs := NewCollisionSystem(FRAME_DURATION / 2)
+	w.RegisterSystems(ps, cs)
 
 	const (
 		STATE = GENERICTAGS_ + 1 + iota
@@ -517,9 +520,10 @@ func TestGOAPPlanClassic(t *testing.T) {
 	w := testingWorld()
 
 	ps := NewPhysicsSystem()
+	cs := NewCollisionSystem(FRAME_DURATION / 2)
 	items := NewItemSystem(nil)
 	inventories := NewInventorySystem()
-	w.RegisterSystems(ps, items, inventories)
+	w.RegisterSystems(ps, cs, items, inventories)
 
 	items.CreateArchetype(map[string]any{
 		"name":        "axe",
@@ -732,9 +736,10 @@ func TestGOAPPlanFarmer2000(t *testing.T) {
 	//
 	w := testingWorld()
 	ps := NewPhysicsSystem()
+	cs := NewCollisionSystem(FRAME_DURATION / 2)
 	items := NewItemSystem(nil)
 	inventories := NewInventorySystem()
-	w.RegisterSystems(ps, items, inventories)
+	w.RegisterSystems(ps, cs, items, inventories)
 
 	//
 	// item system init

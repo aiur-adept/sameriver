@@ -65,6 +65,7 @@ func TileManagerFromJSON(renderer *sdl.Renderer, obj map[string]interface{}) *Ti
 	}
 	tm.Tiles = make(map[string]*Tile)
 	tm.Sprites = make(map[string]*Sprite)
+	tm.tm = NewTextureManager()
 	tm.LoadTiles()
 	return &tm
 }
@@ -84,7 +85,7 @@ func (tm *TileManager) LoadTile(kind string, filename string) {
 		Kind: kind,
 	}
 	tm.Sprites[kind] = sprite
-	_, _, width, height, err := tm.tm.Textures[filename].Query()
+	_, _, width, height, err := tm.tm.Textures[kind].Query()
 	if err != nil {
 		panic(err)
 	}

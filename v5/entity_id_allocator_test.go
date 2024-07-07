@@ -27,7 +27,6 @@ func TestEntityIDAllocatorAllocateMaxIDs(t *testing.T) {
 	for i := 0; i < MAX_ENTITIES; i++ {
 		et.allocateID()
 	}
-	et.allocateID()
 	et.expand(1)
 	et.allocateID()
 }

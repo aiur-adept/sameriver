@@ -156,7 +156,7 @@ func (m *EntityManager) MaxEntities() int {
 
 // Get the number of allocated entities (not number of active, mind you)
 func (m *EntityManager) NumEntities() (total int, active int) {
-	return len(m.entityIDAllocator.Entities), m.entityIDAllocator.Active
+	return m.entityIDAllocator.Allocated, m.entityIDAllocator.Active
 }
 
 // returns a map of all active entities
@@ -182,14 +182,14 @@ func (m *EntityManager) ApplyComponentSet(e *Entity, spec map[ComponentID]any) {
 
 func (m *EntityManager) String() string {
 	return fmt.Sprintf("EntityManager[ %d / %d active ]\n",
-		len(m.entityIDAllocator.Entities), m.entityIDAllocator.Active)
+		m.entityIDAllocator.Allocated, m.entityIDAllocator.Active)
 }
 
 // dump entities with tags
 func (m *EntityManager) DumpEntities() string {
 	var buffer bytes.Buffer
 	buffer.WriteString("[\n")
-	for _, e := range m.entityIDAllocator.Entities {
+	for _, e := range m.entityIDAllocator.AllocatedEntities {
 		tags := e.GetTagList(GENERICTAGS_)
 		entityRepresentation := fmt.Sprintf("{id: %d, tags: %v}",
 			e.ID, tags)

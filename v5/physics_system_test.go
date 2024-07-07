@@ -18,7 +18,8 @@ func TestPhysicsSystemWithGranularity(t *testing.T) {
 	// granular setup
 	wg := testingWorld()
 	pg := NewPhysicsSystemWithGranularity(4)
-	wg.RegisterSystems(pg)
+	csg := NewCollisionSystem(FRAME_DURATION / 2)
+	wg.RegisterSystems(pg, csg)
 	eg := testingSpawnPhysics(wg)
 	*eg.GetVec2D(VELOCITY_) = Vec2D{1, 1}
 	posg := eg.GetVec2D(POSITION_)
