@@ -31,13 +31,6 @@ func TestWorldSpawn(t *testing.T) {
 func TestWorldSpawnFail(t *testing.T) {
 	w := testingWorld()
 
-	defer func() {
-		r := recover()
-		if r != nil {
-			t.Errorf("should not have panic'd; should have resized tables")
-		}
-	}()
-
 	for i := 0; i < MAX_ENTITIES; i++ {
 		testingSpawnSimple(w)
 	}

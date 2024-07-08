@@ -36,7 +36,7 @@ type ComponentTable struct {
 	StringsRev map[string]ComponentID        `json:"stringsRev"`
 	Kinds      map[ComponentID]ComponentKind `json:"kinds"`
 
-	ComponentBitArrays [MAX_ENTITIES]bitarray.BitArray `json:"-"`
+	ComponentBitArrays []bitarray.BitArray `json:"-"`
 
 	// data storage
 	Vec2DMap           map[ComponentID][]Vec2D           `json:"vec2DMap"`
@@ -64,6 +64,8 @@ func NewComponentTable(capacity int) ComponentTable {
 		Strings:    make(map[ComponentID]string),
 		StringsRev: make(map[string]ComponentID),
 		Kinds:      make(map[ComponentID]ComponentKind),
+
+		ComponentBitArrays: make([]bitarray.BitArray, capacity),
 
 		Vec2DMap:           make(map[ComponentID][]Vec2D),
 		BoolMap:            make(map[ComponentID][]bool),
@@ -155,6 +157,8 @@ func (ct *ComponentTable) expand(n int) {
 		extraSpace := make([]Inventory, n)
 		ct.InventoryMap[name] = append(slice, extraSpace...)
 	}
+	// expand ComponentBitArrays
+	ct.ComponentBitArrays = append(ct.ComponentBitArrays, make([]bitarray.BitArray, n)...)
 	ct.capacity += n
 }
 

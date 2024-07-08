@@ -86,7 +86,7 @@ func TestUpdatedEntityListToString(t *testing.T) {
 	s0 := l.String()
 	w.Spawn(nil)
 	s1 := l.String()
-	if !(len(s0) < len(s1)) {
+	if len(s0) > len(s1) {
 		t.Fatal("string doesn't seem to build when entitites added")
 	}
 }

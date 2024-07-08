@@ -93,7 +93,7 @@ func EFDSLPredicatesBase(e *EFDSLEvaluator) EFDSLPredicateMap {
 				return func(x *Entity) bool {
 					pos := e.w.GetVec2D(x, POSITION_)
 					box := e.w.GetVec2D(x, BOX_)
-					return e.w.EntityDistanceFromRect(x, *pos, *box) < d
+					return e.w.EntityDistanceFromRect(y, *pos, *box) < d
 				}
 			},
 			"IdentResolve<*Vec2D>, IdentResolve<*Vec2D>, float64",
