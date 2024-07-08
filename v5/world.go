@@ -21,9 +21,10 @@ type World struct {
 	Width  float64
 	Height float64
 
-	IdGen  *IDGenerator
 	Events *EventBus
 	Em     *EntityManager
+
+	IDGen IDGenerator
 
 	// systems registered
 	systems map[string]System
@@ -109,10 +110,10 @@ func NewWorld(spec map[string]any) *World {
 	destructured := destructureWorldSpec(spec)
 	w := &World{
 		Seed:          seed,
+		IDGen:         NewIDGenerator(),
 		Width:         float64(destructured.Width),
 		Height:        float64(destructured.Height),
 		Events:        NewEventBus("world"),
-		IdGen:         NewIDGenerator(),
 		systems:       make(map[string]System),
 		systemLogics:  make(map[string]*LogicUnit),
 		systemsIDs:    make(map[System]int),
@@ -235,7 +236,7 @@ func (w *World) addSystem(s System) {
 		panic(fmt.Sprintf("double-add of system %s", name))
 	}
 	w.systems[name] = s
-	ID := w.IdGen.Next()
+	ID := w.IDGen.Next()
 	w.systemsIDs[s] = ID
 	s.LinkWorld(w)
 	// add logic immediately rather than wait for RuntimeSharer.Share() to
@@ -334,7 +335,7 @@ func (w *World) SetTimeout(F func(), ms float64) {
 	var l *LogicUnit
 	schedule := NewTimeAccumulator(ms)
 	l = &LogicUnit{
-		name: fmt.Sprintf("oneshot-%d", w.IdGen.Next()),
+		name: fmt.Sprintf("oneshot-%d", w.IDGen.Next()),
 		f: func(dt_ms float64) {
 			F()
 			w.oneshots.Remove(l)
@@ -347,7 +348,7 @@ func (w *World) SetTimeout(F func(), ms float64) {
 
 func (w *World) SetInterval(F func(), ms float64) (interval string) {
 	schedule := NewTimeAccumulator(ms)
-	name := fmt.Sprintf("interval-%d", w.IdGen.Next())
+	name := fmt.Sprintf("interval-%d", w.IDGen.Next())
 	l := &LogicUnit{
 		name: name,
 		f: func(dt_ms float64) {
@@ -363,7 +364,7 @@ func (w *World) SetInterval(F func(), ms float64) (interval string) {
 // setinterval but it is guaranteed to run n times
 func (w *World) SetNInterval(F func(), ms float64, n int) (interval string) {
 	schedule := NewTimeAccumulator(ms)
-	name := fmt.Sprintf("interval-%d", w.IdGen.Next())
+	name := fmt.Sprintf("interval-%d", w.IDGen.Next())
 	ran := 0
 	var l *LogicUnit
 	l = &LogicUnit{
@@ -411,7 +412,7 @@ func (w *World) RemoveWorldLogic(Name string) {
 	if logic, ok := w.worldLogics[Name]; ok {
 		w.RuntimeSharer.RunnerMap["world"].Remove(logic)
 		delete(w.worldLogics, Name)
-		w.IdGen.Free(logic.worldID)
+		w.IDGen.Free(logic.worldID)
 	}
 }
 

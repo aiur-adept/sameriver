@@ -5,11 +5,11 @@ import "encoding/json"
 // used by the EntityManager to hold info about the allocated entities
 type EntityIDAllocator struct {
 	// the ID Generator given by the world the entity manager is in
-	IdGen *IDGenerator
+	IDGen IDGenerator
 	// list of available entity ID's which have previously been deallocated
 	AvailableIDs []int
 	// map of allocated entities
-	AllocatedEntities map[int]*Entity
+	AllocatedEntities map[int]*Entity `json:"-"`
 	// storage for the actual entity objects
 	Entities []Entity
 	// how many entities are allocated
@@ -20,9 +20,9 @@ type EntityIDAllocator struct {
 	Capacity int
 }
 
-func NewEntityIDAllocator(capacity int, IDGen *IDGenerator) EntityIDAllocator {
+func NewEntityIDAllocator(capacity int) EntityIDAllocator {
 	return EntityIDAllocator{
-		IdGen:             IDGen,
+		IDGen:             NewIDGenerator(),
 		Entities:          make([]Entity, capacity),
 		AllocatedEntities: make(map[int]*Entity),
 		Capacity:          capacity,
@@ -68,14 +68,6 @@ func (a *EntityIDAllocator) deallocate(e *Entity) {
 		delete(a.AllocatedEntities, e.ID)
 		a.Allocated--
 	}
-}
-
-func (a *EntityIDAllocator) String() string {
-	jsonStr, err := json.Marshal(a)
-	if err != nil {
-		Logger.Println(err)
-	}
-	return string(jsonStr)
 }
 
 func (a *EntityIDAllocator) UnmarshalJSON(data []byte) error {

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"os"
 	"time"
 )
 
@@ -18,13 +19,13 @@ type EntityManager struct {
 	// list of available IDs from previous deallocations
 	EntityIDAllocator EntityIDAllocator
 	// updated entity Lists created by the user according to provided filters
-	Lists map[string]*UpdatedEntityList
+	Lists map[string]*UpdatedEntityList `json:"-"`
 	// updated entity lists of entities with given tags
 	entitiesWithTag map[string]*UpdatedEntityList
 	// entities which have been tagged uniquely
 	uniqueEntities map[string]*Entity
 	// entities that are active
-	ActiveEntities map[int]bool
+	ActiveEntities map[int]bool `json:"-"`
 	// Channel for spawn entity requests (processed as a batch each Update())
 	spawnSubscription *EventChannel
 	// Channel for despawn entity requests (processed as a batch each Update())
@@ -36,7 +37,7 @@ func NewEntityManager(w *World) *EntityManager {
 	em := &EntityManager{
 		w:                   w,
 		ComponentsTable:     NewComponentTable(MAX_ENTITIES),
-		EntityIDAllocator:   NewEntityIDAllocator(MAX_ENTITIES, w.IdGen),
+		EntityIDAllocator:   NewEntityIDAllocator(MAX_ENTITIES),
 		Lists:               make(map[string]*UpdatedEntityList),
 		entitiesWithTag:     make(map[string]*UpdatedEntityList),
 		uniqueEntities:      make(map[string]*Entity),
@@ -173,16 +174,28 @@ func (m *EntityManager) GetCurrentEntitiesSet() map[int]*Entity {
 	return result
 }
 
+func (m *EntityManager) GetEntityByID(ID int) *Entity {
+	return m.EntityIDAllocator.AllocatedEntities[ID]
+}
+
 func (m *EntityManager) ApplyComponentSet(e *Entity, spec map[ComponentID]any) {
 	m.ComponentsTable.ApplyComponentSet(e, spec)
 }
 
 func (m *EntityManager) String() string {
-	json, err := json.Marshal(m)
+	json, err := json.MarshalIndent(m, "", "  ")
 	if err != nil {
 		panic(err)
 	}
 	return string(json)
+}
+
+func (m *EntityManager) Save(filename string) error {
+	json, err := json.MarshalIndent(m, "", "  ")
+	if err != nil {
+		return err
+	}
+	return os.WriteFile(filename, json, 0644)
 }
 
 // dump entities with tags

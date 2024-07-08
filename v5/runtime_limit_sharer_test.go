@@ -29,7 +29,7 @@ func TestRuntimeLimitShare(t *testing.T) {
 			sharer.RunnerMap["basic"].Add(
 				&LogicUnit{
 					name:    fmt.Sprintf("basic-%d", i),
-					worldID: w.IdGen.Next(),
+					worldID: w.IDGen.Next(),
 					f: func(dt_ms float64) {
 						time.Sleep(SLEEP)
 						counters[i] += 1
@@ -44,7 +44,7 @@ func TestRuntimeLimitShare(t *testing.T) {
 			sharer.RunnerMap["extra"].Add(
 				&LogicUnit{
 					name:    fmt.Sprintf("extra-%d", i),
-					worldID: w.IdGen.Next(),
+					worldID: w.IDGen.Next(),
 					f: func(dt_ms float64) {
 						time.Sleep(SLEEP)
 						counters[i] += 1
@@ -93,7 +93,7 @@ func TestRuntimeLimitShareInsertWhileRunning(t *testing.T) {
 			sharer.RunnerMap["basic"].Add(
 				&LogicUnit{
 					name:    fmt.Sprintf("basic-%d", i),
-					worldID: w.IdGen.Next(),
+					worldID: w.IDGen.Next(),
 					f: func(dt_ms float64) {
 						time.Sleep(SLEEP * time.Millisecond)
 						if plain {

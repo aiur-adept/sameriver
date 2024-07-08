@@ -58,7 +58,7 @@ func TestIDGeneratorSaveLoad(t *testing.T) {
 	if !reflect.DeepEqual(IDGen.Freed, IDGen2.Freed) {
 		t.Fatal("Freed maps didn't match")
 	}
-	if IDGen.X.Load() != IDGen2.X.Load() {
+	if IDGen.X != IDGen2.X {
 		t.Fatal("X didn't match")
 	}
 }

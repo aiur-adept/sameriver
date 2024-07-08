@@ -3,18 +3,16 @@ package sameriver
 import (
 	"encoding/json"
 	"math"
-
-	"go.uber.org/atomic"
 )
 
 type IDGenerator struct {
 	Universe map[int]bool
 	Freed    map[int]bool
-	X        atomic.Uint32
+	X        int
 }
 
-func NewIDGenerator() *IDGenerator {
-	return &IDGenerator{
+func NewIDGenerator() IDGenerator {
+	return IDGenerator{
 		Universe: make(map[int]bool),
 		Freed:    make(map[int]bool),
 	}
@@ -31,15 +29,15 @@ func (g *IDGenerator) Next() (ID int) {
 		}
 	} else {
 		// if there are no free id's, we're chock-full up to the latest
-		// value of x.Inc()
-		u32ID := g.X.Inc()
-		if u32ID > math.MaxUint32/64 {
+		// value of x++
+		g.X++
+		ID = g.X
+		if ID > math.MaxUint32/64 {
 			panic("tried to generate more than (2^32 - 1) / 64 simultaneous " +
 				"ID's without free. This is surely a logic error. If you're" +
 				"from the future and you can run 4,294,967,295 entities..." +
 				"well, that's wild")
 		}
-		ID = int(u32ID)
 	}
 	g.Universe[ID] = true
 	return ID
