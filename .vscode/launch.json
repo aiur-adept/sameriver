@@ -5,6 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "TestBlackboardSaveLoad",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/v5/",
+            "args": [
+                "-test.run",
+                "TestBlackboardSaveLoad"
+            ]
+        },
+        {
             "name": "TestTileManagerSaveLoad",
             "type": "go",
             "request": "launch",

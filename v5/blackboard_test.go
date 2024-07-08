@@ -1,7 +1,9 @@
 package sameriver
 
 import (
+	"encoding/json"
 	"fmt"
+	"reflect"
 	"testing"
 
 	"math/rand"
@@ -124,5 +126,65 @@ func TestBlackboardWorldEntities(t *testing.T) {
 	w.Update(FRAME_MS / 2)
 	for e, role := range bb.Get("todayRoles").(map[*Entity]string) {
 		Logger.Printf("%d will be doing '%s'", e.ID, role)
+	}
+}
+
+func TestBlackboardSaveLoad(t *testing.T) {
+	w := testingWorld()
+
+	bname := "village-12"
+	bb := w.Blackboard(bname)
+	bb.Set("roles", []string{"farmer", "baker", "fisher", "crafts"})
+	bb.Set("number", 12)
+	bb.Set("bool", true)
+	bb.Set("numbers", []int{1, 2, 3, 4, 5})
+
+	jsonStr, err := json.Marshal(bb)
+	if err != nil {
+		t.Fatalf("error marshalling blackboard: %v", err)
+	}
+
+	fmt.Println(string(jsonStr))
+
+	bb2 := NewBlackboard(bname + "-reloaded")
+	err = json.Unmarshal(jsonStr, bb2)
+	if err != nil {
+		t.Fatalf("error unmarshalling blackboard: %v", err)
+	}
+
+	// test if bb2 contains the same roles
+	roles1, ok1 := bb.Get("roles").([]string)
+	roles2, ok2 := bb2.Get("roles").([]string)
+
+	fmt.Printf("Type of roles1: %T, Type of roles2: %T\n", bb.Get("roles"), bb2.Get("roles"))
+	fmt.Printf("roles1: %v, roles2: %v\n", roles1, roles2)
+	fmt.Printf("Type assertion ok1: %v, ok2: %v\n", ok1, ok2)
+
+	if !ok1 || !ok2 || !reflect.DeepEqual(roles1, roles2) {
+		t.Fatal("roles array not in bb2 or type mismatch")
+	}
+
+	number1, ok1 := bb.Get("number").(float64)
+	number2, ok2 := bb2.Get("number").(float64)
+	fmt.Printf("Type of number1: %T, Type of number2: %T\n", bb.Get("number"), bb2.Get("number"))
+	fmt.Printf("number1: %v, number2: %v\n", number1, number2)
+	fmt.Printf("Type assertion ok1: %v, ok2: %v\n", ok1, ok2)
+	if !ok1 || !ok2 || number1 != number2 {
+		t.Fatal("number not in bb2 or type mismatch")
+	}
+
+	bool1, ok1 := bb.Get("bool").(bool)
+	bool2, ok2 := bb2.Get("bool").(bool)
+	if !ok1 || !ok2 || bool1 != bool2 {
+		t.Fatal("bool not in bb2 or type mismatch")
+	}
+
+	numbers1, ok1 := bb.Get("numbers").([]float64)
+	numbers2, ok2 := bb2.Get("numbers").([]float64)
+	fmt.Printf("Type of numbers1: %T, Type of numbers2: %T\n", bb.Get("numbers"), bb2.Get("numbers"))
+	fmt.Printf("numbers1: %v, numbers2: %v\n", numbers1, numbers2)
+	fmt.Printf("Type assertion ok1: %v, ok2: %v\n", ok1, ok2)
+	if !ok1 || !ok2 || !reflect.DeepEqual(numbers1, numbers2) {
+		t.Fatal("numbers not in bb2 or type mismatch")
 	}
 }
