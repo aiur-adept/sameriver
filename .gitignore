@@ -31,3 +31,5 @@ sameriver-generate
 
 # ignore files imported from game directory by generate
 engine/CUSTOM_*
+
+**/test.json

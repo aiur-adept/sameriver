@@ -55,9 +55,9 @@ func (a *EntityIDAllocator) allocateID() *Entity {
 	}
 	entity := Entity{ID: ID, NonNil: true}
 	a.Entities[ID] = entity
-	a.AllocatedEntities[ID] = &entity
+	a.AllocatedEntities[ID] = &a.Entities[ID]
 	a.Allocated++
-	return &entity
+	return &a.Entities[ID]
 }
 
 func (a *EntityIDAllocator) deallocate(e *Entity) {
@@ -78,5 +78,12 @@ func (a *EntityIDAllocator) UnmarshalJSON(data []byte) error {
 		Alias: (*Alias)(a),
 	}
 	err := json.Unmarshal(data, &aux)
+	// rebuild AllocatedEntities
+	a.AllocatedEntities = make(map[int]*Entity)
+	for i := range a.Entities {
+		if a.Entities[i].NonNil {
+			a.AllocatedEntities[i] = &a.Entities[i]
+		}
+	}
 	return err
 }

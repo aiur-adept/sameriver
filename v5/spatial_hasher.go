@@ -2,6 +2,7 @@ package sameriver
 
 import (
 	"bytes"
+	"encoding/json"
 	"fmt"
 	"math"
 	"runtime"
@@ -319,9 +320,10 @@ func (h *SpatialHasher) String() string {
 		for y := 0; y < h.GridY; y++ {
 			cell := h.Table[x][y]
 			size += int(unsafe.Sizeof(&Entity{})) * cap(cell)
+			cellStr, _ := json.Marshal(cell)
 			buffer.WriteString(fmt.Sprintf(
 				"CELL(%d, %d): %.64s...", x, y,
-				EntitySliceToString(cell)))
+				cellStr))
 			if !(y == h.GridY-1 && x == h.GridX-1) {
 				buffer.WriteString(",\n")
 			}

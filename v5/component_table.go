@@ -304,45 +304,59 @@ func (ct *ComponentTable) applyComponentSet(e *Entity, cs ComponentSet) {
 	ct.AssertValidComponentSet(cs)
 	for name, v := range cs.vec2DMap {
 		ct.Vec2DMap[name][e.ID] = v
+		e.Components = append(e.Components, ct.Strings[name])
 	}
 	for name, b := range cs.boolMap {
 		ct.BoolMap[name][e.ID] = b
+		e.Components = append(e.Components, ct.Strings[name])
 	}
 	for name, i := range cs.intMap {
 		ct.IntMap[name][e.ID] = i
+		e.Components = append(e.Components, ct.Strings[name])
 	}
 	for name, f := range cs.float64Map {
 		ct.Float64Map[name][e.ID] = f
+		e.Components = append(e.Components, ct.Strings[name])
 	}
 	for name, t := range cs.timeMap {
 		ct.TimeMap[name][e.ID] = t
+		e.Components = append(e.Components, ct.Strings[name])
 	}
 	for name, t := range cs.timeAccumulatorMap {
 		ct.TimeAccumulatorMap[name][e.ID] = t
+		e.Components = append(e.Components, ct.Strings[name])
 	}
 	for name, s := range cs.stringMap {
 		ct.StringMap[name][e.ID] = s
+		e.Components = append(e.Components, ct.Strings[name])
 	}
 	for name, s := range cs.spriteMap {
 		ct.SpriteMap[name][e.ID] = s
+		e.Components = append(e.Components, ct.Strings[name])
 	}
 	for name, t := range cs.tagListMap {
 		ct.TagListMap[name][e.ID] = t
+		e.Components = append(e.Components, ct.Strings[name])
 	}
 	for name, m := range cs.intMapMap {
 		ct.IntMapMap[name][e.ID] = m
+		e.Components = append(e.Components, ct.Strings[name])
 	}
 	for name, m := range cs.floatMapMap {
 		ct.FloatMapMap[name][e.ID] = m
+		e.Components = append(e.Components, ct.Strings[name])
 	}
 	for name, m := range cs.stringMapMap {
 		ct.StringMapMap[name][e.ID] = m
+		e.Components = append(e.Components, ct.Strings[name])
 	}
 	for name, m := range cs.itemMap {
 		ct.ItemMap[name][e.ID] = m
+		e.Components = append(e.Components, ct.Strings[name])
 	}
 	for name, m := range cs.inventoryMap {
 		ct.InventoryMap[name][e.ID] = m
+		e.Components = append(e.Components, ct.Strings[name])
 	}
 
 	ct.orBitArrayInto(e, ct.bitArrayFromComponentSet(cs))

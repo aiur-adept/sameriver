@@ -13,6 +13,7 @@ func TestEntityManagerSaveLoad(t *testing.T) {
 	w.RegisterSystems(p, cs)
 
 	e := testingSpawnPhysics(w)
+	_ = testingSpawnPhysics(w)
 
 	w.Em.Save("test.json")
 
@@ -31,5 +32,10 @@ func TestEntityManagerSaveLoad(t *testing.T) {
 
 	if em2.GetEntityByID(e.ID) == nil {
 		t.Fatal("entity not in em2")
+	}
+
+	// check if position is the same
+	if w.GetVec2D(em2.GetEntityByID(e.ID), POSITION_) != w.GetVec2D(e, POSITION_) {
+		t.Fatal("entity position not the same")
 	}
 }

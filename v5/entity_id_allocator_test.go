@@ -55,7 +55,7 @@ func TestEntityIDAllocatorSaveLoad(t *testing.T) {
 	e2 := w.Em.EntityIDAllocator.allocateID()
 	w.Em.EntityIDAllocator.deallocate(e2)
 
-	jsonStr, err := json.Marshal(w.Em.EntityIDAllocator)
+	jsonStr, err := json.MarshalIndent(w.Em.EntityIDAllocator, "", "  ")
 	if err != nil {
 		t.Fatal("error marshalling entity ID allocator")
 	}
