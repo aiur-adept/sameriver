@@ -38,4 +38,8 @@ func TestEntityManagerSaveLoad(t *testing.T) {
 	if w.GetVec2D(em2.GetEntityByID(e.ID), POSITION_) != w.GetVec2D(e, POSITION_) {
 		t.Fatal("entity position not the same")
 	}
+	// check if mass is the same
+	if w.GetFloat64(em2.GetEntityByID(e.ID), MASS_) != w.GetFloat64(e, MASS_) {
+		t.Fatal("entity mass not the same")
+	}
 }

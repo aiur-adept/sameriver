@@ -1,4 +1,4 @@
-module github.com/aiur-adept/sameriver/v5
+module github.com/aiur-adept/sameriver/v6
 
 go 1.19
 
