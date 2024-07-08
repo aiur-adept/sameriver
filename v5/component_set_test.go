@@ -34,7 +34,7 @@ func TestComponentSetApply(t *testing.T) {
 		GENERICTAGS_: l,
 	}
 	w.Em.ComponentsTable.ApplyComponentSet(e, cs)
-	eb := e.ComponentBitArray
+	eb := w.Em.ComponentsTable.ComponentBitArrays[e.ID]
 	csb := w.Em.ComponentsTable.BitArrayFromComponentSet(cs)
 	Logger.Println(eb)
 	Logger.Println(csb)

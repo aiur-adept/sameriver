@@ -1,0 +1,1 @@
+use nodes in goap_benchmark_test.go

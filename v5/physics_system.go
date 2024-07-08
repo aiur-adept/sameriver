@@ -40,7 +40,7 @@ func (p *PhysicsSystem) GetComponentDeps() []any {
 func (p *PhysicsSystem) LinkWorld(w *World) {
 	p.w = w
 	p.physicsEntities = w.Em.GetSortedUpdatedEntityList(
-		EntityFilterFromComponentBitArray(
+		w.EntityFilterFromComponentBitArray(
 			"physical",
 			w.Em.ComponentsTable.BitArrayFromIDs([]ComponentID{POSITION_, VELOCITY_, ACCELERATION_, BOX_, MASS_, RIGIDBODY_})))
 	p.h = NewSpatialHasher(10, 10, w)
@@ -56,7 +56,7 @@ func (p *PhysicsSystem) Update(dt_ms float64) {
 }
 
 func (p *PhysicsSystem) collision(e *Entity, pos, box *Vec2D, dx, dy float64) bool {
-	rigidBody := e.GetBool(RIGIDBODY_)
+	rigidBody := p.w.GetBool(e, RIGIDBODY_)
 	if !*rigidBody {
 		return false
 	}
@@ -65,10 +65,10 @@ func (p *PhysicsSystem) collision(e *Entity, pos, box *Vec2D, dx, dy float64) bo
 
 	// check collisions using spatial hasher
 	testCollision := func(i *Entity, j *Entity) bool {
-		iPos := i.GetVec2D(POSITION_)
-		iBox := i.GetVec2D(BOX_)
-		jPos := j.GetVec2D(POSITION_)
-		jBox := j.GetVec2D(BOX_)
+		iPos := p.w.GetVec2D(i, POSITION_)
+		iBox := p.w.GetVec2D(i, BOX_)
+		jPos := p.w.GetVec2D(j, POSITION_)
+		jBox := p.w.GetVec2D(j, BOX_)
 
 		return RectIntersectsRect(*iPos, *iBox, *jPos, *jBox)
 	}
@@ -84,7 +84,7 @@ func (p *PhysicsSystem) collision(e *Entity, pos, box *Vec2D, dx, dy float64) bo
 				if other.ID == e.ID {
 					continue
 				}
-				otherRigidBody := other.GetBool(RIGIDBODY_)
+				otherRigidBody := p.w.GetBool(other, RIGIDBODY_)
 				if !*otherRigidBody {
 					continue
 				}
@@ -105,12 +105,12 @@ func (p *PhysicsSystem) collision(e *Entity, pos, box *Vec2D, dx, dy float64) bo
 func (p *PhysicsSystem) physics(e *Entity, dt_ms float64) {
 
 	// the logic is simpler to read that way
-	pos := e.GetVec2D(POSITION_)
-	box := e.GetVec2D(BOX_)
+	pos := p.w.GetVec2D(e, POSITION_)
+	box := p.w.GetVec2D(e, BOX_)
 
 	// calculate velocity
-	acc := e.GetVec2D(ACCELERATION_)
-	vel := e.GetVec2D(VELOCITY_)
+	acc := p.w.GetVec2D(e, ACCELERATION_)
+	vel := p.w.GetVec2D(e, VELOCITY_)
 	vel.X += acc.X * dt_ms
 	vel.Y += acc.Y * dt_ms
 	dx := vel.X * dt_ms

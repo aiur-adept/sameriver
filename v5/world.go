@@ -11,6 +11,7 @@ import (
 	"unsafe"
 
 	"github.com/TwiN/go-color"
+	"github.com/golang-collections/go-datastructures/bitarray"
 )
 
 type World struct {
@@ -23,6 +24,8 @@ type World struct {
 
 	Events *EventBus
 	Em     *EntityManager
+
+	EFDSL *EFDSLEvaluator
 
 	IDGen IDGenerator
 
@@ -137,6 +140,8 @@ func NewWorld(spec map[string]any) *World {
 
 	// init entitymanager
 	w.Em = NewEntityManager(w)
+	// init EFDSL
+	w.EFDSL = NewEFDSLEvaluator(w)
 	// register basic components
 	w.RegisterComponents([]any{
 		GENERICTAGS_, TAGLIST, "GENERICTAGS",
@@ -467,6 +472,91 @@ func (w *World) Blackboard(name string) *Blackboard {
 
 func (w *World) ApplyComponentSet(e *Entity, spec map[ComponentID]any) {
 	w.Em.ComponentsTable.ApplyComponentSet(e, spec)
+}
+
+func (w *World) EntityHasComponent(e *Entity, name ComponentID) bool {
+	b, _ := w.Em.ComponentsTable.ComponentBitArrays[e.ID].GetBit(uint64(w.Em.ComponentsTable.Ixs[name]))
+	return b
+}
+
+func (w *World) EntityHasComponents(e *Entity, names ...ComponentID) bool {
+	has := true
+	for _, name := range names {
+		b, _ := w.Em.ComponentsTable.ComponentBitArrays[e.ID].GetBit(uint64(w.Em.ComponentsTable.Ixs[name]))
+		has = has && b
+	}
+	return has
+}
+
+func (w *World) EntityFilterFromTag(tag string) EntityFilter {
+	return EntityFilter{
+		Name: tag,
+		Predicate: func(e *Entity) bool {
+			return w.GetTagList(e, GENERICTAGS_).Has(tag)
+		}}
+}
+
+func (w *World) EntityFilterFromComponentBitArray(
+	name string, q bitarray.BitArray) EntityFilter {
+	return EntityFilter{
+		Name: name,
+		Predicate: func(e *Entity) bool {
+			// determine if q = q&b
+			// that is, if every set bit of q is set in b
+			b := w.Em.ComponentsTable.ComponentBitArrays[e.ID]
+			return q.Equals(q.And(b))
+		}}
+}
+
+func (w *World) EntityFilterFromCanBe(canBe map[string]int) EntityFilter {
+	return EntityFilter{
+		Name: "canbe",
+		Predicate: func(e *Entity) bool {
+			for k, v := range canBe {
+				if !w.GetIntMap(e, STATE_).ValCanBeSetTo(k, v) {
+					return false
+				}
+			}
+			return true
+		},
+	}
+}
+
+// bit of a meta filter:
+// matches the closest entity to to that fulfills the given filter
+func (w *World) EntityFilterFromClosest(to *Entity, filter EntityFilter) EntityFilter {
+	return EntityFilter{
+		Name: "closest",
+		Predicate: func(e *Entity) bool {
+			return e == w.ClosestEntityFilter(
+				*w.GetVec2D(to, POSITION_),
+				*w.GetVec2D(to, BOX_),
+				filter.Predicate)
+		},
+	}
+}
+
+func (w *World) EntityHasTag(e *Entity, tag string) bool {
+	return w.GetTagList(e, GENERICTAGS_).Has(tag)
+}
+
+func (w *World) EntityHasTags(e *Entity, tags ...string) bool {
+	has := true
+	for _, t := range tags {
+		has = has && w.GetTagList(e, GENERICTAGS_).Has(t)
+	}
+	return has
+}
+
+func (w *World) EntityDistanceFrom(e *Entity, x *Entity) float64 {
+	ePos, eBox := w.GetVec2D(e, POSITION_), w.GetVec2D(e, BOX_)
+	xPos, xBox := w.GetVec2D(x, POSITION_), w.GetVec2D(x, BOX_)
+	return RectDistance(*ePos, *eBox, *xPos, *xBox)
+}
+
+func (w *World) EntityDistanceFromRect(e *Entity, pos Vec2D, box Vec2D) float64 {
+	ePos, eBox := w.GetVec2D(e, POSITION_), w.GetVec2D(e, BOX_)
+	return RectDistance(*ePos, *eBox, pos, box)
 }
 
 func (w *World) String() string {

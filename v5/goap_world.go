@@ -55,7 +55,7 @@ func (ws *GOAPWorldState) GetModal(e *Entity, name ComponentID) any {
 	if val, ok := ws.modal[ws.ecKey(e, name)]; ok {
 		return val
 	} else {
-		return e.GetVal(name)
+		return ws.w.GetVal(e, name)
 	}
 }
 

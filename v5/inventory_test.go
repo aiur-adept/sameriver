@@ -15,7 +15,7 @@ func TestInventoryDebitCredit(t *testing.T) {
 			INVENTORY_: NewInventory(),
 		}})
 
-	inv := e.GetInventory(INVENTORY_)
+	inv := w.GetInventory(e, INVENTORY_)
 
 	items.CreateArchetype(map[string]any{
 		"name":        "sword_iron",
@@ -166,7 +166,7 @@ func TestInventoryFromListing(t *testing.T) {
 		},
 	})
 
-	inv := e.GetInventory(INVENTORY_)
+	inv := w.GetInventory(e, INVENTORY_)
 
 	coin := inv.FilterName("coin_copper")[0]
 	Logger.Println(coin)
@@ -191,7 +191,7 @@ func TestInventoryStacksForDisplay(t *testing.T) {
 		},
 	})
 
-	eInv := e.GetInventory(INVENTORY_)
+	eInv := w.GetInventory(e, INVENTORY_)
 	Logger.Println(eInv.StacksForDisplay())
 	for _, str := range eInv.StacksForDisplay() {
 		if str.DisplayStr == "copper coin x 100" {
@@ -218,7 +218,7 @@ func TestInventoryDebitNByFilter(t *testing.T) {
 		},
 	})
 
-	eInv := e.GetInventory(INVENTORY_)
+	eInv := w.GetInventory(e, INVENTORY_)
 	perishableSutraSpec := map[string]any{
 		"archetype":       "heart_sutra",
 		"tags":            []string{"perishable"},
@@ -256,8 +256,8 @@ func TestInventoryGetCountContains(t *testing.T) {
 			}),
 		},
 	})
-	iInv := i.GetInventory(INVENTORY_)
-	jInv := j.GetInventory(INVENTORY_)
+	iInv := w.GetInventory(i, INVENTORY_)
+	jInv := w.GetInventory(j, INVENTORY_)
 	// i purchases a sword
 	jInv.GetNByName(iInv, 50, "coin_copper")
 	iInv.GetNByName(jInv, 1, "sword_iron")
@@ -301,7 +301,7 @@ func TestInventoryMarshalUnmarshal(t *testing.T) {
 			INVENTORY_: NewInventory(),
 		}})
 
-	inv := e.GetInventory(INVENTORY_)
+	inv := w.GetInventory(e, INVENTORY_)
 
 	items.CreateArchetype(map[string]any{
 		"name":        "sword_iron",

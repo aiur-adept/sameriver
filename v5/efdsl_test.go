@@ -71,7 +71,7 @@ func TestEFDSLEvaluator(t *testing.T) {
 	}
 
 	resolver := &EntityResolver{e: ox}
-	filter, _ := EFDSL.Evaluate(ast, resolver)
+	filter, _ := w.EFDSL.Evaluate(ast, resolver)
 
 	// Filter entities using the generated filter function
 	result := w.FilterAllEntities(filter)

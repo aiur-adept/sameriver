@@ -57,13 +57,14 @@ type IdentifierResolver interface {
 
 type EntityResolver struct {
 	e *Entity
+	w *World
 }
 
 type WorldResolver struct {
 	w *World
 }
 
-func valueOrEntityAccess(value any, identifier string) any {
+func valueOrEntityAccess(w *World, value any, identifier string) any {
 	bracket := ""
 	switch {
 	case strings.ContainsRune(identifier, '['):
@@ -86,21 +87,21 @@ func valueOrEntityAccess(value any, identifier string) any {
 
 	switch bracket {
 	case "[":
-		ct := entity.World.Em.ComponentsTable
+		ct := w.Em.ComponentsTable
 		componentID, ok := ct.StringsRev[accessor]
 		if !ok {
 			logDSLError("Component %s doesn't exist for DSL expression \"%s\"", accessor, identifier)
 			return nil
 		}
-		return entity.GetVal(componentID)
+		return w.GetVal(entity, componentID)
 	case "<":
 		key := accessor
-		state := entity.GetIntMap(STATE_)
+		state := w.GetIntMap(entity, STATE_)
 		if !state.Has(key) {
 			logDSLError("Entity %s doesn't have state key %s to resolve DSL expression \"%s\"", entity, accessor, identifier)
 			return nil
 		}
-		return entity.GetIntMap(STATE_).Get(key)
+		return state.Get(key)
 	}
 
 	return nil
@@ -117,13 +118,13 @@ func (er *EntityResolver) Resolve(identifier string) any {
 		// TODO: what do we return here? we don't have access to x?
 	case "self":
 		if len(parts) > 1 {
-			return valueOrEntityAccess(er.e, identifier)
+			return valueOrEntityAccess(er.w, er.e, identifier)
 		}
 		return er.e
 	case "mind":
 		if len(parts) > 1 {
 			key := parts[1]
-			return valueOrEntityAccess(er.e.GetMind(key), identifier)
+			return valueOrEntityAccess(er.w, er.e.GetMind(key), identifier)
 		}
 	case "bb":
 		if len(parts) > 1 {
@@ -131,7 +132,7 @@ func (er *EntityResolver) Resolve(identifier string) any {
 			if len(bbParts) > 1 {
 				bbname := bbParts[0]
 				key := bbParts[1]
-				return valueOrEntityAccess(er.e.World.Blackboard(bbname).Get(key), identifier)
+				return valueOrEntityAccess(er.w, er.w.Blackboard(bbname).Get(key), identifier)
 			}
 		}
 	}
@@ -148,7 +149,7 @@ func (wr *WorldResolver) Resolve(identifier string) any {
 			if len(bbParts) > 1 {
 				bbname := bbParts[0]
 				key := bbParts[1]
-				return valueOrEntityAccess(wr.w.Blackboard(bbname).Get(key), identifier)
+				return valueOrEntityAccess(wr.w, wr.w.Blackboard(bbname).Get(key), identifier)
 			}
 		}
 	}

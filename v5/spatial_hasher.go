@@ -10,6 +10,8 @@ import (
 )
 
 type SpatialHasher struct {
+	w *World
+
 	// spatialEntities is an UpdatedEntityList of entities who have position
 	// and hitbox components
 	SpatialEntities *UpdatedEntityList
@@ -32,6 +34,7 @@ type SpatialHasher struct {
 
 func NewSpatialHasher(gridX, gridY int, w *World) *SpatialHasher {
 	h := &SpatialHasher{
+		w:         w,
 		GridX:     gridX,
 		GridY:     gridY,
 		CellSizeX: w.Width / float64(gridX),
@@ -42,7 +45,7 @@ func NewSpatialHasher(gridX, gridY int, w *World) *SpatialHasher {
 	h.allocTableMutexes()
 	// get spatial entities from world
 	h.SpatialEntities = w.Em.GetSortedUpdatedEntityList(
-		EntityFilterFromComponentBitArray("spatial",
+		w.EntityFilterFromComponentBitArray("spatial",
 			w.Em.ComponentsTable.BitArrayFromIDs([]ComponentID{POSITION_, BOX_})))
 
 	return h
@@ -130,8 +133,8 @@ func (h *SpatialHasher) scanAndInsertEntitiesparallelC() {
 
 			for j := startIdx; j < endIdx; j++ {
 				e := h.SpatialEntities.entities[j]
-				pos := e.GetVec2D(POSITION_)
-				box := e.GetVec2D(BOX_)
+				pos := h.w.GetVec2D(e, POSITION_)
+				box := h.w.GetVec2D(e, BOX_)
 				cellX0, cellX1, cellY0, cellY1 := h.CellRangeOfRect(pos.ShiftedCenterToBottomLeft(*box), *box)
 
 				for y := cellY0; y <= cellY1; y++ {
@@ -156,8 +159,8 @@ func (h *SpatialHasher) scanAndInsertEntitiesparallelC() {
 // somewhat suprisingly, better than some parallel versions
 func (h *SpatialHasher) scanAndInsertEntitiesSingleThread() {
 	for _, e := range h.SpatialEntities.entities {
-		pos := e.GetVec2D(POSITION_)
-		box := e.GetVec2D(BOX_)
+		pos := h.w.GetVec2D(e, POSITION_)
+		box := h.w.GetVec2D(e, BOX_)
 
 		// walk through each cell the entity touches by
 		// starting in the bottom-left and walking cell by cell
@@ -290,8 +293,8 @@ func (h *SpatialHasher) EntitiesWithinDistanceFilter(
 	candidates := h.EntitiesWithinDistanceApprox(pos, box, d)
 	results := make([]*Entity, 0)
 	for _, e := range candidates {
-		ePos := *e.GetVec2D(POSITION_)
-		eBox := *e.GetVec2D(BOX_)
+		ePos := *h.w.GetVec2D(e, POSITION_)
+		eBox := *h.w.GetVec2D(e, BOX_)
 		if predicate(e) && RectWithinDistanceOfRect(
 			pos.ShiftedCenterToBottomLeft(box), box,
 			ePos.ShiftedCenterToBottomLeft(eBox), eBox,

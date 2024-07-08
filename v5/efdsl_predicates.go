@@ -33,7 +33,7 @@ func EFDSLPredicatesBase(e *EFDSLEvaluator) EFDSLPredicateMap {
 			"string, int",
 			func(k string, v int) func(*Entity) bool {
 				return func(x *Entity) bool {
-					return x.HasComponent(STATE_) && x.GetIntMap(STATE_).ValCanBeSetTo(k, v)
+					return e.w.EntityHasComponent(x, STATE_) && e.w.GetIntMap(x, STATE_).ValCanBeSetTo(k, v)
 				}
 			},
 		),
@@ -42,7 +42,7 @@ func EFDSLPredicatesBase(e *EFDSLEvaluator) EFDSLPredicateMap {
 			"string, int",
 			func(k string, v int) func(*Entity) bool {
 				return func(x *Entity) bool {
-					return x.HasComponent(STATE_) && x.GetIntMap(STATE_).Get(k) == v
+					return e.w.EntityHasComponent(x, STATE_) && e.w.GetIntMap(x, STATE_).Get(k) == v
 				}
 			},
 		),
@@ -53,10 +53,9 @@ func EFDSLPredicatesBase(e *EFDSLEvaluator) EFDSLPredicateMap {
 				return func(x *Entity) bool {
 					// do a little odd access pattern since we only have
 					// HasComponent for ComponentID (int) not strings.
-					w := x.World
-					ct := w.Em.ComponentsTable
+					ct := e.w.Em.ComponentsTable
 					componentID := ct.StringsRev[componentStr]
-					return x.HasComponent(componentID)
+					return e.w.EntityHasComponent(x, componentID)
 				}
 			},
 		),
@@ -65,7 +64,7 @@ func EFDSLPredicatesBase(e *EFDSLEvaluator) EFDSLPredicateMap {
 			"string",
 			func(tag string) func(*Entity) bool {
 				return func(x *Entity) bool {
-					return x.HasTag(tag)
+					return e.w.EntityHasTag(x, tag)
 				}
 			},
 		),
@@ -74,7 +73,7 @@ func EFDSLPredicatesBase(e *EFDSLEvaluator) EFDSLPredicateMap {
 			"[]string",
 			func(tags []string) func(*Entity) bool {
 				return func(x *Entity) bool {
-					return x.HasTags(tags...)
+					return e.w.EntityHasTags(x, tags...)
 				}
 			},
 		),
@@ -92,15 +91,15 @@ func EFDSLPredicatesBase(e *EFDSLEvaluator) EFDSLPredicateMap {
 			"IdentResolve<*Entity>, float64",
 			func(y *Entity, d float64) func(*Entity) bool {
 				return func(x *Entity) bool {
-					pos := y.GetVec2D(POSITION_)
-					box := y.GetVec2D(BOX_)
-					return x.DistanceFromRect(*pos, *box) < d
+					pos := e.w.GetVec2D(x, POSITION_)
+					box := e.w.GetVec2D(x, BOX_)
+					return e.w.EntityDistanceFromRect(x, *pos, *box) < d
 				}
 			},
 			"IdentResolve<*Vec2D>, IdentResolve<*Vec2D>, float64",
 			func(pos *Vec2D, box *Vec2D, d float64) func(*Entity) bool {
 				return func(x *Entity) bool {
-					return x.DistanceFromRect(*pos, *box) < d
+					return e.w.EntityDistanceFromRect(x, *pos, *box) < d
 				}
 			},
 		),
@@ -113,9 +112,9 @@ func EFDSLPredicatesBase(e *EFDSLEvaluator) EFDSLPredicateMap {
 			pos := argsTyped[0].(*Vec2D)
 			box := argsTyped[1].(*Vec2D)
 
-			return func(e *Entity) bool {
-				ePos := e.GetVec2D(POSITION_)
-				eBox := e.GetVec2D(BOX_)
+			return func(x *Entity) bool {
+				ePos := e.w.GetVec2D(x, POSITION_)
+				eBox := e.w.GetVec2D(x, BOX_)
 
 				return RectIntersectsRect(*pos, *box, *ePos, *eBox)
 			}

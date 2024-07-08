@@ -109,14 +109,14 @@ func (m *EntityManager) UpdatedEntitiesWithTag(tag string) *UpdatedEntityList {
 func (m *EntityManager) createEntitiesWithTagListIfNeeded(tag string) {
 	if _, exists := m.entitiesWithTag[tag]; !exists {
 		m.entitiesWithTag[tag] =
-			m.GetUpdatedEntityList(EntityFilterFromTag(tag))
+			m.GetUpdatedEntityList(m.w.EntityFilterFromTag(tag))
 	}
 }
 
 // apply the given tags to the given entity
 func (m *EntityManager) TagEntity(e *Entity, tags ...string) {
 	for _, tag := range tags {
-		e.GetTagList(GENERICTAGS_).Add(tag)
+		m.w.GetTagList(e, GENERICTAGS_).Add(tag)
 		if e.Active {
 			m.createEntitiesWithTagListIfNeeded(tag)
 		}
@@ -135,7 +135,7 @@ func (m *EntityManager) TagEntities(entities []*Entity, tag string) {
 
 // Remove a tag from an entity
 func (m *EntityManager) UntagEntity(e *Entity, tag string) {
-	e.GetTagList(GENERICTAGS_).Remove(tag)
+	m.w.GetTagList(e, GENERICTAGS_).Remove(tag)
 	m.checkActiveEntity(e)
 }
 
@@ -203,7 +203,7 @@ func (m *EntityManager) DumpEntities() string {
 	var buffer bytes.Buffer
 	buffer.WriteString("[\n")
 	for _, e := range m.EntityIDAllocator.AllocatedEntities {
-		tags := e.GetTagList(GENERICTAGS_)
+		tags := m.w.GetTagList(e, GENERICTAGS_)
 		entityRepresentation := fmt.Sprintf("{id: %d, tags: %v}",
 			e.ID, tags)
 		buffer.WriteString(entityRepresentation)

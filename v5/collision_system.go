@@ -94,10 +94,10 @@ func (s *CollisionSystem) DoCollide(i *Entity, j *Entity) {
 
 // Test collision between two entities
 func (s *CollisionSystem) TestCollision(i *Entity, j *Entity) bool {
-	iPos := i.GetVec2D(POSITION_)
-	iBox := i.GetVec2D(BOX_)
-	jPos := j.GetVec2D(POSITION_)
-	jBox := j.GetVec2D(BOX_)
+	iPos := s.w.GetVec2D(i, POSITION_)
+	iBox := s.w.GetVec2D(i, BOX_)
+	jPos := s.w.GetVec2D(j, POSITION_)
+	jBox := s.w.GetVec2D(j, BOX_)
 	intersects := RectIntersectsRect(*iPos, *iBox, *jPos, *jBox)
 	return intersects
 }
@@ -121,7 +121,7 @@ func (s *CollisionSystem) LinkWorld(w *World) {
 	// Filter a regularly updated list of the entities which are collidable
 	// (position and hitbox)
 	s.collidableEntities = w.Em.GetSortedUpdatedEntityList(
-		EntityFilterFromComponentBitArray(
+		w.EntityFilterFromComponentBitArray(
 			"collidable",
 			w.Em.ComponentsTable.BitArrayFromIDs([]ComponentID{POSITION_, BOX_})))
 	// add a callback to the UpdatedEntityList of collidable entities

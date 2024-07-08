@@ -175,7 +175,7 @@ func BenchmarkGOAPClassic(b *testing.B) {
 		},
 	})
 
-	p := NewGOAPPlanner(e)
+	p := NewGOAPPlanner(e, w)
 
 	p.AddModalVals(hasGloveModal, hasAxeModal, atAxeModal, atGloveModal, atTreeModal)
 	p.AddActions(getAxe, getGlove, goToAxe, goToGlove, goToTree, chopTree)
@@ -386,7 +386,7 @@ func BenchmarkGOAPAlanWatts(b *testing.B) {
 		},
 	})
 
-	p := NewGOAPPlanner(e)
+	p := NewGOAPPlanner(e, w)
 
 	p.AddModalVals(drunkModal, hasBoozeModal, atBoozeModal, inTempleModal)
 	p.AddActions(drink, dropAllBooze, purifyOneself, enterTemple, goToBooze, getBooze)
@@ -469,7 +469,7 @@ func BenchmarkGOAPSimple(b *testing.B) {
 		},
 	})
 
-	p := NewGOAPPlanner(e)
+	p := NewGOAPPlanner(e, w)
 
 	p.AddActions(equipBow, moveToTarget, rangedCombat)
 
@@ -585,8 +585,8 @@ func BenchmarkGOAPFarmer2000(b *testing.B) {
 			ox := ws.ModalEntities["ox"]
 			oxPos := ws.GetModal(ox, POSITION_).(*Vec2D)
 			if RectIntersectsRect(
-				*oxPos, *ox.GetVec2D(BOX_),
-				*field.GetVec2D(POSITION_), *field.GetVec2D(BOX_)) {
+				*oxPos, *w.GetVec2D(ox, BOX_),
+				*w.GetVec2D(field, POSITION_), *w.GetVec2D(field, BOX_)) {
 				return 1
 			} else {
 				return 0
@@ -601,10 +601,10 @@ func BenchmarkGOAPFarmer2000(b *testing.B) {
 					// TODO: this should really be a call to some kind of sophisticated
 					// relocation function that avoids obstacles and makes sure there's a path
 					// to be able to get there via navmesh/grid
-					awayFromField := field.GetVec2D(POSITION_).Add(Vec2D{200, 200})
+					awayFromField := w.GetVec2D(field, POSITION_).Add(Vec2D{200, 200})
 					ws.SetModal(ox, POSITION_, &awayFromField)
 				case 1:
-					fieldCenter := *field.GetVec2D(POSITION_)
+					fieldCenter := *w.GetVec2D(field, POSITION_)
 					ws.SetModal(ox, POSITION_, &fieldCenter)
 				}
 			}
@@ -653,7 +653,7 @@ func BenchmarkGOAPFarmer2000(b *testing.B) {
 		effModalSet: func(ws *GOAPWorldState, op string, x int) {
 			if op == "=" {
 				field := ws.ModalEntities["field"]
-				state := field.GetIntMap(STATE).CopyOf()
+				state := ws.GetModal(field, STATE).(*IntMap).CopyOf()
 				state.M["tilled"] = x
 				ws.SetModal(field, STATE, &state)
 			}
@@ -721,7 +721,7 @@ func BenchmarkGOAPFarmer2000(b *testing.B) {
 	// example where we have a field in mind allowing us to choose a closer ox.
 	// so really, this would happen not before the planning as the BindEntitySelectors() call below,
 	// but this RegisterGenericEntitySelectors() call would happen on setup of the planner itself
-	p := NewGOAPPlanner(e)
+	p := NewGOAPPlanner(e, w)
 
 	p.AddModalVals(oxInFieldModal, hasYokeModal, fieldTilledModal)
 	p.AddActions(leadOxToField, getYoke, yokeOxplow, oxplow)
@@ -736,11 +736,11 @@ func BenchmarkGOAPFarmer2000(b *testing.B) {
 		e.SetMind("plan.field", field)
 		planField := e.GetMind("plan.field").(*Entity)
 		// this would really be a filtering not of all entities but of perception
-		closestOxToField := e.World.ClosestEntityFilter(
-			*planField.GetVec2D(POSITION_),
-			*planField.GetVec2D(BOX_),
+		closestOxToField := w.ClosestEntityFilter(
+			*w.GetVec2D(planField, POSITION_),
+			*w.GetVec2D(planField, BOX_),
 			func(e *Entity) bool {
-				return e.GetTagList(GENERICTAGS_).Has("ox")
+				return w.EntityHasTag(e, "ox")
 			})
 		e.SetMind("plan.ox", closestOxToField)
 	}

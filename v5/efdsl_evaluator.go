@@ -7,6 +7,7 @@ type EFDSLSort func(args []string, resolver IdentifierResolver) func(xs []*Entit
 type EFDSLSortMap map[string](EFDSLSort)
 
 type EFDSLEvaluator struct {
+	w          *World
 	predicates EFDSLPredicateMap
 	sorts      EFDSLSortMap
 	// used to allow - in a performant way avoiding reflect - users to
@@ -16,11 +17,9 @@ type EFDSLEvaluator struct {
 	userSortSignatureAsserter      func(f any, argsTyped []any) func(xs []*Entity) func(i, j int) int
 }
 
-// global singleton
-var EFDSL = NewEFDSLEvaluator()
-
-func NewEFDSLEvaluator() *EFDSLEvaluator {
+func NewEFDSLEvaluator(w *World) *EFDSLEvaluator {
 	e := &EFDSLEvaluator{
+		w:          w,
 		predicates: EFDSLPredicateMap{},
 		sorts:      EFDSLSortMap{},
 	}

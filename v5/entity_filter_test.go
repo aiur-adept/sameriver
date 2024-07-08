@@ -12,7 +12,7 @@ func TestEntityFilter(t *testing.T) {
 	q := EntityFilter{
 		"positionFilter",
 		func(e *Entity) bool {
-			return *e.GetVec2D(POSITION_) == pos
+			return *w.GetVec2D(e, POSITION_) == pos
 		},
 	}
 	if !q.Test(e) {
@@ -25,7 +25,7 @@ func TestEntityFilterFromTag(t *testing.T) {
 
 	tag := "tag1"
 	e := testingSpawnTagged(w, tag)
-	q := EntityFilterFromTag(tag)
+	q := w.EntityFilterFromTag(tag)
 	if !q.Test(e) {
 		t.Fatal("Filter did not return true")
 	}
@@ -43,11 +43,11 @@ func TestEntityFilterFromCanBe(t *testing.T) {
 		},
 		"tags": []string{"ox"},
 	})
-	q := EntityFilterFromCanBe(map[string]int{"yoked": 1})
+	q := w.EntityFilterFromCanBe(map[string]int{"yoked": 1})
 	if !q.Test(ox) {
 		t.Fatal("Should've responded to ox that can be yoked")
 	}
-	ox.GetIntMap(STATE_).SetValidInterval("yoked", 0, 0)
+	w.GetIntMap(ox, STATE_).SetValidInterval("yoked", 0, 0)
 	if q.Test(ox) {
 		t.Fatal("Should've failed for unyokable ox")
 	}

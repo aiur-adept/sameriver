@@ -12,8 +12,8 @@ func TestPhysicsSystemWithGranularity(t *testing.T) {
 	cs := NewCollisionSystem(FRAME_DURATION / 2)
 	w.RegisterSystems(p, cs)
 	e := testingSpawnPhysics(w)
-	*e.GetVec2D(VELOCITY_) = Vec2D{1, 1}
-	pos := e.GetVec2D(POSITION_)
+	*w.GetVec2D(e, VELOCITY_) = Vec2D{1, 1}
+	pos := w.GetVec2D(e, POSITION_)
 	pos0 := *pos
 	// granular setup
 	wg := testingWorld()
@@ -21,8 +21,8 @@ func TestPhysicsSystemWithGranularity(t *testing.T) {
 	csg := NewCollisionSystem(FRAME_DURATION / 2)
 	wg.RegisterSystems(pg, csg)
 	eg := testingSpawnPhysics(wg)
-	*eg.GetVec2D(VELOCITY_) = Vec2D{1, 1}
-	posg := eg.GetVec2D(POSITION_)
+	*wg.GetVec2D(eg, VELOCITY_) = Vec2D{1, 1}
+	posg := wg.GetVec2D(eg, POSITION_)
 	posg0 := *posg
 
 	// simulate constant load of other logics with a ratio
@@ -94,13 +94,13 @@ func TestPhysicsSystemMotion(t *testing.T) {
 	cs := NewCollisionSystem(FRAME_DURATION / 2)
 	w.RegisterSystems(ps, cs)
 	e := testingSpawnPhysics(w)
-	*e.GetVec2D(VELOCITY_) = Vec2D{1, 1}
-	pos := *e.GetVec2D(POSITION_)
+	*w.GetVec2D(e, VELOCITY_) = Vec2D{1, 1}
+	pos := *w.GetVec2D(e, POSITION_)
 	// Update twice since physics system won't run the first time(needs a dt)
 	w.Update(FRAME_MS / 2)
 	time.Sleep(FRAME_DURATION)
 	w.Update(FRAME_MS / 2)
-	if *e.GetVec2D(POSITION_) == pos {
+	if *w.GetVec2D(e, POSITION_) == pos {
 		t.Fatal("failed to update position")
 	}
 }
@@ -133,9 +133,9 @@ func TestPhysicsSystemBounds(t *testing.T) {
 	}
 	worldCenter := Vec2D{w.Width / 2, w.Height / 2}
 	worldTopRight := Vec2D{w.Width, w.Height}
-	pos := e.GetVec2D(POSITION_)
-	box := e.GetVec2D(BOX_)
-	vel := e.GetVec2D(VELOCITY_)
+	pos := w.GetVec2D(e, POSITION_)
+	box := w.GetVec2D(e, BOX_)
+	vel := w.GetVec2D(e, VELOCITY_)
 	for _, d := range directions {
 		*pos = Vec2D{512, 512}
 		*vel = d
@@ -185,8 +185,8 @@ func TestPhysicsSystemRigidBody(t *testing.T) {
 		time.Sleep(FRAME_DURATION)
 		w.Update(FRAME_MS / 2)
 	}
-	Logger.Printf("e: %v", *e.GetVec2D(POSITION_))
-	Logger.Printf("e2: %v", *e2.GetVec2D(POSITION_))
+	Logger.Printf("e: %v", *w.GetVec2D(e, POSITION_))
+	Logger.Printf("e2: %v", *w.GetVec2D(e2, POSITION_))
 
 	// should have collision events
 	select {

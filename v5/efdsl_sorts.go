@@ -21,7 +21,7 @@ func EFDSLSortsBase(e *EFDSLEvaluator) EFDSLSortMap {
 			pole := argsTyped[0].(*Entity)
 			return func(xs []*Entity) func(i, j int) bool {
 				return func(i, j int) bool {
-					return xs[i].DistanceFrom(pole) < xs[j].DistanceFrom(pole)
+					return e.w.EntityDistanceFrom(xs[i], pole) < e.w.EntityDistanceFrom(xs[j], pole)
 				}
 			}
 		},

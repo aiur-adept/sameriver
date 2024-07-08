@@ -113,7 +113,6 @@ func (m *EntityManager) doSpawn(
 	}
 	e := m.EntityIDAllocator.allocateID()
 
-	e.World = m.w
 	// copy the data into the component storage for each component
 	m.ComponentsTable.applyComponentSet(e, components)
 	// create (if doesn't exist) entitiesWithTag lists for each tag

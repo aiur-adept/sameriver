@@ -145,8 +145,8 @@ func TestItemSystemSpawnItemEntitySprite(t *testing.T) {
 		coinEntity := i.SpawnItemEntity(Vec2D{10, 10}, coin)
 		Logger.Println(coinEntity)
 		// draw the entity
-		coinPos := coinEntity.GetVec2D(POSITION_)
-		coinBox := coinEntity.GetVec2D(BOX_)
+		coinPos := w.GetVec2D(coinEntity, POSITION_)
+		coinBox := w.GetVec2D(coinEntity, BOX_)
 		srcRect := sdl.Rect{0, 0, int32(coinBox.X), int32(coinBox.Y)}
 		destRect := sdl.Rect{
 			int32(coinPos.X),
@@ -154,7 +154,7 @@ func TestItemSystemSpawnItemEntitySprite(t *testing.T) {
 			int32(coinPos.X + coinBox.X),
 			int32(coinPos.Y + coinBox.Y),
 		}
-		coinSprite := coinEntity.GetSprite(BASESPRITE_)
+		coinSprite := w.GetSprite(coinEntity, BASESPRITE_)
 		renderer.Copy(tm.Textures[coinSprite.Texture], &srcRect, &destRect)
 		renderer.Present()
 		time.Sleep(200 * time.Millisecond)
@@ -207,7 +207,7 @@ func TestItemSystemRotting(t *testing.T) {
 			INVENTORY_: NewInventory(),
 		},
 	})
-	inv := e.GetInventory(INVENTORY_)
+	inv := w.GetInventory(e, INVENTORY_)
 	inv.Credit(book)
 
 	Logger.Println(inv)
@@ -237,7 +237,7 @@ func TestItemSystemRotting(t *testing.T) {
 	Logger.Println(inv)
 
 	droppedBook := i.SpawnItemEntity(Vec2D{0, 0}, i.CreateItem(perishableSutraSpec))
-	droppedBookInv := droppedBook.GetInventory(INVENTORY_)
+	droppedBookInv := w.GetInventory(droppedBook, INVENTORY_)
 	i.Update(timeToRot / 2)
 	Logger.Println(droppedBookInv)
 }

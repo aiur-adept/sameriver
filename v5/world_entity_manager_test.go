@@ -6,30 +6,30 @@ import (
 	"time"
 )
 
-func EntityManagerInterfaceTestSpawn(
-	em EntityManagerInterface, t *testing.T) {
+func TestWorldSpawn(t *testing.T) {
+
+	w := testingWorld()
 
 	pos := Vec2D{11, 11}
-	e := testingSpawnPosition(em, pos)
-	if *e.GetVec2D(POSITION_) != pos {
+	e := testingSpawnPosition(w, pos)
+	if *w.GetVec2D(e, POSITION_) != pos {
 		t.Fatal("failed to apply component data")
 	}
-	total, _ := em.NumEntities()
+	total, _ := w.NumEntities()
 	if total == 0 {
 		t.Fatal("failed to Spawn simple Spawn request entity")
 	}
 	if !(e.Despawned == false &&
-		e.Active == true &&
-		e.World != nil) {
+		e.Active == true) {
 		t.Fatal("entity struct not populated properly")
 	}
-	if len(em.GetCurrentEntitiesSet()) == 0 {
+	if len(w.GetCurrentEntitiesSet()) == 0 {
 		t.Fatal("entity not added to current entities set on spawn")
 	}
 }
 
-func EntityManagerInterfaceTestSpawnFail(
-	em EntityManagerInterface, t *testing.T) {
+func TestWorldSpawnFail(t *testing.T) {
+	w := testingWorld()
 
 	defer func() {
 		r := recover()
@@ -39,116 +39,99 @@ func EntityManagerInterfaceTestSpawnFail(
 	}()
 
 	for i := 0; i < MAX_ENTITIES; i++ {
-		testingSpawnSimple(em)
+		testingSpawnSimple(w)
 	}
-	testingSpawnSimple(em)
-	if len(em.Components().Vec2DMap[POSITION_]) == MAX_ENTITIES {
+	testingSpawnSimple(w)
+	if len(w.Components().Vec2DMap[POSITION_]) == MAX_ENTITIES {
 		t.Fatal("Did not resize component data tables")
 	}
 }
 
-func EntityManagerInterfaceTestQueueSpawn(
-	em EntityManagerInterface, t *testing.T) {
-
-	testingQueueSpawnSimple(em)
+func TestWorldQueueSpawn(t *testing.T) {
+	w := testingWorld()
+	testingQueueSpawnSimple(w)
 	// sleep long enough for the event to appear on the channel
 	time.Sleep(FRAME_DURATION)
-	em.Update(FRAME_MS / 2)
-	total, _ := em.NumEntities()
+	w.Update(FRAME_MS / 2)
+	total, _ := w.NumEntities()
 	if total != 1 {
 		t.Fatal("should have spawned an entity after processing spawn " +
 			"request channel")
 	}
 }
 
-func EntityManagerInterfaceTestQueueSpawnFull(
-	em EntityManagerInterface, t *testing.T) {
+func TestWorldDespawn(t *testing.T) {
+	w := testingWorld()
 	// fill up the spawnSubscription channel
 	for i := 0; i < EVENT_SUBSCRIBER_CHANNEL_CAPACITY; i++ {
-		testingQueueSpawnSimple(em)
+		testingQueueSpawnSimple(w)
 	}
 	// spawn two more entities (one simple, one unique)
-	testingQueueSpawnSimple(em)
-	testingQueueSpawnUnique(em)
+	testingQueueSpawnSimple(w)
+	testingQueueSpawnUnique(w)
 	// sleep long enough for the events to appear on the channel
 	time.Sleep(FRAME_DURATION)
 	// update *twice*, allowing the extra events to process despite having seen
 	// a full spawn subscription channel the first time
-	em.Update(FRAME_MS / 2)
-	em.Update(FRAME_MS / 2)
-	total, _ := em.NumEntities()
+	w.Update(FRAME_MS / 2)
+	w.Update(FRAME_MS / 2)
+	total, _ := w.NumEntities()
 	if total != EVENT_SUBSCRIBER_CHANNEL_CAPACITY+2 {
 		t.Fatal("should have spawned entities after processing spawn " +
 			"request channel")
 	}
 }
 
-func EntityManagerInterfaceTestDespawn(
-	em EntityManagerInterface, t *testing.T) {
-
-	e := testingSpawnSimple(em)
-	em.Despawn(e)
-	if e.Active {
-		t.Fatal("Despawn did not deactivate entity")
-	}
-	if !e.Despawned {
-		t.Fatal("Despawn did not set DeSpawned flag")
-	}
-}
-
-func EntityManagerInterfaceTestDespawnAll(
-	em EntityManagerInterface, t *testing.T) {
-
+func TestWorldDespawnAll(t *testing.T) {
+	w := testingWorld()
 	for i := 0; i < 64; i++ {
-		testingSpawnSimple(em)
+		testingSpawnSimple(w)
 	}
 	for i := 0; i < 64; i++ {
-		testingQueueSpawnSimple(em)
+		testingQueueSpawnSimple(w)
 	}
-	em.DespawnAll()
-	total, _ := em.NumEntities()
+	w.DespawnAll()
+	total, _ := w.NumEntities()
 	if total != 0 {
 		t.Fatal("did not despawn all entities")
 	}
-	em.Update(FRAME_MS / 2)
-	total, _ = em.NumEntities()
+	w.Update(FRAME_MS / 2)
+	total, _ = w.NumEntities()
 	if total != 0 {
 		t.Fatal("DespawnAll() did not discard pending spawn requests")
 	}
 }
 
-func EntityManagerInterfaceTestEntityHasComponent(
-	em EntityManagerInterface, t *testing.T) {
-
+func TestWorldEntityHasComponent(t *testing.T) {
+	w := testingWorld()
 	pos := Vec2D{11, 11}
-	e := testingSpawnPosition(em, pos)
-	if !e.HasComponent(POSITION_) {
+	e := testingSpawnPosition(w, pos)
+	if !w.EntityHasComponent(e, POSITION_) {
 		t.Fatal("failed to set or get entity component bit array")
 	}
 }
 
-func EntityManagerInterfaceTestEntitiesWithTag(
-	em EntityManagerInterface, t *testing.T) {
-
+func TestWorldEntitiesWithTag(t *testing.T) {
+	w := testingWorld()
 	tag := "tag1"
-	testingSpawnTagged(em, tag)
-	tagged := em.UpdatedEntitiesWithTag(tag)
+	testingSpawnTagged(w, tag)
+	tagged := w.UpdatedEntitiesWithTag(tag)
 	if tagged.Length() == 0 {
 		t.Fatal("failed to find Spawned entity in EntitiesWithTag")
 	}
 }
 
-func EntityManagerInterfaceTestSpawnUnique(
-	em EntityManagerInterface, t *testing.T) {
+func TestWorldSpawnUnique(t *testing.T) {
+	w := testingWorld()
 
 	uniqueTag := "the chosen one"
-	e, err := em.UniqueTaggedEntity(uniqueTag)
+	e, err := w.UniqueTaggedEntity(uniqueTag)
 	if !(e == nil && err != nil) {
 		t.Fatal("should return err if unique entity not found")
 	}
-	e = testingSpawnUnique(em)
+	e = testingSpawnUnique(w)
 
-	eRetrieved, err := em.UniqueTaggedEntity(uniqueTag)
+	eRetrieved, err := w.UniqueTaggedEntity(uniqueTag)
 	if !(eRetrieved == e && err == nil) {
 		t.Fatal("did not return unique entity")
 	}
@@ -159,109 +142,104 @@ func EntityManagerInterfaceTestSpawnUnique(
 		}
 	}()
 
-	testingSpawnUnique(em)
+	testingSpawnUnique(w)
 }
 
-func EntityManagerInterfaceTestTagUntagEntity(
-	em EntityManagerInterface, t *testing.T) {
-
-	e := testingSpawnSimple(em)
+func TestWorldTagUntagEntity(t *testing.T) {
+	w := testingWorld()
+	e := testingSpawnSimple(w)
 	tag := "tag1"
-	em.TagEntity(e, tag)
-	tagged := em.UpdatedEntitiesWithTag(tag)
+	w.TagEntity(e, tag)
+	tagged := w.UpdatedEntitiesWithTag(tag)
 	empty := tagged.Length() == 0
 	if empty {
 		t.Fatal("failed to find Spawned entity in EntitiesWithTag")
 	}
-	if !e.HasTag(tag) {
+	if !w.EntityHasTag(e, tag) {
 		t.Fatal("EntityHasTag() saw entity as untagged")
 	}
-	em.UntagEntity(e, tag)
+	w.UntagEntity(e, tag)
 	empty = tagged.Length() == 0
 	if !empty {
 		t.Fatal("entity was still in EntitiesWithTag after untag")
 	}
-	if e.HasTag(tag) {
+	if w.EntityHasTag(e, tag) {
 		t.Fatal("EntityHasTag() saw entity as still having removed tag")
 	}
 }
 
-func EntityManagerInterfaceTestTagEntities(
-	em EntityManagerInterface, t *testing.T) {
-
+func TestWorldTagEntities(t *testing.T) {
+	w := testingWorld()
 	entities := make([]*Entity, 0)
 	tag := "tag1"
 	for i := 0; i < 32; i++ {
-		e := testingSpawnSimple(em)
+		e := testingSpawnSimple(w)
 		entities = append(entities, e)
 	}
-	em.TagEntities(entities, tag)
+	w.TagEntities(entities, tag)
 	for _, e := range entities {
-		if !e.GetTagList(GENERICTAGS_).Has(tag) {
+		if !w.EntityHasTag(e, tag) {
 			t.Fatal("entity's taglist was not modified by TagEntities")
 		}
 	}
 }
 
-func EntityManagerInterfaceTestUntagEntities(
-	em EntityManagerInterface, t *testing.T) {
-
+func TestWorldUntagEntities(t *testing.T) {
+	w := testingWorld()
 	entities := make([]*Entity, 0)
 	tag := "tag1"
 	for i := 0; i < 32; i++ {
-		e := testingSpawnTagged(em, tag)
+		e := testingSpawnTagged(w, tag)
 		entities = append(entities, e)
 	}
-	em.UntagEntities(entities, tag)
+	w.UntagEntities(entities, tag)
 	for _, e := range entities {
-		if e.GetTagList(GENERICTAGS_).Has(tag) {
+		if w.EntityHasTag(e, tag) {
 			t.Fatal("entity's taglist was not modified by UntagEntities")
 		}
 	}
 }
 
-func EntityManagerInterfaceTestDeactivateActivateEntity(
-	em EntityManagerInterface, t *testing.T) {
-
-	e := testingSpawnSimple(em)
+func TestWorldDeactivateActivateEntity(t *testing.T) {
+	w := testingWorld()
+	e := testingSpawnSimple(w)
 	tag := "tag1"
-	em.TagEntity(e, tag)
-	tagged := em.UpdatedEntitiesWithTag(tag)
-	em.Deactivate(e)
+	w.TagEntity(e, tag)
+	tagged := w.UpdatedEntitiesWithTag(tag)
+	w.Deactivate(e)
 	if tagged.Length() != 0 {
 		t.Fatal("entity was not removed from list after Deactivate()")
 	}
-	_, active := em.NumEntities()
+	_, active := w.NumEntities()
 	if active != 0 {
 		t.Fatal("didn't update active count")
 	}
-	em.Activate(e)
+	w.Activate(e)
 	if tagged.Length() != 1 {
 		t.Fatal("entity was not reinserted to list after Activate()")
 	}
-	_, active = em.NumEntities()
+	_, active = w.NumEntities()
 	if active != 1 {
 		t.Fatal("didn't update active count")
 	}
 }
 
-func EntityManagerInterfaceTestGetUpdatedEntityList(
-	em EntityManagerInterface, t *testing.T) {
-
-	name := "ILoveLily"
-	nameToo := "ILoveLily!!!"
-	list := em.GetUpdatedEntityList(
+func TestWorldGetUpdatedEntityList(t *testing.T) {
+	w := testingWorld()
+	name := "ILoveDya"
+	nameToo := "ILoveDya!!!"
+	list := w.GetUpdatedEntityList(
 		NewEntityFilter(
 			name,
 			func(e *Entity) bool {
 				return true
 			}),
 	)
-	testingSpawnSimple(em)
+	testingSpawnSimple(w)
 	if list.Length() != 1 {
 		t.Fatal("failed to update UpdatedEntityList")
 	}
-	list2 := em.GetUpdatedEntityList(
+	list2 := w.GetUpdatedEntityList(
 		NewEntityFilter(
 			nameToo,
 			func(e *Entity) bool {
@@ -273,10 +251,9 @@ func EntityManagerInterfaceTestGetUpdatedEntityList(
 	}
 }
 
-func EntityManagerInterfaceTestGetSortedUpdatedEntityList(
-	em EntityManagerInterface, t *testing.T) {
-
-	list := em.GetSortedUpdatedEntityList(
+func TestWorldGetSortedUpdatedEntityList(t *testing.T) {
+	w := testingWorld()
+	list := w.GetSortedUpdatedEntityList(
 		NewEntityFilter(
 			"filter",
 			func(e *Entity) bool {
@@ -293,65 +270,57 @@ func EntityManagerInterfaceTestGetSortedUpdatedEntityList(
 	}
 }
 
-func EntityManagerInterfaceTestGetUpdatedEntityListByName(
-	em EntityManagerInterface, t *testing.T) {
-
-	name := "ILoveLily"
-	if em.GetUpdatedEntityListByName(name) != nil {
+func TestWorldGetUpdatedEntityListByName(t *testing.T) {
+	w := testingWorld()
+	name := "ILoveDya"
+	if w.GetUpdatedEntityListByName(name) != nil {
 		t.Fatal("should return nil if not found")
 	}
-	list := em.GetUpdatedEntityList(
+	list := w.GetUpdatedEntityList(
 		NewEntityFilter(
 			name,
 			func(e *Entity) bool {
 				return false
 			}),
 	)
-	if em.GetUpdatedEntityListByName(name) != list {
+	if w.GetUpdatedEntityListByName(name) != list {
 		t.Fatal("GetUpdatedEntityListByName did not find list")
 	}
 }
 
-func EntityManagerInterfaceTestGetCurrentEntitiesSet(
-	em EntityManagerInterface, t *testing.T) {
-
-	if !(len(em.GetCurrentEntitiesSet()) == 0) {
+func TestWorldGetCurrentEntitiesSet(t *testing.T) {
+	w := testingWorld()
+	if !(len(w.GetCurrentEntitiesSet()) == 0) {
 		t.Fatal("initially, len(GetCurrentEntitiesSet()) should be 0")
 	}
-	e := testingSpawnSimple(em)
-	if !(len(em.GetCurrentEntitiesSet()) == 1) {
+	e := testingSpawnSimple(w)
+	if !(len(w.GetCurrentEntitiesSet()) == 1) {
 		t.Fatal("after spawn, len(GetCurrentEntitiesSet()) should be 1")
 	}
-	em.Deactivate(e)
-	if !(len(em.GetCurrentEntitiesSet()) == 1) {
+	w.Deactivate(e)
+	if !(len(w.GetCurrentEntitiesSet()) == 1) {
 		t.Fatal("after deactivate, len(GetCurrentEntitiesSet()) should be 1")
 	}
-	em.Despawn(e)
-	if !(len(em.GetCurrentEntitiesSet()) == 0) {
+	w.Despawn(e)
+	if !(len(w.GetCurrentEntitiesSet()) == 0) {
 		t.Fatal("after despawn, len(GetCurrentEntitiesSet()) should be 0")
 	}
 }
 
-func EntityManagerInterfaceTestString(
-	em EntityManagerInterface, t *testing.T) {
-	if em.String() == "" {
+func TestWorldString(t *testing.T) {
+	w := testingWorld()
+	if w.String() == "" {
 		t.Fatal("string implementation cannot be empty string")
 	}
 }
 
-func EntityManagerInterfaceTestDumpEntities(
-	em EntityManagerInterface, t *testing.T) {
-
-	e := testingSpawnSimple(em)
+func TestWorldDumpEntities(t *testing.T) {
+	w := testingWorld()
+	e := testingSpawnSimple(w)
 	tag := "tag1"
-	em.TagEntity(e, tag)
-	s := em.DumpEntities()
+	w.TagEntity(e, tag)
+	s := w.DumpEntities()
 	if ok, _ := regexp.MatchString("tag", s); !ok {
 		t.Fatal("tag data for each entity wasn't produced in EntityManager.Dump()")
 	}
-}
-
-func EntityManagerInterfaceTest(
-	em EntityManagerInterface, t *testing.T) {
-
 }

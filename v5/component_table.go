@@ -36,6 +36,8 @@ type ComponentTable struct {
 	StringsRev map[string]ComponentID        `json:"stringsRev"`
 	Kinds      map[ComponentID]ComponentKind `json:"kinds"`
 
+	ComponentBitArrays [MAX_ENTITIES]bitarray.BitArray `json:"-"`
+
 	// data storage
 	Vec2DMap           map[ComponentID][]Vec2D           `json:"vec2DMap"`
 	BoolMap            map[ComponentID][]bool            `json:"boolMap"`
@@ -347,13 +349,13 @@ func (ct *ComponentTable) applyComponentSet(e *Entity, cs ComponentSet) {
 }
 
 func (ct *ComponentTable) orBitArrayInto(e *Entity, b bitarray.BitArray) {
-	if e.ComponentBitArray == nil {
-		e.ComponentBitArray = bitarray.NewBitArray(uint64(len(ct.Ixs)))
+	if ct.ComponentBitArrays[e.ID] == nil {
+		ct.ComponentBitArrays[e.ID] = bitarray.NewBitArray(uint64(len(ct.Ixs)))
 	}
 	for _, i := range ct.Ixs {
 		bit, _ := b.GetBit(uint64(i))
 		if bit {
-			e.ComponentBitArray.SetBit(uint64(i))
+			ct.ComponentBitArrays[e.ID].SetBit(uint64(i))
 		}
 	}
 }
@@ -429,7 +431,7 @@ func (ct *ComponentTable) guardInvalidComponentGet(e *Entity, name ComponentID) 
 		msg := fmt.Sprintf("Tried to access %s component; but there is no component with that name", ct.Strings[name])
 		panic(msg)
 	}
-	bit, _ := e.ComponentBitArray.GetBit(uint64(ix))
+	bit, _ := ct.ComponentBitArrays[e.ID].GetBit(uint64(ix))
 	if !bit {
 		Logger.Printf("%s", ct.Strings[name])
 		msg := fmt.Sprintf("Tried to get %s component of entity without: %s", ct.Strings[name], e)
@@ -437,91 +439,91 @@ func (ct *ComponentTable) guardInvalidComponentGet(e *Entity, name ComponentID) 
 	}
 }
 
-func (e *Entity) GetVec2D(name ComponentID) *Vec2D {
-	e.World.Em.ComponentsTable.guardInvalidComponentGet(e, name)
-	return &e.World.Em.ComponentsTable.Vec2DMap[name][e.ID]
+func (w *World) GetVec2D(e *Entity, name ComponentID) *Vec2D {
+	w.Em.ComponentsTable.guardInvalidComponentGet(e, name)
+	return &w.Em.ComponentsTable.Vec2DMap[name][e.ID]
 }
-func (e *Entity) GetBool(name ComponentID) *bool {
-	e.World.Em.ComponentsTable.guardInvalidComponentGet(e, name)
-	return &e.World.Em.ComponentsTable.BoolMap[name][e.ID]
+func (w *World) GetBool(e *Entity, name ComponentID) *bool {
+	w.Em.ComponentsTable.guardInvalidComponentGet(e, name)
+	return &w.Em.ComponentsTable.BoolMap[name][e.ID]
 }
-func (e *Entity) GetInt(name ComponentID) *int {
-	e.World.Em.ComponentsTable.guardInvalidComponentGet(e, name)
-	return &e.World.Em.ComponentsTable.IntMap[name][e.ID]
+func (w *World) GetInt(e *Entity, name ComponentID) *int {
+	w.Em.ComponentsTable.guardInvalidComponentGet(e, name)
+	return &w.Em.ComponentsTable.IntMap[name][e.ID]
 }
-func (e *Entity) GetFloat64(name ComponentID) *float64 {
-	e.World.Em.ComponentsTable.guardInvalidComponentGet(e, name)
-	return &e.World.Em.ComponentsTable.Float64Map[name][e.ID]
+func (w *World) GetFloat64(e *Entity, name ComponentID) *float64 {
+	w.Em.ComponentsTable.guardInvalidComponentGet(e, name)
+	return &w.Em.ComponentsTable.Float64Map[name][e.ID]
 }
-func (e *Entity) GetTime(name ComponentID) *time.Time {
-	e.World.Em.ComponentsTable.guardInvalidComponentGet(e, name)
-	return &e.World.Em.ComponentsTable.TimeMap[name][e.ID]
+func (w *World) GetTime(e *Entity, name ComponentID) *time.Time {
+	w.Em.ComponentsTable.guardInvalidComponentGet(e, name)
+	return &w.Em.ComponentsTable.TimeMap[name][e.ID]
 }
-func (e *Entity) GetTimeAccumulator(name ComponentID) *TimeAccumulator {
-	e.World.Em.ComponentsTable.guardInvalidComponentGet(e, name)
-	return &e.World.Em.ComponentsTable.TimeAccumulatorMap[name][e.ID]
+func (w *World) GetTimeAccumulator(e *Entity, name ComponentID) *TimeAccumulator {
+	w.Em.ComponentsTable.guardInvalidComponentGet(e, name)
+	return &w.Em.ComponentsTable.TimeAccumulatorMap[name][e.ID]
 }
-func (e *Entity) GetString(name ComponentID) *string {
-	e.World.Em.ComponentsTable.guardInvalidComponentGet(e, name)
-	return &e.World.Em.ComponentsTable.StringMap[name][e.ID]
+func (w *World) GetString(e *Entity, name ComponentID) *string {
+	w.Em.ComponentsTable.guardInvalidComponentGet(e, name)
+	return &w.Em.ComponentsTable.StringMap[name][e.ID]
 }
-func (e *Entity) GetSprite(name ComponentID) *Sprite {
-	e.World.Em.ComponentsTable.guardInvalidComponentGet(e, name)
-	return &e.World.Em.ComponentsTable.SpriteMap[name][e.ID]
+func (w *World) GetSprite(e *Entity, name ComponentID) *Sprite {
+	w.Em.ComponentsTable.guardInvalidComponentGet(e, name)
+	return &w.Em.ComponentsTable.SpriteMap[name][e.ID]
 }
-func (e *Entity) GetTagList(name ComponentID) *TagList {
-	e.World.Em.ComponentsTable.guardInvalidComponentGet(e, name)
-	return &e.World.Em.ComponentsTable.TagListMap[name][e.ID]
+func (w *World) GetTagList(e *Entity, name ComponentID) *TagList {
+	w.Em.ComponentsTable.guardInvalidComponentGet(e, name)
+	return &w.Em.ComponentsTable.TagListMap[name][e.ID]
 }
-func (e *Entity) GetIntMap(name ComponentID) *IntMap {
-	e.World.Em.ComponentsTable.guardInvalidComponentGet(e, name)
-	return &e.World.Em.ComponentsTable.IntMapMap[name][e.ID]
+func (w *World) GetIntMap(e *Entity, name ComponentID) *IntMap {
+	w.Em.ComponentsTable.guardInvalidComponentGet(e, name)
+	return &w.Em.ComponentsTable.IntMapMap[name][e.ID]
 }
-func (e *Entity) GetFloatMap(name ComponentID) *FloatMap {
-	e.World.Em.ComponentsTable.guardInvalidComponentGet(e, name)
-	return &e.World.Em.ComponentsTable.FloatMapMap[name][e.ID]
+func (w *World) GetFloatMap(e *Entity, name ComponentID) *FloatMap {
+	w.Em.ComponentsTable.guardInvalidComponentGet(e, name)
+	return &w.Em.ComponentsTable.FloatMapMap[name][e.ID]
 }
-func (e *Entity) GetStringMap(name ComponentID) *StringMap {
-	e.World.Em.ComponentsTable.guardInvalidComponentGet(e, name)
-	return &e.World.Em.ComponentsTable.StringMapMap[name][e.ID]
+func (w *World) GetStringMap(e *Entity, name ComponentID) *StringMap {
+	w.Em.ComponentsTable.guardInvalidComponentGet(e, name)
+	return &w.Em.ComponentsTable.StringMapMap[name][e.ID]
 }
-func (e *Entity) GetItem(name ComponentID) *Item {
-	e.World.Em.ComponentsTable.guardInvalidComponentGet(e, name)
-	return &e.World.Em.ComponentsTable.ItemMap[name][e.ID]
+func (w *World) GetItem(e *Entity, name ComponentID) *Item {
+	w.Em.ComponentsTable.guardInvalidComponentGet(e, name)
+	return &w.Em.ComponentsTable.ItemMap[name][e.ID]
 }
-func (e *Entity) GetInventory(name ComponentID) *Inventory {
-	e.World.Em.ComponentsTable.guardInvalidComponentGet(e, name)
-	return &e.World.Em.ComponentsTable.InventoryMap[name][e.ID]
+func (w *World) GetInventory(e *Entity, name ComponentID) *Inventory {
+	w.Em.ComponentsTable.guardInvalidComponentGet(e, name)
+	return &w.Em.ComponentsTable.InventoryMap[name][e.ID]
 }
 
-func (e *Entity) GetVal(name ComponentID) any {
-	e.World.Em.ComponentsTable.guardInvalidComponentGet(e, name)
-	kind := e.World.Em.ComponentsTable.Kinds[name]
+func (w *World) GetVal(e *Entity, name ComponentID) any {
+	w.Em.ComponentsTable.guardInvalidComponentGet(e, name)
+	kind := w.Em.ComponentsTable.Kinds[name]
 	switch kind {
 	case VEC2D:
-		return &e.World.Em.ComponentsTable.Vec2DMap[name][e.ID]
+		return &w.Em.ComponentsTable.Vec2DMap[name][e.ID]
 	case BOOL:
-		return &e.World.Em.ComponentsTable.BoolMap[name][e.ID]
+		return &w.Em.ComponentsTable.BoolMap[name][e.ID]
 	case INT:
-		return &e.World.Em.ComponentsTable.IntMap[name][e.ID]
+		return &w.Em.ComponentsTable.IntMap[name][e.ID]
 	case FLOAT64:
-		return &e.World.Em.ComponentsTable.Float64Map[name][e.ID]
+		return &w.Em.ComponentsTable.Float64Map[name][e.ID]
 	case STRING:
-		return &e.World.Em.ComponentsTable.StringMap[name][e.ID]
+		return &w.Em.ComponentsTable.StringMap[name][e.ID]
 	case SPRITE:
-		return &e.World.Em.ComponentsTable.SpriteMap[name][e.ID]
+		return &w.Em.ComponentsTable.SpriteMap[name][e.ID]
 	case TAGLIST:
-		return &e.World.Em.ComponentsTable.TagListMap[name][e.ID]
+		return &w.Em.ComponentsTable.TagListMap[name][e.ID]
 	case INTMAP:
-		return &e.World.Em.ComponentsTable.IntMapMap[name][e.ID]
+		return &w.Em.ComponentsTable.IntMapMap[name][e.ID]
 	case FLOATMAP:
-		return &e.World.Em.ComponentsTable.FloatMapMap[name][e.ID]
+		return &w.Em.ComponentsTable.FloatMapMap[name][e.ID]
 	case STRINGMAP:
-		return &e.World.Em.ComponentsTable.StringMapMap[name][e.ID]
+		return &w.Em.ComponentsTable.StringMapMap[name][e.ID]
 	case ITEM:
-		return &e.World.Em.ComponentsTable.ItemMap[name][e.ID]
+		return &w.Em.ComponentsTable.ItemMap[name][e.ID]
 	case INVENTORY:
-		return &e.World.Em.ComponentsTable.InventoryMap[name][e.ID]
+		return &w.Em.ComponentsTable.InventoryMap[name][e.ID]
 	default:
 		panic(fmt.Sprintf("Can't get component with ID %d - it doesn't seem to exist", name))
 	}

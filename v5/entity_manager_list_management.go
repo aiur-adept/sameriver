@@ -33,7 +33,7 @@ func (m *EntityManager) GetUpdatedEntityListByComponents(names []ComponentID) *U
 	}
 	name := strings.Join(strs, ",")
 	return m.GetSortedUpdatedEntityList(
-		EntityFilterFromComponentBitArray(
+		m.w.EntityFilterFromComponentBitArray(
 			name,
 			m.ComponentsTable.BitArrayFromIDs(names)))
 }

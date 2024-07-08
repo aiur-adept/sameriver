@@ -13,8 +13,10 @@ func BenchmarkEFDSLSwitchIntFunc(b *testing.B) {
 	// Prepare the arguments
 	argsTyped := []any{42}
 
+	w := testingWorld()
+
 	for i := 0; i < b.N; i++ {
-		_ = EFDSL.predicateSignatureAssertSwitch(intFunc, argsTyped)
+		_ = w.EFDSL.predicateSignatureAssertSwitch(intFunc, argsTyped)
 	}
 }
 
@@ -27,7 +29,9 @@ func BenchmarkEFDSLSwitchVec2DBoolSliceVec2DFunc(b *testing.B) {
 	// Prepare the arguments
 	argsTyped := []any{&Vec2D{1, 2}, true, []*Vec2D{{3, 4}, {5, 6}}}
 
+	w := testingWorld()
+
 	for i := 0; i < b.N; i++ {
-		_ = EFDSL.predicateSignatureAssertSwitch(threeArgFunc, argsTyped)
+		_ = w.EFDSL.predicateSignatureAssertSwitch(threeArgFunc, argsTyped)
 	}
 }

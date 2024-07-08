@@ -10,7 +10,7 @@ import (
 // returns: an entity predicate and an entity sort function and possibly an error
 //
 //	aka (p, q, err)
-func EFDSLEval(expr string, resolver IdentifierResolver) (func(*Entity) bool, func(xs []*Entity) func(i, j int) bool, error) {
+func EFDSLEval(expr string, resolver IdentifierResolver, world *World) (func(*Entity) bool, func(xs []*Entity) func(i, j int) bool, error) {
 	parser := &EFDSLParser{}
 
 	ast, err := parser.Parse(expr)
@@ -18,13 +18,13 @@ func EFDSLEval(expr string, resolver IdentifierResolver) (func(*Entity) bool, fu
 		return nil, nil, fmt.Errorf("failed to parse expr: %s", err)
 	}
 
-	filter, sort := EFDSL.Evaluate(ast, resolver)
+	filter, sort := world.EFDSL.Evaluate(ast, resolver)
 
 	return filter, sort, nil
 }
 
 func EFDSLFilter(expr string, resolver IdentifierResolver, world *World) ([]*Entity, error) {
-	filter, _, err := EFDSLEval(expr, resolver)
+	filter, _, err := EFDSLEval(expr, resolver, world)
 	if err != nil {
 		return nil, err
 	}
@@ -33,7 +33,7 @@ func EFDSLFilter(expr string, resolver IdentifierResolver, world *World) ([]*Ent
 }
 
 func EFDSLFilterSort(expr string, resolver IdentifierResolver, world *World) ([]*Entity, error) {
-	filterf, sortf, err := EFDSLEval(expr, resolver)
+	filterf, sortf, err := EFDSLEval(expr, resolver, world)
 	if err != nil {
 		return nil, err
 	}
@@ -44,9 +44,9 @@ func EFDSLFilterSort(expr string, resolver IdentifierResolver, world *World) ([]
 	return result, nil
 }
 
-func (e *Entity) EFDSLFilter(expr string) ([]*Entity, error) {
-	resolver := &EntityResolver{e: e}
-	return EFDSLFilter(expr, resolver, e.World)
+func (w *World) EFDSLFilterEntity(e *Entity, expr string) ([]*Entity, error) {
+	resolver := &EntityResolver{e: e, w: w}
+	return EFDSLFilter(expr, resolver, w)
 }
 
 func (w *World) EFDSLFilter(expr string) ([]*Entity, error) {
@@ -54,9 +54,9 @@ func (w *World) EFDSLFilter(expr string) ([]*Entity, error) {
 	return EFDSLFilter(expr, resolver, w)
 }
 
-func (e *Entity) EFDSLFilterSort(expr string) ([]*Entity, error) {
-	resolver := &EntityResolver{e: e}
-	return EFDSLFilterSort(expr, resolver, e.World)
+func (w *World) EFDSLFilterSortEntity(e *Entity, expr string) ([]*Entity, error) {
+	resolver := &EntityResolver{e: e, w: w}
+	return EFDSLFilterSort(expr, resolver, w)
 }
 
 func (w *World) EFDSLFilterSort(expr string) ([]*Entity, error) {

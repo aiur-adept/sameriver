@@ -15,7 +15,7 @@ func TestComponentTableSave(t *testing.T) {
 	cs := NewCollisionSystem(FRAME_DURATION / 2)
 	w.RegisterSystems(p, cs)
 	e := testingSpawnPhysics(w)
-	*e.GetVec2D(VELOCITY_) = Vec2D{1, 1}
+	*w.GetVec2D(e, VELOCITY_) = Vec2D{1, 1}
 
 	w.Em.ComponentsTable.Save("test.json")
 
@@ -23,8 +23,8 @@ func TestComponentTableSave(t *testing.T) {
 	Logger.Println(ct)
 
 	// check if the component table is the same as the original
-	if ct.Vec2DMap[VELOCITY_][e.ID] != *e.GetVec2D(VELOCITY_) {
-		t.Errorf("Vec2DMap[%v][0] = %v, want %v", VELOCITY_, ct.Vec2DMap[VELOCITY_][0], *e.GetVec2D(VELOCITY_))
+	if ct.Vec2DMap[VELOCITY_][e.ID] != *w.GetVec2D(e, VELOCITY_) {
+		t.Errorf("Vec2DMap[%v][0] = %v, want %v", VELOCITY_, ct.Vec2DMap[VELOCITY_][0], *w.GetVec2D(e, VELOCITY_))
 	}
 
 	// os.Remove("test.json")

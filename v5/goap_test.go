@@ -160,7 +160,7 @@ func TestGOAPGoalRemainingsOfPath(t *testing.T) {
 	})
 	Logger.Println(e)
 
-	p := NewGOAPPlanner(e)
+	p := NewGOAPPlanner(e, w)
 
 	// we look at hasbooze *for this test* as a component,
 	// but it could just as easily be written as an inventory check
@@ -231,7 +231,7 @@ func TestGOAPGoalRemainingsOfPath(t *testing.T) {
 
 	Logger.Printf("-------------------------------------------- 3")
 
-	booze := e.GetInt(BOOZEAMOUNT)
+	booze := w.GetInt(e, BOOZEAMOUNT)
 	*booze = 3
 
 	p.checkModalInto("hasBooze", start)
@@ -255,7 +255,7 @@ func TestGOAPActionPresFulfilled(t *testing.T) {
 
 	w := testingWorld()
 	e := w.Spawn(nil)
-	p := NewGOAPPlanner(e)
+	p := NewGOAPPlanner(e, w)
 
 	doTest := func(ws *GOAPWorldState, a *GOAPAction, expected bool) {
 		if p.presFulfilled(a, ws) != expected {
@@ -377,11 +377,11 @@ func TestGOAPPlanSimple(t *testing.T) {
 		"atTree,=": 1,
 	}
 
-	Logger.Println(*e.GetVec2D(POSITION_))
+	Logger.Println(*w.GetVec2D(e, POSITION_))
 
 	ws := NewGOAPWorldState(nil)
 
-	p := NewGOAPPlanner(e)
+	p := NewGOAPPlanner(e, w)
 	p.AddModalVals(atTreeModal)
 	p.AddActions(goToTree)
 
@@ -434,7 +434,7 @@ func TestGOAPPlanSimpleIota(t *testing.T) {
 
 	ws := NewGOAPWorldState(nil)
 
-	p := NewGOAPPlanner(e)
+	p := NewGOAPPlanner(e, w)
 	p.AddModalVals(drunkModal)
 	p.AddActions(drink)
 
@@ -505,7 +505,7 @@ func TestGOAPPlanSimpleEnough(t *testing.T) {
 
 	ws := NewGOAPWorldState(nil)
 
-	p := NewGOAPPlanner(e)
+	p := NewGOAPPlanner(e, w)
 	p.AddModalVals(drunkModal)
 	p.AddActions(drink, purifyOneself)
 
@@ -568,7 +568,7 @@ func TestGOAPPlanClassic(t *testing.T) {
 
 	// verify there is an entity tagged with glove
 	Logger.Println(w.ClosestEntityFilter(Vec2D{0, 0}, Vec2D{1, 1}, func(e *Entity) bool {
-		return e.HasTag("glove")
+		return w.EntityHasTag(e, "glove")
 	}))
 
 	hasModal := func(name string, archetype string, tags ...string) GOAPModalVal {
@@ -637,7 +637,7 @@ func TestGOAPPlanClassic(t *testing.T) {
 		},
 	})
 
-	p := NewGOAPPlanner(e)
+	p := NewGOAPPlanner(e, w)
 
 	p.AddModalVals(hasGloveModal, hasAxeModal)
 	p.AddActions(getAxe, getGlove, chopTree)
@@ -706,7 +706,7 @@ func TestGOAPPlanResponsibleFridgeUsage(t *testing.T) {
 		},
 	})
 
-	p := NewGOAPPlanner(e)
+	p := NewGOAPPlanner(e, w)
 
 	p.AddActions(openFridge, getFoodFromFridge, closeFridge)
 
@@ -866,7 +866,7 @@ func TestGOAPPlanFarmer2000(t *testing.T) {
 	// example where we have a field in mind allowing us to choose a closer ox.
 	// so really, this would happen not before the planning as the BindEntitySelectors() call below,
 	// but this RegisterGenericEntitySelectors() call would happen on setup of the planner itself
-	p := NewGOAPPlanner(e)
+	p := NewGOAPPlanner(e, w)
 
 	p.AddActions(leadOxToField, getYoke, yokeOxplow, oxplow)
 
@@ -880,14 +880,14 @@ func TestGOAPPlanFarmer2000(t *testing.T) {
 		e.SetMind("plan.field", field)
 		planField := e.GetMind("plan.field").(*Entity)
 		// this would really be a filtering not of all entities but of perception
-		closestOxToField := e.World.ClosestEntityFilter(
-			*planField.GetVec2D(POSITION_),
-			*planField.GetVec2D(BOX_),
+		closestOxToField := w.ClosestEntityFilter(
+			*w.GetVec2D(planField, POSITION_),
+			*w.GetVec2D(planField, BOX_),
 			func(e *Entity) bool {
-				return e.HasTag("ox") && e.GetIntMap(STATE_).ValCanBeSetTo("yoked", 1)
+				return w.EntityHasTag(e, "ox") && w.GetIntMap(e, STATE_).ValCanBeSetTo("yoked", 1)
 			})
 		if closestOxToField != nil {
-			Logger.Printf("closest ox to field: (position: %v)%v", *closestOxToField.GetVec2D(POSITION_), closestOxToField)
+			Logger.Printf("closest ox to field: (position: %v)%v", *w.GetVec2D(closestOxToField, POSITION_), closestOxToField)
 		}
 		e.SetMind("plan.ox", closestOxToField)
 	}
@@ -949,24 +949,24 @@ func TestGOAPPlanFarmer2000(t *testing.T) {
 	// we will want to use {0, 20}, so let's make it unyokable
 	const BECOME_UNGOVERNABLE = true
 	if BECOME_UNGOVERNABLE {
-		oxen[1].GetIntMap(STATE_).SetValidInterval("yoked", 0, 0)
+		w.GetIntMap(oxen[1], STATE_).SetValidInterval("yoked", 0, 0)
 		// inside runAPlan, when we plan the bb, the bound selector should check
 		// for yokable on state intmap
 		dt_ms = runAPlan(true)
 		Logger.Printf("Took %f ms to find solution", dt_ms)
 
 		// all oxen either despawned or unyokable
-		oxen[2].GetIntMap(STATE_).SetValidInterval("yoked", 0, 0)
+		w.GetIntMap(oxen[2], STATE_).SetValidInterval("yoked", 0, 0)
 		Logger.Println("No *yokable* oxen")
 		dt_ms = runAPlan(false)
 		Logger.Printf("Took %f ms to fail", dt_ms)
 
 		// restore the humility of these brave beasts, make them fit to work!
-		oxen[1].GetIntMap(STATE_).SetValidInterval("yoked", 0, 1)
-		oxen[2].GetIntMap(STATE_).SetValidInterval("yoked", 0, 1)
+		w.GetIntMap(oxen[1], STATE_).SetValidInterval("yoked", 0, 1)
+		w.GetIntMap(oxen[2], STATE_).SetValidInterval("yoked", 0, 1)
 		Logger.Println("Pick the good ox!")
 		dt_ms = runAPlan(true)
-		if !e.GetMind("plan.ox").(*Entity).GetVec2D(POSITION_).Equals(Vec2D{0, 20}) {
+		if !w.GetVec2D(e.GetMind("plan.ox").(*Entity), POSITION_).Equals(Vec2D{0, 20}) {
 			t.Fatalf("Didn't grandpappy learn ya right? Always pick the best ox!!! Ya done picked %v", e.GetMind("plan.ox").(*Entity))
 		}
 		Logger.Printf("Took %f ms to find solution", dt_ms)

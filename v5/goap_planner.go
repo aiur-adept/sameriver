@@ -18,6 +18,7 @@ var ErrGOAPModalVsSymbolicValueConflict = errors.New("modal value was not what t
 var METHOD_NOTATION_RE = regexp.MustCompile(`(\w+)\.(\w+)\((\w+)\)`)
 
 type GOAPPlanner struct {
+	w *World
 	e *Entity
 
 	//
@@ -41,8 +42,9 @@ type GOAPPlanner struct {
 	varActions map[string](map[*GOAPAction]bool)
 }
 
-func NewGOAPPlanner(e *Entity) *GOAPPlanner {
+func NewGOAPPlanner(e *Entity, w *World) *GOAPPlanner {
 	return &GOAPPlanner{
+		w:                   w,
 		e:                   e,
 		modalVals:           make(map[string]GOAPModalVal),
 		actions:             NewGOAPActionSet(),
@@ -81,13 +83,12 @@ func (p *GOAPPlanner) selectNode(ws *GOAPWorldState, node string) (ent *Entity) 
 			p.selectorResultCache[node] = ent
 		}
 	}()
-	world := p.e.World
 	pos := ws.GetModal(p.e, POSITION_).(*Vec2D)
-	box := p.e.GetVec2D(BOX_)
+	box := p.w.GetVec2D(p.e, BOX_)
 
 	// use a selector to find the node entity (ent)
 	trySelect := func(selector func(*Entity) bool) *Entity {
-		return world.ClosestEntityFilter(*pos, *box, selector)
+		return p.w.ClosestEntityFilter(*pos, *box, selector)
 	}
 	var selector func(*Entity) bool
 	var okBound bool
@@ -99,8 +100,8 @@ func (p *GOAPPlanner) selectNode(ws *GOAPWorldState, node string) (ent *Entity) 
 	}
 
 	// fallback to checking if the node is a tag
-	ent = world.ClosestEntityFilter(*pos, *box, func(e *Entity) bool {
-		return e.HasTag(node)
+	ent = p.w.ClosestEntityFilter(*pos, *box, func(e *Entity) bool {
+		return p.w.EntityHasTag(e, node)
 	})
 
 	// this will be nil if the final tag-search failed
@@ -150,8 +151,8 @@ func (p *GOAPPlanner) bindEntities(nodes []string, ws *GOAPWorldState, start boo
 			logGOAPDebug(color.InPurple("|"))
 			logGOAPDebug(color.InPurple("|"))
 			boundMsg += fmt.Sprintf(">>> bound entity: %v ", bound)
-			if bound.HasComponent(POSITION_) {
-				boundMsg += fmt.Sprintf(" @ position %v", *(bound.GetVec2D(POSITION_)))
+			if p.w.EntityHasComponent(bound, POSITION_) {
+				boundMsg += fmt.Sprintf(" @ position %v", *(p.w.GetVec2D(bound, POSITION_)))
 			}
 			logGOAPDebug(color.InPurple(boundMsg))
 		}
@@ -189,7 +190,7 @@ func (p *GOAPPlanner) selectorFromString(s string) func(*Entity) bool {
 			return other == p.e.GetMind(bbkey).(*Entity)
 		} else {
 			// else treat it as a world bb
-			return other == p.e.World.Blackboard(bbname).Get(bbkey).(*Entity)
+			return other == p.w.Blackboard(bbname).Get(bbkey).(*Entity)
 		}
 	}
 }
@@ -226,7 +227,7 @@ func (p *GOAPPlanner) parseParenthesesNotation(valName string) (node, method, pa
 }
 
 func (p *GOAPPlanner) createModalValInventoryHas(node, archetype string) GOAPModalVal {
-	items := p.e.World.systems["ItemSystem"].(*ItemSystem)
+	items := p.w.systems["ItemSystem"].(*ItemSystem)
 	return GOAPModalVal{
 		name:  node + ".inventoryHas(" + archetype + ")",
 		nodes: []string{node},
@@ -268,8 +269,8 @@ func (p *GOAPPlanner) createModalValIn(node, other string) GOAPModalVal {
 			otherEntity := ws.ModalEntities[other]
 			entityPos := ws.GetModal(entity, POSITION_).(*Vec2D)
 			if RectIntersectsRect(
-				*entityPos, *entity.GetVec2D(BOX_),
-				*otherEntity.GetVec2D(POSITION_), *otherEntity.GetVec2D(BOX_)) {
+				*entityPos, *p.w.GetVec2D(entity, BOX_),
+				*p.w.GetVec2D(otherEntity, POSITION_), *p.w.GetVec2D(otherEntity, BOX_)) {
 				return 1
 			} else {
 				return 0
@@ -284,10 +285,10 @@ func (p *GOAPPlanner) createModalValIn(node, other string) GOAPModalVal {
 					// TODO: this should really be a call to some kind of sophisticated
 					// relocation function that avoids obstacles and makes sure there's a path
 					// to be able to get there via navmesh/grid
-					awayFromOther := otherEntity.GetVec2D(POSITION_).Add(otherEntity.GetVec2D(BOX_).Scale(1.1))
+					awayFromOther := p.w.GetVec2D(otherEntity, POSITION_).Add(p.w.GetVec2D(otherEntity, BOX_).Scale(1.1))
 					ws.SetModal(entity, POSITION_, &awayFromOther)
 				case 1:
-					otherCenter := *otherEntity.GetVec2D(POSITION_)
+					otherCenter := *p.w.GetVec2D(otherEntity, POSITION_)
 					ws.SetModal(entity, POSITION_, &otherCenter)
 				}
 			}
@@ -629,7 +630,7 @@ func (p *GOAPPlanner) actionHelpsToInsert(
 }
 
 func (p *GOAPPlanner) setPositionInStartModalIfNotDefined(start *GOAPWorldState) {
-	start.SetModal(p.e, POSITION_, p.e.GetVec2D(POSITION_))
+	start.SetModal(p.e, POSITION_, p.w.GetVec2D(p.e, POSITION_))
 }
 
 func (p *GOAPPlanner) setVarInStartIfNotDefined(start *GOAPWorldState, varName string) (bindErr error) {
@@ -834,7 +835,7 @@ func (p *GOAPPlanner) Plan(
 	// we may be writing to this with modal vals as we explore and don't want
 	// to pollute the caller's state object
 	start = start.CopyOf()
-	start.w = p.e.World
+	start.w = p.w
 	p.setPositionInStartModalIfNotDefined(start)
 	start.ModalEntities["self"] = p.e
 

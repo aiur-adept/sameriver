@@ -83,30 +83,30 @@ func TestDSLBasic(t *testing.T) {
 	//
 
 	Logger.Println("1")
-	entities, err := e.EFDSLFilter("HasTag(ox)")
+	entities, err := w.EFDSLFilterEntity(e, "HasTag(ox)")
 	assert.NoError(t, err)
 	assert.ElementsMatch(t, oxen, entities)
 
 	Logger.Println("2")
-	entities, err = e.EFDSLFilter("HasComponent(position)")
+	entities, err = w.EFDSLFilterEntity(e, "HasComponent(position)")
 	assert.NoError(t, err)
 	assert.Equal(t, 5, len(entities)) // e, item.yoke, 2 oxen, field
 
 	Logger.Println("3")
-	entities, err = e.EFDSLFilter("WithinDistance(self, 15)")
+	entities, err = w.EFDSLFilterEntity(e, "WithinDistance(self, 15)")
 	assert.NoError(t, err)
 	assert.Equal(t, 3, len(entities)) // e, item.yoke, close ox
 
 	Logger.Println("4")
-	oxen[0].GetIntMap(STATE_).Set("yoked", 1)
-	entities, err = e.EFDSLFilter("State(yoked, 1)")
+	w.GetIntMap(oxen[0], STATE_).Set("yoked", 1)
+	entities, err = w.EFDSLFilterEntity(e, "State(yoked, 1)")
 	assert.NoError(t, err)
 	assert.Equal(t, 1, len(entities))
 	assert.Equal(t, oxen[0], entities[0])
 
 	// Test Entity.DSLFilterSort
 	Logger.Println("5")
-	filterSortEntities, err := e.EFDSLFilterSort("HasTag(ox); Closest(self)")
+	filterSortEntities, err := w.EFDSLFilterSortEntity(e, "HasTag(ox); Closest(self)")
 	assert.NoError(t, err)
 	assert.Equal(t, oxen[0], filterSortEntities[0]) // a close
 	assert.Equal(t, oxen[1], filterSortEntities[1]) // b far

@@ -392,7 +392,7 @@ func (i *ItemSystem) LoadArchetypesJSON(jsonStr []byte) {
 
 func (i *ItemSystem) UpdateDegradations(dt_ms float64) {
 	for _, e := range i.inventorySystem.InventoryEntities.entities {
-		inv := e.GetInventory(INVENTORY_)
+		inv := i.w.GetInventory(e, INVENTORY_)
 		newRotStacks := make([]*Item, 0)
 		for _, s := range inv.Stacks {
 			if s.Tags.Has("perishable") {
@@ -459,14 +459,14 @@ func (i *ItemSystem) LinkWorld(w *World) {
 	i.w = w
 
 	i.ItemEntities = w.Em.GetSortedUpdatedEntityList(
-		EntityFilterFromTag("item"))
+		w.EntityFilterFromTag("item"))
 }
 
 func (i *ItemSystem) Update(dt_ms float64) {
 	// despawn any expired entities
 	if i.despawn_ms != nil {
 		for _, e := range i.ItemEntities.entities {
-			accum := e.GetTimeAccumulator(DESPAWNTIMER_)
+			accum := i.w.GetTimeAccumulator(e, DESPAWNTIMER_)
 			if accum.Tick(dt_ms) {
 				i.w.Despawn(e)
 			}
