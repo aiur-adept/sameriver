@@ -5,6 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "TestWorldTagUntagEntity",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/v5/",
+            "args": [
+                "-test.run",
+                "TestWorldTagUntagEntity"
+            ]
+        },
+        {
             "name": "TestBlackboardSaveLoad",
             "type": "go",
             "request": "launch",

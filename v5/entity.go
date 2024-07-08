@@ -29,3 +29,22 @@ func (e *Entity) String() string {
 	jsonStr, _ := json.Marshal(e)
 	return string(jsonStr)
 }
+
+func (e *Entity) HasList(listName string) bool {
+	for _, list := range e.Lists {
+		if list == listName {
+			return true
+		}
+	}
+	return false
+}
+
+func (e *Entity) RemoveList(listName string) bool {
+	for i, list := range e.Lists {
+		if list == listName {
+			e.Lists = append(e.Lists[:i], e.Lists[i+1:]...)
+			return true
+		}
+	}
+	return false
+}

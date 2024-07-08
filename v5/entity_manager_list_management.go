@@ -86,20 +86,30 @@ func (m *EntityManager) notifyActiveState(e *Entity, active bool) {
 
 // check if the entity needs to be added to or removed from any lists
 func (m *EntityManager) checkActiveEntity(e *Entity) {
-	for _, list := range m.Lists {
+	for listname, list := range m.Lists {
 		if list.Filter.Test(e) {
+			// ensure the listname is added (if needed) to the Entity's .Lists []string
+			if !e.HasList(listname) {
+				e.Lists = append(e.Lists, listname)
+			}
 			list.Signal(EntitySignal{ENTITY_ADD, e})
 		}
 	}
 	// check whether the entity needs to be removed from any lists it's on
 	toRemove := make([]*UpdatedEntityList, 0)
+	toRemoveNames := make([]string, 0)
 	for _, listName := range e.Lists {
 		list := m.Lists[listName]
 		if list.Filter != nil && !list.Filter.Test(e) {
 			toRemove = append(toRemove, list)
+			toRemoveNames = append(toRemoveNames, listName)
 		}
 	}
 	for _, list := range toRemove {
+		// ensure the listname is removed
 		list.Signal(EntitySignal{ENTITY_REMOVE, e})
+	}
+	for _, listName := range toRemoveNames {
+		e.RemoveList(listName)
 	}
 }
