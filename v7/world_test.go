@@ -119,15 +119,15 @@ func TestWorldAddWorldLogicDuplicate(t *testing.T) {
 		}
 	}()
 	w := testingWorld()
-	w.AddWorldLogic("world-logic", func(dt_ms float64) {})
-	w.AddWorldLogic("world-logic", func(dt_ms float64) {})
+	w.AddLogic("world-logic", func(dt_ms float64) {})
+	w.AddLogic("world-logic", func(dt_ms float64) {})
 }
 
 func TestWorldRunWorldLogicsOnly(t *testing.T) {
 	w := testingWorld()
 	x := 0
-	w.AddWorldLogic("logic", func(dt_ms float64) { x += 1 })
-	w.ActivateAllWorldLogics()
+	w.AddLogic("logic", func(dt_ms float64) { x += 1 })
+	w.ActivateAllLogics()
 	w.Update(FRAME_MS / 2)
 	if x == 0 {
 		t.Fatal("failed to run logic")
@@ -149,8 +149,8 @@ func TestWorldRemoveWorldLogic(t *testing.T) {
 	w := testingWorld()
 	x := 0
 	name := "l1"
-	w.AddWorldLogic(name, func(dt_ms float64) { x += 1 })
-	w.RemoveWorldLogic(name)
+	w.AddLogic(name, func(dt_ms float64) { x += 1 })
+	w.RemoveLogic(name)
 	for i := 0; i < 32; i++ {
 		w.Update(FRAME_MS)
 	}
@@ -163,7 +163,7 @@ func TestWorldActivateWorldLogic(t *testing.T) {
 	w := testingWorld()
 	x := 0
 	name := "l1"
-	w.AddWorldLogic(name, func(dt_ms float64) { x += 1 })
+	w.AddLogic(name, func(dt_ms float64) { x += 1 })
 	w.Update(FRAME_MS / 2)
 	if x == 0 {
 		t.Fatal("logic should have been active and run - did not")
@@ -176,9 +176,9 @@ func TestWorldActivateAllWorldLogics(t *testing.T) {
 	n := 16
 	for i := 0; i < n; i++ {
 		name := fmt.Sprintf("logic-%d", i)
-		w.AddWorldLogic(name, func(dt_ms float64) { x += 1 })
+		w.AddLogic(name, func(dt_ms float64) { x += 1 })
 	}
-	w.ActivateAllWorldLogics()
+	w.ActivateAllLogics()
 	w.Update(FRAME_MS / 2)
 	if x < n {
 		t.Fatal("logics all should have been activated - some did not run")
@@ -189,8 +189,8 @@ func TestWorldDeactivateWorldLogic(t *testing.T) {
 	w := testingWorld()
 	x := 0
 	name1 := "l1"
-	w.AddWorldLogic(name1, func(dt_ms float64) { x += 1 })
-	w.DeactivateWorldLogic(name1)
+	w.AddLogic(name1, func(dt_ms float64) { x += 1 })
+	w.DeactivateLogic(name1)
 	if x != 0 {
 		t.Fatal("deactivated logic ran")
 	}
@@ -202,10 +202,10 @@ func TestWorldDeativateAllWorldLogics(t *testing.T) {
 	n := 16
 	for i := 0; i < n; i++ {
 		name := fmt.Sprintf("logic-%d", i)
-		w.AddWorldLogic(name, func(dt_ms float64) { x += 1 })
+		w.AddLogic(name, func(dt_ms float64) { x += 1 })
 	}
 	w.Update(FRAME_MS / 2)
-	w.DeactivateAllWorldLogics()
+	w.DeactivateAllLogics()
 	w.Update(FRAME_MS / 2)
 	Logger.Println(x)
 	if x < n {

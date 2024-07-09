@@ -41,9 +41,6 @@ type World struct {
 	// logics invoked regularly by RuntimeSharer
 	worldLogics map[string]*LogicUnit
 
-	// entity logics
-	entityLogics map[string]*LogicUnit
-
 	// funcs that can be called by name with data and get a result,
 	// or to produce an effect
 	funcs *FuncSet
@@ -121,7 +118,6 @@ func NewWorld(spec map[string]any) *World {
 		systemLogics:  make(map[string]*LogicUnit),
 		systemsIDs:    make(map[System]int),
 		worldLogics:   make(map[string]*LogicUnit),
-		entityLogics:  make(map[string]*LogicUnit),
 		funcs:         NewFuncSet(nil),
 		blackboards:   make(map[string]*Blackboard),
 		RuntimeSharer: NewRuntimeLimitSharer(),
@@ -392,7 +388,7 @@ func (w *World) ClearInterval(interval string) {
 	w.intervals.Remove(w.intervals.logicUnitsMap[interval])
 }
 
-func (w *World) AddWorldLogic(Name string, F func(dt_ms float64)) *LogicUnit {
+func (w *World) AddLogic(Name string, F func(dt_ms float64)) *LogicUnit {
 	if _, ok := w.worldLogics[Name]; ok {
 		panic(fmt.Sprintf("double-add of world logic %s", Name))
 	}
@@ -406,14 +402,14 @@ func (w *World) AddWorldLogic(Name string, F func(dt_ms float64)) *LogicUnit {
 	return l
 }
 
-func (w *World) AddWorldLogicWithSchedule(Name string, F func(dt_ms float64), period_ms float64) *LogicUnit {
-	l := w.AddWorldLogic(Name, F)
+func (w *World) AddLogicWithSchedule(Name string, F func(dt_ms float64), period_ms float64) *LogicUnit {
+	l := w.AddLogic(Name, F)
 	runSchedule := NewTimeAccumulator(period_ms)
 	l.runSchedule = &runSchedule
 	return l
 }
 
-func (w *World) RemoveWorldLogic(Name string) {
+func (w *World) RemoveLogic(Name string) {
 	if logic, ok := w.worldLogics[Name]; ok {
 		w.RuntimeSharer.RunnerMap["world"].Remove(logic)
 		delete(w.worldLogics, Name)
@@ -421,21 +417,21 @@ func (w *World) RemoveWorldLogic(Name string) {
 	}
 }
 
-func (w *World) ActivateAllWorldLogics() {
+func (w *World) ActivateAllLogics() {
 	w.RuntimeSharer.RunnerMap["world"].ActivateAll()
 }
 
-func (w *World) DeactivateAllWorldLogics() {
+func (w *World) DeactivateAllLogics() {
 	w.RuntimeSharer.RunnerMap["world"].DeactivateAll()
 }
 
-func (w *World) ActivateWorldLogic(name string) {
+func (w *World) ActivateLogic(name string) {
 	if logic, ok := w.worldLogics[name]; ok {
 		logic.Activate()
 	}
 }
 
-func (w *World) DeactivateWorldLogic(name string) {
+func (w *World) DeactivateLogic(name string) {
 	if logic, ok := w.worldLogics[name]; ok {
 		logic.Deactivate()
 	}

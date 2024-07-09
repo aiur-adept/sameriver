@@ -16,7 +16,7 @@ func testingWorldWithAllLogicTypes() (*World, *testSystem, *int) {
 	// add world logic
 	worldUpdates := 0
 	name := "logic"
-	w.AddWorldLogic(name, func(dt_ms float64) { worldUpdates += 1 })
-	w.ActivateWorldLogic(name)
+	w.AddLogic(name, func(dt_ms float64) { worldUpdates += 1 })
+	w.ActivateLogic(name)
 	return w, ts, &worldUpdates
 }

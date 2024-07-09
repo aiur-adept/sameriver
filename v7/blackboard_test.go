@@ -64,7 +64,7 @@ func TestBlackboardWorldEntities(t *testing.T) {
 			selectRole(randomRole)
 		}
 
-		w.AddWorldLogic(fmt.Sprintf("village-blackboard-%d", e.ID), func(dt_ms float64) {
+		w.AddLogic(fmt.Sprintf("village-blackboard-%d", e.ID), func(dt_ms float64) {
 			// subscribe to blackboard events
 			if villageEvents == nil {
 				villageEvents = bb.Events.Subscribe(SimpleEventFilter("village-events"))
@@ -101,7 +101,7 @@ func TestBlackboardWorldEntities(t *testing.T) {
 			})
 		}
 
-		w.AddWorldLogic("village-morning", func(dt_ms float64) {
+		w.AddLogic("village-morning", func(dt_ms float64) {
 			if morningTimer.Tick(dt_ms) {
 				Logger.Println("world logic announcing morning!")
 				villageBBMorning()
