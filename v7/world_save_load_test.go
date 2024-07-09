@@ -1,7 +1,6 @@
 package sameriver
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -19,8 +18,9 @@ func TestWorldSaveLoad(t *testing.T) {
 	w.Save("test.json")
 
 	w2 := LoadWorld("test.json")
-
-	fmt.Println(w2)
+	p2 := NewPhysicsSystem()
+	cs2 := NewCollisionSystem(FRAME_DURATION / 2)
+	w2.RegisterSystems(p2, cs2)
 
 	// check if e is in w2
 	e2 := w2.GetEntity(e.ID)
@@ -43,5 +43,11 @@ func TestWorldSaveLoad(t *testing.T) {
 	test := w2.Blackboards["testbb"].GetInt("test")
 	if test != e.ID {
 		t.Fatalf("test key not found in blackboard")
+	}
+
+	w2.GetVec2D(e2, VELOCITY_).X = 12.0
+	w2.Update(FRAME_MS)
+	if w.GetVec2D(e, POSITION_).Equals(*w2.GetVec2D(e2, POSITION_)) {
+		t.Fatalf("entity %d did not move", e.ID)
 	}
 }
