@@ -40,6 +40,10 @@ func (w *World) GetSortedUpdatedEntityList(q EntityFilter) *UpdatedEntityList {
 	return w.Em.GetSortedUpdatedEntityList(q)
 }
 
+func (w *World) GetUpdatedEntityListByTag(tag string) *UpdatedEntityList {
+	return w.Em.GetUpdatedEntityListByTag(tag)
+}
+
 func (w *World) GetUpdatedEntityListByName(name string) *UpdatedEntityList {
 	return w.Em.GetUpdatedEntityListByName(name)
 }
