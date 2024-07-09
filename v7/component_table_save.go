@@ -3,6 +3,8 @@ package sameriver
 import (
 	"encoding/json"
 	"os"
+
+	"github.com/golang-collections/go-datastructures/bitarray"
 )
 
 func (ct *ComponentTable) String() string {
@@ -20,7 +22,17 @@ func (ct *ComponentTable) UnmarshalJSON(data []byte) error {
 	}{
 		Alias: (*Alias)(ct),
 	}
-	return json.Unmarshal(data, &aux)
+	err := json.Unmarshal(data, &aux)
+	if err != nil {
+		return err
+	}
+	ct.ComponentBitArrays = make([]bitarray.BitArray, ct.Capacity)
+	for eid, e := range ct.ComponentStrings {
+		for k, _ := range e {
+			ct.orStringIntoBitArray(eid, k)
+		}
+	}
+	return nil
 }
 
 func (ct *ComponentTable) Save(filename string) {

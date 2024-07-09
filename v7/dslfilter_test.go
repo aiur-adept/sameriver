@@ -76,9 +76,7 @@ func TestDSLBasic(t *testing.T) {
 		},
 		"tags": []string{"field"},
 	})
-	w.Blackboard("somebb").Set("field", field)
-
-	//
+	w.CreateBlackboard("somebb").Set("field", field.ID)
 	// TEST
 	//
 

@@ -4,6 +4,10 @@ func (w *World) MaxEntities() int {
 	return w.Em.MaxEntities()
 }
 
+func (w *World) GetEntity(id int) *Entity {
+	return w.Em.GetEntity(id)
+}
+
 func (w *World) Components() *ComponentTable {
 	return &w.Em.ComponentsTable
 }

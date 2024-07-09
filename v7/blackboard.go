@@ -11,24 +11,32 @@ type Blackboard struct {
 	Events *EventBus `json:"-"`
 }
 
-func NewBlackboard(name string) *Blackboard {
-	return &Blackboard{
+func NewBlackboard(name string) Blackboard {
+	return Blackboard{
 		Name:   name,
 		State:  make(map[string]any),
 		Events: NewEventBus("blackboard-" + name),
 	}
 }
 
-func (b *Blackboard) Has(k string) bool {
+func (b Blackboard) Has(k string) bool {
 	_, ok := b.State[k]
 	return ok
 }
 
-func (b *Blackboard) Get(k string) any {
+func (b Blackboard) Get(k string) any {
 	return b.State[k]
 }
 
-func (b *Blackboard) Set(k string, v any) {
+func (b Blackboard) GetInt(k string) int {
+	v, ok := b.State[k].(float64)
+	if !ok {
+		return -1
+	}
+	return int(v)
+}
+
+func (b Blackboard) Set(k string, v any) {
 	// cast to float if v is of type int
 	if _, ok := v.(int); ok {
 		b.State[k] = float64(v.(int))
@@ -46,7 +54,7 @@ func (b *Blackboard) Set(k string, v any) {
 	}
 }
 
-func (b *Blackboard) Remove(k string) {
+func (b Blackboard) Remove(k string) {
 	delete(b.State, k)
 }
 

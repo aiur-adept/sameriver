@@ -10,19 +10,8 @@ type Entity struct {
 	Active     bool
 	Despawned  bool
 	Lists      []string
-	Mind       map[string]any
+	Mind       Blackboard
 	Components []string
-}
-
-func (e *Entity) GetMind(name string) any {
-	if v, ok := e.Mind[name]; ok {
-		return v
-	}
-	return nil
-}
-
-func (e *Entity) SetMind(name string, val any) {
-	e.Mind[name] = val
 }
 
 func (e *Entity) String() string {

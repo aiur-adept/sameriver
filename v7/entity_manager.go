@@ -48,6 +48,10 @@ func NewEntityManager(w *World) *EntityManager {
 	return em
 }
 
+func (m *EntityManager) GetEntity(id int) *Entity {
+	return m.EntityIDAllocator.AllocatedEntities[id]
+}
+
 func (m *EntityManager) Components() *ComponentTable {
 	return &m.ComponentsTable
 }

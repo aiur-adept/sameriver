@@ -124,7 +124,7 @@ func (er *EntityResolver) Resolve(identifier string) any {
 	case "mind":
 		if len(parts) > 1 {
 			key := parts[1]
-			return valueOrEntityAccess(er.w, er.e.GetMind(key), identifier)
+			return valueOrEntityAccess(er.w, er.e.Mind.Get(key), identifier)
 		}
 	case "bb":
 		if len(parts) > 1 {
@@ -132,7 +132,7 @@ func (er *EntityResolver) Resolve(identifier string) any {
 			if len(bbParts) > 1 {
 				bbname := bbParts[0]
 				key := bbParts[1]
-				return valueOrEntityAccess(er.w, er.w.Blackboard(bbname).Get(key), identifier)
+				return valueOrEntityAccess(er.w, er.w.Blackboards[bbname].Get(key), identifier)
 			}
 		}
 	}
@@ -149,7 +149,7 @@ func (wr *WorldResolver) Resolve(identifier string) any {
 			if len(bbParts) > 1 {
 				bbname := bbParts[0]
 				key := bbParts[1]
-				return valueOrEntityAccess(wr.w, wr.w.Blackboard(bbname).Get(key), identifier)
+				return valueOrEntityAccess(wr.w, wr.w.Blackboards[bbname].Get(key), identifier)
 			}
 		}
 	}

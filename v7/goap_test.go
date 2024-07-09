@@ -877,8 +877,9 @@ func TestGOAPPlanFarmer2000(t *testing.T) {
 	// NOTE: we'd *get* the currently active bb work plan for the field rather than
 	// generate it if someone was already doing plant
 	tillPlanBB := func() {
-		e.SetMind("plan.field", field)
-		planField := e.GetMind("plan.field").(*Entity)
+		e.Mind.Set("plan.field", field.ID)
+		planFieldID := e.Mind.GetInt("plan.field")
+		planField := w.GetEntity(planFieldID)
 		// this would really be a filtering not of all entities but of perception
 		closestOxToField := w.ClosestEntityFilter(
 			*w.GetVec2D(planField, POSITION_),
@@ -889,7 +890,7 @@ func TestGOAPPlanFarmer2000(t *testing.T) {
 		if closestOxToField != nil {
 			Logger.Printf("closest ox to field: (position: %v)%v", *w.GetVec2D(closestOxToField, POSITION_), closestOxToField)
 		}
-		e.SetMind("plan.ox", closestOxToField)
+		e.Mind.Set("plan.ox", closestOxToField.ID)
 	}
 	tillPlanBindEntities := func() {
 		p.BindEntitySelectors(map[string]any{
@@ -941,7 +942,7 @@ func TestGOAPPlanFarmer2000(t *testing.T) {
 	Logger.Printf("Took %f ms to find solution", dt_ms)
 
 	// third run with oxen all out of the field by despawning the one we found in
-	w.Despawn(e.GetMind("plan.ox").(*Entity))
+	w.Despawn(w.GetEntity(e.Mind.GetInt("plan.ox")))
 	Logger.Println("All oxen are outside field")
 	dt_ms = runAPlan(true)
 	Logger.Printf("Took %f ms to find solution", dt_ms)
@@ -966,8 +967,8 @@ func TestGOAPPlanFarmer2000(t *testing.T) {
 		w.GetIntMap(oxen[2], STATE_).SetValidInterval("yoked", 0, 1)
 		Logger.Println("Pick the good ox!")
 		dt_ms = runAPlan(true)
-		if !w.GetVec2D(e.GetMind("plan.ox").(*Entity), POSITION_).Equals(Vec2D{0, 20}) {
-			t.Fatalf("Didn't grandpappy learn ya right? Always pick the best ox!!! Ya done picked %v", e.GetMind("plan.ox").(*Entity))
+		if !w.GetVec2D(w.GetEntity(e.Mind.GetInt("plan.ox")), POSITION_).Equals(Vec2D{0, 20}) {
+			t.Fatalf("Didn't grandpappy learn ya right? Always pick the best ox!!! Ya done picked %v", w.GetEntity(e.Mind.GetInt("plan.ox")))
 		}
 		Logger.Printf("Took %f ms to find solution", dt_ms)
 

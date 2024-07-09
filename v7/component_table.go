@@ -27,7 +27,7 @@ var componentKindStrings = map[ComponentKind]string{
 
 type ComponentTable struct {
 	// the size of the tables
-	capacity int
+	Capacity int
 
 	NextIx     int                           `json:"nextIx"`
 	Ixs        map[ComponentID]int           `json:"ixs"`
@@ -36,6 +36,7 @@ type ComponentTable struct {
 	StringsRev map[string]ComponentID        `json:"stringsRev"`
 	Kinds      map[ComponentID]ComponentKind `json:"kinds"`
 
+	ComponentStrings   []map[string]bool
 	ComponentBitArrays []bitarray.BitArray `json:"-"`
 
 	// data storage
@@ -57,7 +58,7 @@ type ComponentTable struct {
 
 func NewComponentTable(capacity int) ComponentTable {
 	return ComponentTable{
-		capacity: capacity,
+		Capacity: capacity,
 
 		Ixs:        make(map[ComponentID]int),
 		IxsRev:     make(map[int]ComponentID),
@@ -65,6 +66,7 @@ func NewComponentTable(capacity int) ComponentTable {
 		StringsRev: make(map[string]ComponentID),
 		Kinds:      make(map[ComponentID]ComponentKind),
 
+		ComponentStrings:   make([]map[string]bool, capacity),
 		ComponentBitArrays: make([]bitarray.BitArray, capacity),
 
 		Vec2DMap:           make(map[ComponentID][]Vec2D),
@@ -86,7 +88,7 @@ func NewComponentTable(capacity int) ComponentTable {
 
 // this is likely to be an expensive operation
 func (ct *ComponentTable) expand(n int) {
-	Logger.Printf("Expanding component tables from %d to %d", ct.capacity, ct.capacity+n)
+	Logger.Printf("Expanding component tables from %d to %d", ct.Capacity, ct.Capacity+n)
 	for name, slice := range ct.Vec2DMap {
 		Logger.Printf("Expanding table of component %s,%s", componentKindStrings[ct.Kinds[name]], ct.Strings[name])
 		extraSpace := make([]Vec2D, n)
@@ -158,8 +160,9 @@ func (ct *ComponentTable) expand(n int) {
 		ct.InventoryMap[name] = append(slice, extraSpace...)
 	}
 	// expand ComponentBitArrays
+	ct.ComponentStrings = append(ct.ComponentStrings, make([]map[string]bool, n)...)
 	ct.ComponentBitArrays = append(ct.ComponentBitArrays, make([]bitarray.BitArray, n)...)
-	ct.capacity += n
+	ct.Capacity += n
 }
 
 func (ct *ComponentTable) RegisterComponentStrings(strings map[ComponentID]string) {
@@ -192,33 +195,33 @@ func (ct *ComponentTable) addComponent(kind ComponentKind, name ComponentID, str
 	// eaten up the capacity)
 	switch kind {
 	case VEC2D:
-		ct.Vec2DMap[name] = make([]Vec2D, ct.capacity, 2*ct.capacity)
+		ct.Vec2DMap[name] = make([]Vec2D, ct.Capacity, 2*ct.Capacity)
 	case BOOL:
-		ct.BoolMap[name] = make([]bool, ct.capacity, 2*ct.capacity)
+		ct.BoolMap[name] = make([]bool, ct.Capacity, 2*ct.Capacity)
 	case INT:
-		ct.IntMap[name] = make([]int, ct.capacity, 2*ct.capacity)
+		ct.IntMap[name] = make([]int, ct.Capacity, 2*ct.Capacity)
 	case FLOAT64:
-		ct.Float64Map[name] = make([]float64, ct.capacity, 2*ct.capacity)
+		ct.Float64Map[name] = make([]float64, ct.Capacity, 2*ct.Capacity)
 	case TIME:
-		ct.TimeMap[name] = make([]time.Time, ct.capacity, 2*ct.capacity)
+		ct.TimeMap[name] = make([]time.Time, ct.Capacity, 2*ct.Capacity)
 	case TIMEACCUMULATOR:
-		ct.TimeAccumulatorMap[name] = make([]TimeAccumulator, ct.capacity, 2*ct.capacity)
+		ct.TimeAccumulatorMap[name] = make([]TimeAccumulator, ct.Capacity, 2*ct.Capacity)
 	case STRING:
-		ct.StringMap[name] = make([]string, ct.capacity, 2*ct.capacity)
+		ct.StringMap[name] = make([]string, ct.Capacity, 2*ct.Capacity)
 	case SPRITE:
-		ct.SpriteMap[name] = make([]Sprite, ct.capacity, 2*ct.capacity)
+		ct.SpriteMap[name] = make([]Sprite, ct.Capacity, 2*ct.Capacity)
 	case TAGLIST:
-		ct.TagListMap[name] = make([]TagList, ct.capacity, 2*ct.capacity)
+		ct.TagListMap[name] = make([]TagList, ct.Capacity, 2*ct.Capacity)
 	case INTMAP:
-		ct.IntMapMap[name] = make([]IntMap, ct.capacity, 2*ct.capacity)
+		ct.IntMapMap[name] = make([]IntMap, ct.Capacity, 2*ct.Capacity)
 	case FLOATMAP:
-		ct.FloatMapMap[name] = make([]FloatMap, ct.capacity, 2*ct.capacity)
+		ct.FloatMapMap[name] = make([]FloatMap, ct.Capacity, 2*ct.Capacity)
 	case STRINGMAP:
-		ct.StringMapMap[name] = make([]StringMap, ct.capacity, 2*ct.capacity)
+		ct.StringMapMap[name] = make([]StringMap, ct.Capacity, 2*ct.Capacity)
 	case ITEM:
-		ct.ItemMap[name] = make([]Item, ct.capacity, 2*ct.capacity)
+		ct.ItemMap[name] = make([]Item, ct.Capacity, 2*ct.Capacity)
 	case INVENTORY:
-		ct.InventoryMap[name] = make([]Inventory, ct.capacity, 2*ct.capacity)
+		ct.InventoryMap[name] = make([]Inventory, ct.Capacity, 2*ct.Capacity)
 	default:
 		panic(fmt.Sprintf("added component of kind %s has no case in component_table.go", componentKindStrings[kind]))
 	}
@@ -306,64 +309,88 @@ func (ct *ComponentTable) ApplyComponentSet(e *Entity, spec map[ComponentID]any)
 
 func (ct *ComponentTable) applyComponentSet(e *Entity, cs ComponentSet) {
 	ct.AssertValidComponentSet(cs)
+	ct.ComponentStrings[e.ID] = make(map[string]bool)
 	for name, v := range cs.vec2DMap {
 		ct.Vec2DMap[name][e.ID] = v
 		e.Components = append(e.Components, ct.Strings[name])
+		ct.ComponentStrings[e.ID][ct.Strings[name]] = true
 	}
 	for name, b := range cs.boolMap {
 		ct.BoolMap[name][e.ID] = b
 		e.Components = append(e.Components, ct.Strings[name])
+		ct.ComponentStrings[e.ID][ct.Strings[name]] = true
 	}
 	for name, i := range cs.intMap {
 		ct.IntMap[name][e.ID] = i
 		e.Components = append(e.Components, ct.Strings[name])
+		ct.ComponentStrings[e.ID][ct.Strings[name]] = true
 	}
 	for name, f := range cs.float64Map {
 		ct.Float64Map[name][e.ID] = f
 		e.Components = append(e.Components, ct.Strings[name])
+		ct.ComponentStrings[e.ID][ct.Strings[name]] = true
 	}
 	for name, t := range cs.timeMap {
 		ct.TimeMap[name][e.ID] = t
 		e.Components = append(e.Components, ct.Strings[name])
+		ct.ComponentStrings[e.ID][ct.Strings[name]] = true
 	}
 	for name, t := range cs.timeAccumulatorMap {
 		ct.TimeAccumulatorMap[name][e.ID] = t
 		e.Components = append(e.Components, ct.Strings[name])
+		ct.ComponentStrings[e.ID][ct.Strings[name]] = true
 	}
 	for name, s := range cs.stringMap {
 		ct.StringMap[name][e.ID] = s
 		e.Components = append(e.Components, ct.Strings[name])
+		ct.ComponentStrings[e.ID][ct.Strings[name]] = true
 	}
 	for name, s := range cs.spriteMap {
 		ct.SpriteMap[name][e.ID] = s
 		e.Components = append(e.Components, ct.Strings[name])
+		ct.ComponentStrings[e.ID][ct.Strings[name]] = true
 	}
 	for name, t := range cs.tagListMap {
 		ct.TagListMap[name][e.ID] = t
 		e.Components = append(e.Components, ct.Strings[name])
+		ct.ComponentStrings[e.ID][ct.Strings[name]] = true
 	}
 	for name, m := range cs.intMapMap {
 		ct.IntMapMap[name][e.ID] = m
 		e.Components = append(e.Components, ct.Strings[name])
+		ct.ComponentStrings[e.ID][ct.Strings[name]] = true
 	}
 	for name, m := range cs.floatMapMap {
 		ct.FloatMapMap[name][e.ID] = m
 		e.Components = append(e.Components, ct.Strings[name])
+		ct.ComponentStrings[e.ID][ct.Strings[name]] = true
 	}
 	for name, m := range cs.stringMapMap {
 		ct.StringMapMap[name][e.ID] = m
 		e.Components = append(e.Components, ct.Strings[name])
+		ct.ComponentStrings[e.ID][ct.Strings[name]] = true
 	}
 	for name, m := range cs.itemMap {
 		ct.ItemMap[name][e.ID] = m
 		e.Components = append(e.Components, ct.Strings[name])
+		ct.ComponentStrings[e.ID][ct.Strings[name]] = true
 	}
 	for name, m := range cs.inventoryMap {
 		ct.InventoryMap[name][e.ID] = m
 		e.Components = append(e.Components, ct.Strings[name])
+		ct.ComponentStrings[e.ID][ct.Strings[name]] = true
 	}
 
 	ct.orBitArrayInto(e, ct.bitArrayFromComponentSet(cs))
+}
+
+func (ct *ComponentTable) orStringIntoBitArray(eid int, component string) {
+	if ct.ComponentBitArrays[eid] == nil {
+		ct.ComponentBitArrays[eid] = bitarray.NewBitArray(uint64(len(ct.Ixs)))
+	}
+	ix := ct.Ixs[ct.StringsRev[component]]
+	ct.ComponentBitArrays[eid].SetBit(uint64(ix))
+	ct.ComponentStrings[eid][component] = true
 }
 
 func (ct *ComponentTable) orBitArrayInto(e *Entity, b bitarray.BitArray) {

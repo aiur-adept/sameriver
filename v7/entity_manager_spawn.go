@@ -128,7 +128,7 @@ func (m *EntityManager) doSpawn(
 		m.uniqueEntities[uniqueTag] = e
 	}
 	// add mind
-	e.Mind = mind
+	e.Mind = NewBlackboard(fmt.Sprintf("entity-%d-mind", e.ID))
 	// set entity active and notify entity is active
 	m.setActiveState(e, active)
 	// return Entity

@@ -14,7 +14,7 @@ func TestBlackboardWorldEntities(t *testing.T) {
 	w := testingWorld()
 
 	bname := "village-12"
-	bb := w.Blackboard(bname)
+	bb := w.CreateBlackboard(bname)
 
 	setupVillageBB := func() {
 		bb.Set("roles", []string{"farmer", "baker", "fisher", "crafts"})
@@ -133,7 +133,7 @@ func TestBlackboardSaveLoad(t *testing.T) {
 	w := testingWorld()
 
 	bname := "village-12"
-	bb := w.Blackboard(bname)
+	bb := w.CreateBlackboard(bname)
 	bb.Set("roles", []string{"farmer", "baker", "fisher", "crafts"})
 	bb.Set("number", 12)
 	bb.Set("bool", true)
@@ -147,7 +147,7 @@ func TestBlackboardSaveLoad(t *testing.T) {
 	fmt.Println(string(jsonStr))
 
 	bb2 := NewBlackboard(bname + "-reloaded")
-	err = json.Unmarshal(jsonStr, bb2)
+	err = json.Unmarshal(jsonStr, &bb2)
 	if err != nil {
 		t.Fatalf("error unmarshalling blackboard: %v", err)
 	}
@@ -186,5 +186,34 @@ func TestBlackboardSaveLoad(t *testing.T) {
 	fmt.Printf("Type assertion ok1: %v, ok2: %v\n", ok1, ok2)
 	if !ok1 || !ok2 || !reflect.DeepEqual(numbers1, numbers2) {
 		t.Fatal("numbers not in bb2 or type mismatch")
+	}
+}
+
+func TestBlackboardSaveLoadInt(t *testing.T) {
+	w := testingWorld()
+
+	bname := "village-12"
+	bb := w.CreateBlackboard(bname)
+	bb.Set("number", 12)
+
+	jsonStr, err := json.Marshal(bb)
+	if err != nil {
+		t.Fatalf("error marshalling blackboard: %v", err)
+	}
+
+	fmt.Println(string(jsonStr))
+
+	bb2 := NewBlackboard(bname + "-reloaded")
+	err = json.Unmarshal(jsonStr, bb2)
+	if err != nil {
+		t.Fatalf("error unmarshalling blackboard: %v", err)
+	}
+
+	fmt.Println(bb2.Get("number"))
+
+	number1Int := bb.GetInt("number")
+	number2Int := bb2.GetInt("number")
+	if number2Int != number1Int {
+		t.Fatal("number not in bb2 or type mismatch")
 	}
 }

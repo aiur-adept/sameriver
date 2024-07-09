@@ -187,10 +187,10 @@ func (p *GOAPPlanner) selectorFromString(s string) func(*Entity) bool {
 	return func(other *Entity) bool {
 		// if the bb is the entity's mind
 		if bbname == "mind" {
-			return other == p.e.GetMind(bbkey).(*Entity)
+			return other == p.w.GetEntity(p.e.Mind.GetInt(bbkey))
 		} else {
 			// else treat it as a world bb
-			return other == p.w.Blackboard(bbname).Get(bbkey).(*Entity)
+			return other == p.w.GetEntity(p.w.Blackboards[bbname].GetInt(bbkey))
 		}
 	}
 }

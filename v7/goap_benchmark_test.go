@@ -733,8 +733,9 @@ func BenchmarkGOAPFarmer2000(b *testing.B) {
 	// NOTE: we'd *get* the currently active bb work plan for the field rather than
 	// generate it if someone was already doing plant
 	tillPlanBB := func() {
-		e.SetMind("plan.field", field)
-		planField := e.GetMind("plan.field").(*Entity)
+		e.Mind.Set("plan.field", field.ID)
+		planFieldID := e.Mind.GetInt("plan.field")
+		planField := w.GetEntity(planFieldID)
 		// this would really be a filtering not of all entities but of perception
 		closestOxToField := w.ClosestEntityFilter(
 			*w.GetVec2D(planField, POSITION_),
@@ -742,7 +743,7 @@ func BenchmarkGOAPFarmer2000(b *testing.B) {
 			func(e *Entity) bool {
 				return w.EntityHasTag(e, "ox")
 			})
-		e.SetMind("plan.ox", closestOxToField)
+		e.Mind.Set("plan.ox", closestOxToField)
 	}
 	tillPlanBindEntities := func() {
 		p.BindEntitySelectors(map[string]any{

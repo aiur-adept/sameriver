@@ -118,5 +118,29 @@ func TestComponentTableSaveTimeAccumulator(t *testing.T) {
 		t.Errorf("IntMap[%v][0] = %v, want %v", STATE_, ct.TimeAccumulatorMap[TIME_ACCUM_][e.ID], accum)
 	}
 
-	// os.Remove("test.json")
+	os.Remove("test.json")
+}
+
+func TestComponentTableSaveBitArrays(t *testing.T) {
+
+	// normal setup
+	w := testingWorld()
+
+	e := w.Spawn(map[string]any{
+		"components": map[ComponentID]any{
+			STATE_: map[string]int{
+				"health": 100,
+			},
+		},
+	})
+
+	fmt.Println(w.Em.ComponentsTable.IntMapMap[STATE_][e.ID].M)
+
+	w.Em.ComponentsTable.Save("test.json")
+
+	ct := ComponentTableFromJSON("test.json")
+
+	fmt.Println(ct.ComponentBitArrays[e.ID])
+
+	os.Remove("test.json")
 }

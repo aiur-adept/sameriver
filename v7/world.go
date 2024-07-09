@@ -3,7 +3,6 @@ package sameriver
 import (
 	"encoding/json"
 	"fmt"
-	"math/rand"
 	"reflect"
 	"regexp"
 	"strings"
@@ -22,10 +21,10 @@ type World struct {
 	Width  float64
 	Height float64
 
-	Events *EventBus
+	Events *EventBus `json:"-"`
 	Em     *EntityManager
 
-	EFDSL *EFDSLEvaluator
+	EFDSL *EFDSLEvaluator `json:"-"`
 
 	IDGen IDGenerator
 
@@ -45,12 +44,12 @@ type World struct {
 	// or to produce an effect
 	funcs *FuncSet
 
-	// blackboards that entity's can join to share events and state
-	blackboards map[string]*Blackboard
+	// Blackboards that entity's can join to share events and state
+	Blackboards map[string]Blackboard
 
 	// for sharing runtime among the various runtimelimiter kinds
 	// and contains the RuntimeLimiters to which we Add() LogicUnits
-	RuntimeSharer *RuntimeLimitSharer
+	RuntimeSharer *RuntimeLimitSharer `json:"-"`
 	// special runtime limiters for oneshots and interval logics
 	oneshots  *RuntimeLimiter
 	intervals *RuntimeLimiter
@@ -59,10 +58,13 @@ type World struct {
 	totalRuntimeAvg_ms *float64
 
 	// used for entity distance queries
-	SpatialHasher *SpatialHasher
+	SpatialHasher       *SpatialHasher `json:"-"`
+	DistanceHasherGridX int
+	DistanceHasherGridY int
 }
 
 type WorldSpec struct {
+	Seed                int
 	Width               int
 	Height              int
 	DistanceHasherGridX int
@@ -70,8 +72,13 @@ type WorldSpec struct {
 }
 
 func destructureWorldSpec(spec map[string]any) WorldSpec {
-	var width, height int
+	var seed, width, height int
 	var distanceHasherGridX, distanceHasherGridY int
+	if _, ok := spec["seed"].(int); ok {
+		seed = spec["seed"].(int)
+	} else {
+		seed = 108
+	}
 	if _, ok := spec["width"].(int); ok {
 		width = spec["width"].(int)
 	} else {
@@ -94,6 +101,7 @@ func destructureWorldSpec(spec map[string]any) WorldSpec {
 	}
 
 	return WorldSpec{
+		Seed:                seed,
 		Width:               width,
 		Height:              height,
 		DistanceHasherGridX: distanceHasherGridX,
@@ -103,13 +111,11 @@ func destructureWorldSpec(spec map[string]any) WorldSpec {
 
 func NewWorld(spec map[string]any) *World {
 	// seed a random number from [1,108]
-	source := rand.NewSource(time.Now().UnixNano())
-	localRand := rand.New(source)
-	seed := localRand.Intn(108) + 1
-	Logger.Println(color.InBold(color.InWhiteOverCyan(fmt.Sprintf("[world seed: %d]", seed))))
 	destructured := destructureWorldSpec(spec)
+	Logger.Println(color.InBold(color.InWhiteOverCyan(fmt.Sprintf("[world seed: %d]", int(destructured.Seed)))))
+
 	w := &World{
-		Seed:          seed,
+		Seed:          int(destructured.Seed),
 		IDGen:         NewIDGenerator(),
 		Width:         float64(destructured.Width),
 		Height:        float64(destructured.Height),
@@ -119,7 +125,7 @@ func NewWorld(spec map[string]any) *World {
 		systemsIDs:    make(map[System]int),
 		worldLogics:   make(map[string]*LogicUnit),
 		funcs:         NewFuncSet(nil),
-		blackboards:   make(map[string]*Blackboard),
+		Blackboards:   make(map[string]Blackboard),
 		RuntimeSharer: NewRuntimeLimitSharer(),
 	}
 
@@ -151,6 +157,8 @@ func NewWorld(spec map[string]any) *World {
 		destructured.DistanceHasherGridY,
 		w,
 	)
+	w.DistanceHasherGridX = destructured.DistanceHasherGridX
+	w.DistanceHasherGridY = destructured.DistanceHasherGridY
 
 	return w
 }
@@ -459,15 +467,20 @@ func (w *World) HasFunc(name string) bool {
 	return w.funcs.Has(name)
 }
 
-func (w *World) Blackboard(name string) *Blackboard {
-	if _, ok := w.blackboards[name]; !ok {
-		w.blackboards[name] = NewBlackboard(name)
+func (w *World) CreateBlackboard(name string) Blackboard {
+	if _, ok := w.Blackboards[name]; !ok {
+		w.Blackboards[name] = NewBlackboard(name)
 	}
-	return w.blackboards[name]
+	return w.Blackboards[name]
 }
 
 func (w *World) ApplyComponentSet(e *Entity, spec map[ComponentID]any) {
 	w.Em.ComponentsTable.ApplyComponentSet(e, spec)
+}
+
+func (w *World) EntityHasComponentString(e *Entity, name string) bool {
+	b, _ := w.Em.ComponentsTable.ComponentBitArrays[e.ID].GetBit(uint64(w.Em.ComponentsTable.Ixs[w.Em.ComponentsTable.StringsRev[name]]))
+	return b
 }
 
 func (w *World) EntityHasComponent(e *Entity, name ComponentID) bool {
