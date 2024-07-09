@@ -15,6 +15,12 @@ func (m *EntityManager) GetSortedUpdatedEntityList(
 	return m.getUpdatedEntityList(q, true)
 }
 
+// get a previously-created UpdatedEntityList by tag, or nil if does not exist
+func (m *EntityManager) GetUpdatedEntityListByTag(
+	tag string) *UpdatedEntityList {
+	return m.getUpdatedEntityList(m.w.EntityFilterFromTag(tag), false)
+}
+
 // get a previously-created UpdatedEntityList by name, or nil if does not exist
 func (m *EntityManager) GetUpdatedEntityListByName(
 	name string) *UpdatedEntityList {
