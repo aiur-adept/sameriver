@@ -84,6 +84,9 @@ func (p *PhysicsSystem) collision(e *Entity, pos, box *Vec2D, dx, dy float64) bo
 				if other.ID == e.ID {
 					continue
 				}
+				if !p.w.EntityHasComponent(other, RIGIDBODY_) {
+					continue
+				}
 				otherRigidBody := p.w.GetBool(other, RIGIDBODY_)
 				if !*otherRigidBody {
 					continue
