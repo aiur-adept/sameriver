@@ -47,10 +47,10 @@ func TestPhysicsSystemWithGranularity(t *testing.T) {
 	Logger.Println("after Update at t=0, hotness of physics update:")
 	// observe, in the below, the hotness are basically the same for
 	// granularity 1 as granularity 4, insane
-	for _, l := range w.RuntimeSharer.RunnerMap["systems"].logicUnits {
+	for _, l := range w.runtimeSharer.RunnerMap["systems"].logicUnits {
 		Logger.Printf("normal %s: h%d", l.name, l.hotness)
 	}
-	for _, l := range wg.RuntimeSharer.RunnerMap["systems"].logicUnits {
+	for _, l := range wg.runtimeSharer.RunnerMap["systems"].logicUnits {
 		Logger.Printf("granular %s: h%d", l.name, l.hotness)
 	}
 	observePos()

@@ -17,6 +17,7 @@ func TestWorldSaveLoad(t *testing.T) {
 
 	w.Save("test.json")
 
+	// recreate the world from load, including registering systems
 	w2 := LoadWorld("test.json")
 	p2 := NewPhysicsSystem()
 	cs2 := NewCollisionSystem(FRAME_DURATION / 2)

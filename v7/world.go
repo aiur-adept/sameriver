@@ -49,7 +49,7 @@ type World struct {
 
 	// for sharing runtime among the various runtimelimiter kinds
 	// and contains the RuntimeLimiters to which we Add() LogicUnits
-	RuntimeSharer *RuntimeLimitSharer `json:"-"`
+	runtimeSharer *RuntimeLimitSharer
 	// special runtime limiters for oneshots and interval logics
 	oneshots  *RuntimeLimiter
 	intervals *RuntimeLimiter
@@ -126,19 +126,19 @@ func NewWorld(spec map[string]any) *World {
 		worldLogics:   make(map[string]*LogicUnit),
 		funcs:         NewFuncSet(nil),
 		Blackboards:   make(map[string]Blackboard),
-		RuntimeSharer: NewRuntimeLimitSharer(),
+		runtimeSharer: NewRuntimeLimitSharer(),
 	}
 
 	// set up runtimesharer
-	w.RuntimeSharer.RegisterRunners(map[string]float64{
+	w.runtimeSharer.RegisterRunners(map[string]float64{
 		"systems":        1,
 		"world":          1,
 		"entities":       1,
 		"world-oneshot":  0.5,
 		"world-interval": 0.5,
 	})
-	w.oneshots = w.RuntimeSharer.RunnerMap["world-oneshot"]
-	w.intervals = w.RuntimeSharer.RunnerMap["world-interval"]
+	w.oneshots = w.runtimeSharer.RunnerMap["world-oneshot"]
+	w.intervals = w.runtimeSharer.RunnerMap["world-interval"]
 
 	// init entitymanager
 	w.Em = NewEntityManager(w)
@@ -169,7 +169,7 @@ func (w *World) Update(allowance_ms float64) (overunder_ms float64) {
 	w.Em.Update(allowance_ms / 8)
 	w.SpatialHasher.Update()
 	remaining_ms := allowance_ms - float64(time.Since(t0).Nanoseconds())/1e6
-	w.RuntimeSharer.Share(remaining_ms)
+	w.runtimeSharer.Share(remaining_ms)
 
 	// maintain total runtime moving average
 	total := float64(time.Since(t0).Nanoseconds()) / 1.0e6
@@ -236,7 +236,7 @@ func (w *World) SetSystemSchedule(systemName string, period_ms float64) {
 	Logger.Printf("Setting %s period_ms %f", systemName, period_ms)
 	s := w.systems[systemName]
 	name := fmt.Sprintf("%s.Update()", reflect.TypeOf(s).Elem().Name())
-	w.RuntimeSharer.RunnerMap["systems"].SetSchedule(name, period_ms)
+	w.runtimeSharer.RunnerMap["systems"].SetSchedule(name, period_ms)
 }
 
 func (w *World) addSystem(s System) {
@@ -259,7 +259,7 @@ func (w *World) addSystem(s System) {
 		runSchedule: nil,
 	}
 	w.systemLogics[name] = l
-	w.RuntimeSharer.RunnerMap["systems"].addLogicImmediately(l)
+	w.runtimeSharer.RunnerMap["systems"].addLogicImmediately(l)
 }
 
 func (w *World) assertSystemTypeValid(t reflect.Type) {
@@ -406,7 +406,7 @@ func (w *World) AddLogic(Name string, F func(dt_ms float64)) *LogicUnit {
 		active: true,
 	}
 	w.worldLogics[Name] = l
-	w.RuntimeSharer.RunnerMap["world"].Add(l)
+	w.runtimeSharer.RunnerMap["world"].Add(l)
 	return l
 }
 
@@ -419,18 +419,18 @@ func (w *World) AddLogicWithSchedule(Name string, F func(dt_ms float64), period_
 
 func (w *World) RemoveLogic(Name string) {
 	if logic, ok := w.worldLogics[Name]; ok {
-		w.RuntimeSharer.RunnerMap["world"].Remove(logic)
+		w.runtimeSharer.RunnerMap["world"].Remove(logic)
 		delete(w.worldLogics, Name)
 		w.IDGen.Free(logic.worldID)
 	}
 }
 
 func (w *World) ActivateAllLogics() {
-	w.RuntimeSharer.RunnerMap["world"].ActivateAll()
+	w.runtimeSharer.RunnerMap["world"].ActivateAll()
 }
 
 func (w *World) DeactivateAllLogics() {
-	w.RuntimeSharer.RunnerMap["world"].DeactivateAll()
+	w.runtimeSharer.RunnerMap["world"].DeactivateAll()
 }
 
 func (w *World) ActivateLogic(name string) {
@@ -574,7 +574,7 @@ func (w *World) String() string {
 }
 
 func (w *World) DumpStats() map[string](map[string]float64) {
-	stats := w.RuntimeSharer.DumpStats()
+	stats := w.runtimeSharer.DumpStats()
 	// add total Update() runtime avg
 	if w.totalRuntimeAvg_ms != nil {
 		stats["__totals"]["World.Update()"] = *w.totalRuntimeAvg_ms
