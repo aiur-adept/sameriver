@@ -18,8 +18,9 @@ func LoadWorld(filename string) *World {
 	if err != nil {
 		panic(err)
 	}
-	wTemp := NewWorld(nil)
-	json.Unmarshal(jsonObj, wTemp)
+
+	wTemp := World{}
+	json.Unmarshal(jsonObj, &wTemp)
 	w := NewWorld(map[string]any{
 		"seed":                wTemp.Seed,
 		"width":               wTemp.Width,

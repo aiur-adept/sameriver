@@ -310,7 +310,13 @@ func (i *ItemSystem) SpawnItemEntity(pos Vec2D, item *Item) *Entity {
 		if i.spriteSystem == nil {
 			panic("Trying to create entity with sprite=true while spriteSystem was not registered")
 		}
-		components[BASESPRITE_] = i.spriteSystem.GetSprite(arch.Entity["sprite"].(string))
+		components[BASESPRITE_] = i.spriteSystem.GetSprite(
+			arch.Entity["sprite"].(string),
+			arch.Entity["frameW"].(int),
+			arch.Entity["frameH"].(int),
+			arch.Entity["dimX"].(int),
+			arch.Entity["dimY"].(int),
+		)
 	}
 	if i.despawn_ms != nil {
 		components[DESPAWNTIMER_] = NewTimeAccumulator(*i.despawn_ms)

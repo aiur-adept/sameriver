@@ -11,6 +11,7 @@ func TestWorldSaveLoad(t *testing.T) {
 	w.RegisterSystems(p, cs)
 
 	e := testingSpawnPhysics(w)
+	e.Mind.Set("test", e.ID)
 
 	bb := w.CreateBlackboard("testbb")
 	bb.Set("test", e.ID)
@@ -33,6 +34,10 @@ func TestWorldSaveLoad(t *testing.T) {
 		t.Fatalf("entity %d not found in world", e.ID)
 	}
 
+	if e2.Mind.GetInt("test") != e.ID {
+		t.Fatalf("entity %d mind not found in world", e.ID)
+	}
+
 	// check if e2 has the same components as e
 	for _, c := range e.Components {
 		if !w2.EntityHasComponentString(e2, c) {
@@ -41,8 +46,7 @@ func TestWorldSaveLoad(t *testing.T) {
 	}
 
 	// try to get "test" key from blackboard "testbb"
-	test := w2.Blackboards["testbb"].GetInt("test")
-	if test != e.ID {
+	if w2.Blackboards["testbb"].GetInt("test") != e.ID {
 		t.Fatalf("test key not found in blackboard")
 	}
 

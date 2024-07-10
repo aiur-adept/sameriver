@@ -92,12 +92,12 @@ func destructureWorldSpec(spec map[string]any) WorldSpec {
 	if _, ok := spec["distanceHasherGridX"].(int); ok {
 		distanceHasherGridX = spec["distanceHasherGridX"].(int)
 	} else {
-		distanceHasherGridX = 10
+		distanceHasherGridX = 32
 	}
 	if _, ok := spec["distanceHasherGridY"].(int); ok {
 		distanceHasherGridY = spec["distanceHasherGridY"].(int)
 	} else {
-		distanceHasherGridY = 10
+		distanceHasherGridY = 32
 	}
 
 	return WorldSpec{
@@ -142,15 +142,21 @@ func NewWorld(spec map[string]any) *World {
 
 	// init entitymanager
 	w.Em = NewEntityManager(w)
+
 	// init EFDSL
 	w.EFDSL = NewEFDSLEvaluator(w)
+
 	// register basic components
 	w.RegisterComponents([]any{
 		GENERICTAGS_, TAGLIST, "GENERICTAGS",
 		STATE_, INTMAP, "STATE",
 		POSITION_, VEC2D, "POSITION",
+		VELOCITY_, VEC2D, "VELOCITY",
+		ACCELERATION_, VEC2D, "ACCELERATION",
+		RIGIDBODY_, BOOL, "RIGIDBODY",
 		BOX_, VEC2D, "BOX",
 	})
+
 	// set up distance spatial hasher
 	w.SpatialHasher = NewSpatialHasher(
 		destructured.DistanceHasherGridX,
