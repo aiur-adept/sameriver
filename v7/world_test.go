@@ -361,3 +361,23 @@ func TestWorldSetNInterval(t *testing.T) {
 		t.Fatalf("Should've run setninterval func 3 times, ran %d times", x)
 	}
 }
+
+func TestWorldEntityLogic(t *testing.T) {
+	w := testingWorld()
+	e := testingSpawnSpatial(w, Vec2D{0, 0}, Vec2D{1, 1})
+	ran := 0
+	w.AddEntityLogic(e, "logic", func(dt_ms float64) {
+		ran++
+	})
+	w.Update(FRAME_MS / 2)
+	fmt.Printf("ran %d times\n", ran)
+	if ran == 0 {
+		t.Fatal("Should've run entity logic")
+	}
+	ranSoFar := ran
+	w.RemoveEntityLogic(e, "logic")
+	w.Update(FRAME_MS / 2)
+	if ran != ranSoFar {
+		t.Fatal("Should've removed entity logic")
+	}
+}

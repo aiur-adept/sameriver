@@ -40,6 +40,9 @@ type World struct {
 	// logics invoked regularly by RuntimeSharer
 	worldLogics map[string]*LogicUnit
 
+	// entity logics
+	entityLogics map[int][]*LogicUnit
+
 	// funcs that can be called by name with data and get a result,
 	// or to produce an effect
 	funcs *FuncSet
@@ -124,6 +127,7 @@ func NewWorld(spec map[string]any) *World {
 		systemLogics:  make(map[string]*LogicUnit),
 		systemsIDs:    make(map[System]int),
 		worldLogics:   make(map[string]*LogicUnit),
+		entityLogics:  make(map[int][]*LogicUnit),
 		funcs:         NewFuncSet(nil),
 		Blackboards:   make(map[string]Blackboard),
 		runtimeSharer: NewRuntimeLimitSharer(),
@@ -402,14 +406,44 @@ func (w *World) ClearInterval(interval string) {
 	w.intervals.Remove(w.intervals.logicUnitsMap[interval])
 }
 
+func (w *World) AddEntityLogic(e *Entity, Name string, F func(dt_ms float64)) *LogicUnit {
+	l := &LogicUnit{
+		name:    e.LogicUnitName(Name),
+		f:       F,
+		active:  true,
+		worldID: e.ID,
+	}
+	if _, ok := w.entityLogics[e.ID]; !ok {
+		w.entityLogics[e.ID] = make([]*LogicUnit, 0)
+	}
+	w.entityLogics[e.ID] = append(w.entityLogics[e.ID], l)
+	w.runtimeSharer.RunnerMap["entities"].Add(l)
+	return l
+}
+
+func (w *World) RemoveEntityLogic(e *Entity, Name string) {
+	if logicUnits, ok := w.entityLogics[e.ID]; ok {
+		for i, logic := range logicUnits {
+			if logic.name == e.LogicUnitName(Name) {
+				w.runtimeSharer.RunnerMap["entities"].Remove(logic)
+				// remove the logicunit from the slice
+				w.entityLogics[e.ID] = append(w.entityLogics[e.ID][:i], w.entityLogics[e.ID][i+1:]...)
+				w.IDGen.Free(logic.worldID)
+				return
+			}
+		}
+	}
+}
+
 func (w *World) AddLogic(Name string, F func(dt_ms float64)) *LogicUnit {
 	if _, ok := w.worldLogics[Name]; ok {
 		panic(fmt.Sprintf("double-add of world logic %s", Name))
 	}
 	l := &LogicUnit{
-		name:   Name,
-		f:      F,
-		active: true,
+		name:    Name,
+		f:       F,
+		active:  true,
+		worldID: w.IDGen.Next(),
 	}
 	w.worldLogics[Name] = l
 	w.runtimeSharer.RunnerMap["world"].Add(l)

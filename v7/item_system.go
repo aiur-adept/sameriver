@@ -310,12 +310,10 @@ func (i *ItemSystem) SpawnItemEntity(pos Vec2D, item *Item) *Entity {
 		if i.spriteSystem == nil {
 			panic("Trying to create entity with sprite=true while spriteSystem was not registered")
 		}
+		// TODO: allow animated sprites somehow
 		components[BASESPRITE_] = i.spriteSystem.GetSprite(
 			arch.Entity["sprite"].(string),
-			arch.Entity["frameW"].(int),
-			arch.Entity["frameH"].(int),
-			arch.Entity["dimX"].(int),
-			arch.Entity["dimY"].(int),
+			1, 1,
 		)
 	}
 	if i.despawn_ms != nil {

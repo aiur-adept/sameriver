@@ -1,1 +1,3 @@
 use nodes in goap_benchmark_test.go
+
+allow animated sprits for items

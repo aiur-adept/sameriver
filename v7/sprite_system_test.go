@@ -39,13 +39,29 @@ func TestSpriteSystemBasic(t *testing.T) {
 		e := w.Spawn(map[string]any{
 			"components": map[ComponentID]any{
 				POSITION_:   Vec2D{X: 0, Y: 0},
-				BASESPRITE_: ss.GetSprite("test", 614, 800, 4, 4),
+				BOX_:        Vec2D{X: 32, Y: 48},
+				BASESPRITE_: ss.GetSprite("test", 4, 4),
 			},
 		})
 
-		ss.Render(renderer, e, w.GetSprite(e, BASESPRITE_))
+		// for loop 100 times
+		animationFPS := 0.2
+		animation_accum := NewTimeAccumulator(animationFPS * 1000)
+		for i := 0; i < 100; i++ {
+			w.Update(FRAME_MS)
+			renderer.SetDrawColor(255, 255, 255, 255)
+			renderer.FillRect(nil)
+			ss.Render(renderer, e, w.GetSprite(e, BASESPRITE_))
+			renderer.Present()
 
-		sdl.Delay(1000)
+			sdl.Delay(FRAME_MS)
+
+			if animation_accum.Tick(FRAME_MS) {
+				sprite := w.GetSprite(e, BASESPRITE_)
+				sprite.FrameX += 1
+				sprite.FrameX %= sprite.DimX
+			}
+		}
 
 		// fail the test - this is a TODO
 		t.Fatal("test failed")

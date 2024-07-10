@@ -25,21 +25,26 @@ func NewSpriteSystem(renderer *sdl.Renderer, tm *TextureManager) *SpriteSystem {
 	return s
 }
 
-func (s *SpriteSystem) GetSprite(name string, frameW, frameH, dimX, dimY int) Sprite {
+func (s *SpriteSystem) GetSprite(name string, dimX, dimY int) Sprite {
 	_, ok := s.tm.Textures[name]
 	if !ok {
 		name = "__nil_texture__"
 	}
+	// query dimensions of texture
+	_, _, w, h, err := s.tm.Textures[name].Query()
+	if err != nil {
+		panic(err)
+	}
 	return Sprite{
-		Texture: name,          // texture
-		FrameX:  0,             // frame
-		FrameY:  0,             // frame
-		FrameW:  uint8(frameW), // frame width
-		FrameH:  uint8(frameH), // frame height
-		DimX:    uint8(dimX),   // width
-		DimY:    uint8(dimY),   // height
-		Visible: true,          // visible
-		Flip:    sdl.FLIP_NONE, // flip
+		Texture: name,                   // texture
+		FrameX:  0,                      // frame
+		FrameY:  0,                      // frame
+		FrameW:  uint8(w / int32(dimX)), // frame width
+		FrameH:  uint8(h / int32(dimY)), // frame height
+		DimX:    uint8(dimX),            // width
+		DimY:    uint8(dimY),            // height
+		Visible: true,                   // visible
+		Flip:    sdl.FLIP_NONE,          // flip
 	}
 }
 
@@ -99,25 +104,17 @@ func (s *SpriteSystem) LoadFiles(renderer *sdl.Renderer) {
 func (s *SpriteSystem) Render(renderer *sdl.Renderer, e *Entity, sprite *Sprite) {
 	texture := s.tm.Textures[sprite.Texture]
 
-	_, _, width, height, err := texture.Query()
-	if err != nil {
-		panic(err)
-	}
-
-	frameW := width / int32(sprite.FrameW)
-	frameH := height / int32(sprite.FrameH)
-
 	srcRect := sdl.Rect{
-		X: int32(frameW * int32(sprite.FrameX)),
-		Y: int32(frameH * int32(sprite.FrameY)),
-		W: frameW,
-		H: frameH,
+		X: int32(int32(sprite.FrameW) * int32(sprite.FrameX)),
+		Y: int32(int32(sprite.FrameH) * int32(sprite.FrameY)),
+		W: int32(sprite.FrameW),
+		H: int32(sprite.FrameH),
 	}
 	destRect := sdl.Rect{
 		X: int32(s.w.GetVec2D(e, POSITION_).X),
 		Y: int32(s.w.GetVec2D(e, POSITION_).Y),
-		W: int32(sprite.FrameW),
-		H: int32(sprite.FrameH),
+		W: int32(s.w.GetVec2D(e, BOX_).X),
+		H: int32(s.w.GetVec2D(e, BOX_).Y),
 	}
 	renderer.Copy(texture, &srcRect, &destRect)
 }

@@ -2,6 +2,7 @@ package sameriver
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 type Entity struct {
@@ -36,4 +37,8 @@ func (e *Entity) RemoveList(listName string) bool {
 		}
 	}
 	return false
+}
+
+func (e *Entity) LogicUnitName(name string) string {
+	return fmt.Sprintf("%d-%s", e.ID, name)
 }
