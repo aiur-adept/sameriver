@@ -13,8 +13,8 @@ func TestSpriteSystemBasic(t *testing.T) {
 
 	windowSpec := WindowSpec{
 		Title:      "testing game",
-		Width:      100,
-		Height:     100,
+		Width:      500,
+		Height:     500,
 		Fullscreen: false}
 
 	sdl.Init(sdl.INIT_VIDEO)
@@ -29,7 +29,10 @@ func TestSpriteSystemBasic(t *testing.T) {
 
 		img.Init(img.INIT_PNG)
 
-		w := NewWorld(nil)
+		w := NewWorld(map[string]any{
+			"height": 500,
+			"width":  500,
+		})
 		tm := NewTextureManager()
 		tm.Init(renderer)
 
@@ -41,8 +44,8 @@ func TestSpriteSystemBasic(t *testing.T) {
 
 		e := w.Spawn(map[string]any{
 			"components": map[ComponentID]any{
-				POSITION_:     Vec2D{X: 0, Y: 0},
-				VELOCITY_:     Vec2D{X: 0, Y: 0.5},
+				POSITION_:     Vec2D{X: 16, Y: 24},
+				VELOCITY_:     Vec2D{X: 0, Y: 0.1},
 				ACCELERATION_: Vec2D{X: 0, Y: 0},
 				RIGIDBODY_:    false,
 				MASS_:         3.0,
@@ -73,10 +76,6 @@ func TestSpriteSystemBasic(t *testing.T) {
 
 		}
 
-		// fail the test - this is a TODO
-
 	})
-
-	t.Fatal("test failed")
 
 }

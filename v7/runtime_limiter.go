@@ -331,10 +331,6 @@ func (r *RuntimeLimiter) shouldRunOrSwitchMode(logic *LogicUnit, mode *IterMode,
 }
 
 func (r *RuntimeLimiter) runLogic(logic *LogicUnit, mode IterMode) (func_ms float64) {
-	// note that we start lastrun from the moment the function starts, since
-	// say it starts at t=0ms, takes 4 ms to run, then if it comes up to run
-	// again at t=8ms (r.tick()), it will get dt_ms of 8 ms, the proper
-	// intervening time since it last integrated a dt_ms increment.
 	if DEBUG_RUNTIME_LIMITER {
 		switch mode {
 		case RoundRobin:

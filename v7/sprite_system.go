@@ -104,6 +104,12 @@ func (s *SpriteSystem) LoadFiles(renderer *sdl.Renderer) {
 func (s *SpriteSystem) Render(renderer *sdl.Renderer, e *Entity, sprite *Sprite) {
 	texture := s.tm.Textures[sprite.Texture]
 
+	pos := s.w.GetVec2D(e, POSITION_)
+	box := s.w.GetVec2D(e, BOX_)
+
+	pos.ShiftCenterToBottomLeft(*box)
+	defer pos.ShiftBottomLeftToCenter(*box)
+
 	srcRect := sdl.Rect{
 		X: int32(int32(sprite.FrameW) * int32(sprite.FrameX)),
 		Y: int32(int32(sprite.FrameH) * int32(sprite.FrameY)),
