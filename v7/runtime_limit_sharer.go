@@ -119,6 +119,8 @@ func (r *RuntimeLimitSharer) Share(allowance_ms float64) (stats RuntimeLimitShar
 	starvedMode := false
 	var lastStarvation float64
 	logRuntimeLimiter("====================\nShare()\n====================\n")
+
+	// run until remaining is used up of max loops
 	for remaining_ms >= 0 && loop < RUNTIME_LIMIT_SHARER_MAX_LOOPS {
 		logRuntimeLimiter("\n===\nloop = %d, total share = %f ms\n===\n", loop, remaining_ms)
 		totalStarvation := 0.0
@@ -126,6 +128,8 @@ func (r *RuntimeLimitSharer) Share(allowance_ms float64) (stats RuntimeLimitShar
 		loopShare := remaining_ms
 		logicsRanThisLoop := 0
 		var runnersRan int
+
+		// try to run all runners
 		for runnersRan = 0; remaining_ms >= 0 && considered < len(r.runners); {
 			considered++
 			runner := r.runners[r.runIX]

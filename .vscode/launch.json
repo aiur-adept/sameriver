@@ -5,6 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "TestSpriteSystemBasic",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/v7/",
+            "args": [
+                "-test.run",
+                "TestSpriteSystemBasic"
+            ]
+        },
+        {
             "name": "TestWorldSaveLoad",
             "type": "go",
             "request": "launch",

@@ -2,6 +2,7 @@ package sameriver
 
 import (
 	"testing"
+	"time"
 
 	"github.com/veandco/go-sdl2/img"
 	"github.com/veandco/go-sdl2/sdl"
@@ -32,15 +33,21 @@ func TestSpriteSystemBasic(t *testing.T) {
 		tm := NewTextureManager()
 		tm.Init(renderer)
 
+		p := NewPhysicsSystem()
+		c := NewCollisionSystem(FRAME_DURATION)
 		ss := NewSpriteSystem(renderer, tm)
 
-		w.RegisterSystems(ss)
+		w.RegisterSystems(p, c, ss)
 
 		e := w.Spawn(map[string]any{
 			"components": map[ComponentID]any{
-				POSITION_:   Vec2D{X: 0, Y: 0},
-				BOX_:        Vec2D{X: 32, Y: 48},
-				BASESPRITE_: ss.GetSprite("test", 4, 4),
+				POSITION_:     Vec2D{X: 0, Y: 0},
+				VELOCITY_:     Vec2D{X: 0, Y: 0.5},
+				ACCELERATION_: Vec2D{X: 0, Y: 0},
+				RIGIDBODY_:    false,
+				MASS_:         3.0,
+				BOX_:          Vec2D{X: 32, Y: 48},
+				BASESPRITE_:   ss.GetSprite("test", 4, 4),
 			},
 		})
 
@@ -62,12 +69,14 @@ func TestSpriteSystemBasic(t *testing.T) {
 			ss.Render(renderer, e, w.GetSprite(e, BASESPRITE_))
 			renderer.Present()
 
-			sdl.Delay(FRAME_MS)
+			time.Sleep(time.Millisecond * FRAME_MS)
 
 		}
 
 		// fail the test - this is a TODO
-		t.Fatal("test failed")
 
 	})
+
+	t.Fatal("test failed")
+
 }

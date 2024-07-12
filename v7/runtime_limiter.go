@@ -344,8 +344,11 @@ func (r *RuntimeLimiter) runLogic(logic *LogicUnit, mode IterMode) (func_ms floa
 		}
 	}
 	t0 := time.Now()
-	// get real time since last run
-	dt_ms := float64(time.Since(r.lastRun[logic]).Nanoseconds()) / 1e6
+
+	dt_ms := 0.0
+	if t, ok := r.lastRun[logic]; ok {
+		dt_ms = float64(time.Since(t).Nanoseconds()) / 1e6
+	}
 	r.lastRun[logic] = time.Now()
 	logic.f(dt_ms)
 	func_ms = float64(time.Since(t0).Nanoseconds()) / 1.0e6
