@@ -69,6 +69,56 @@ func TestRuntimeLimiterRun(t *testing.T) {
 	}
 }
 
+func TestRuntimeLimiterRunLimit(t *testing.T) {
+	r := NewRuntimeLimiter()
+	x := 0
+	y := 0
+	name := "l1"
+	r.Add(&LogicUnit{
+		name:        name,
+		worldID:     0,
+		f:           func(dt_ms float64) { x += 1 },
+		active:      true,
+		runSchedule: nil})
+	r.Add(&LogicUnit{
+		name:        name,
+		worldID:     0,
+		f:           func(dt_ms float64) { y += 1 },
+		active:      true,
+		runSchedule: nil})
+
+	// should run 1 time on shareloop 0
+	r.Run(FRAME_MS, 0)
+
+	if x != 1 && y != 1 {
+		t.Fatal("didn't run logic once")
+	}
+
+	// shareloop 1 runs logic as many times as possible
+	x = 0
+	y = 0
+	r.Run(FRAME_MS, 1)
+	Logger.Println(x)
+	Logger.Println(y)
+
+	if x != RUNTIME_LIMIT_SHARER_MAX_RUNNER_RUNS && y != RUNTIME_LIMIT_SHARER_MAX_RUNNER_RUNS {
+		t.Fatal("didn't run logic to max")
+	}
+
+	// reset ranthisframe
+	r.Run(FRAME_MS, 0)
+
+	x = 0
+	y = 0
+	r.Run(FRAME_MS, 1)
+	Logger.Println(x)
+	Logger.Println(y)
+
+	if x != RUNTIME_LIMIT_SHARER_MAX_RUNNER_RUNS && y != RUNTIME_LIMIT_SHARER_MAX_RUNNER_RUNS {
+		t.Fatal("didn't run logic to max")
+	}
+}
+
 func TestRuntimeLimiterOverrun(t *testing.T) {
 	r := NewRuntimeLimiter()
 	r.Add(&LogicUnit{

@@ -122,6 +122,7 @@ func (r *RuntimeLimitSharer) Share(allowance_ms float64) (stats RuntimeLimitShar
 
 	// run until remaining is used up of max loops
 	for remaining_ms >= 0 && loop < RUNTIME_LIMIT_SHARER_MAX_LOOPS {
+
 		logRuntimeLimiter("\n===\nloop = %d, total share = %f ms\n===\n", loop, remaining_ms)
 		totalStarvation := 0.0
 		considered := 0
