@@ -878,7 +878,7 @@ func TestGOAPPlanFarmer2000(t *testing.T) {
 	// generate it if someone was already doing plant
 	tillPlanBB := func() {
 		e.Mind.Set("plan.field", field.ID)
-		planFieldID := e.Mind.GetInt("plan.field")
+		planFieldID := e.Mind.Get("plan.field").(int)
 		planField := w.GetEntity(planFieldID)
 		// this would really be a filtering not of all entities but of perception
 		closestOxToField := w.ClosestEntityFilter(
@@ -942,7 +942,7 @@ func TestGOAPPlanFarmer2000(t *testing.T) {
 	Logger.Printf("Took %f ms to find solution", dt_ms)
 
 	// third run with oxen all out of the field by despawning the one we found in
-	w.Despawn(w.GetEntity(e.Mind.GetInt("plan.ox")))
+	w.Despawn(w.GetEntity(e.Mind.Get("plan.ox").(int)))
 	Logger.Println("All oxen are outside field")
 	dt_ms = runAPlan(true)
 	Logger.Printf("Took %f ms to find solution", dt_ms)
@@ -967,8 +967,9 @@ func TestGOAPPlanFarmer2000(t *testing.T) {
 		w.GetIntMap(oxen[2], STATE_).SetValidInterval("yoked", 0, 1)
 		Logger.Println("Pick the good ox!")
 		dt_ms = runAPlan(true)
-		if !w.GetVec2D(w.GetEntity(e.Mind.GetInt("plan.ox")), POSITION_).Equals(Vec2D{0, 20}) {
-			t.Fatalf("Didn't grandpappy learn ya right? Always pick the best ox!!! Ya done picked %v", w.GetEntity(e.Mind.GetInt("plan.ox")))
+		planOx := w.GetEntity(e.Mind.Get("plan.ox").(int))
+		if !w.GetVec2D(planOx, POSITION_).Equals(Vec2D{0, 20}) {
+			t.Fatalf("Didn't grandpappy learn ya right? Always pick the best ox!!! Ya done picked %v", planOx)
 		}
 		Logger.Printf("Took %f ms to find solution", dt_ms)
 

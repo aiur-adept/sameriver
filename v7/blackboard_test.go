@@ -204,15 +204,19 @@ func TestBlackboardSaveLoadInt(t *testing.T) {
 	fmt.Println(string(jsonStr))
 
 	bb2 := NewBlackboard(bname + "-reloaded")
-	err = json.Unmarshal(jsonStr, bb2)
+	err = json.Unmarshal(jsonStr, &bb2)
 	if err != nil {
 		t.Fatalf("error unmarshalling blackboard: %v", err)
 	}
 
 	fmt.Println(bb2.Get("number"))
 
-	number1Int := bb.GetInt("number")
-	number2Int := bb2.GetInt("number")
+	number1Int := bb.Get("number")
+	number2Int := bb2.Get("number")
+	// check if number2 is of type int
+	if _, ok := number2Int.(int); !ok {
+		t.Fatal("number2 is not of type int")
+	}
 	if number2Int != number1Int {
 		t.Fatal("number not in bb2 or type mismatch")
 	}

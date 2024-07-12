@@ -734,7 +734,7 @@ func BenchmarkGOAPFarmer2000(b *testing.B) {
 	// generate it if someone was already doing plant
 	tillPlanBB := func() {
 		e.Mind.Set("plan.field", field.ID)
-		planFieldID := e.Mind.GetInt("plan.field")
+		planFieldID := e.Mind.Get("plan.field").(int)
 		planField := w.GetEntity(planFieldID)
 		// this would really be a filtering not of all entities but of perception
 		closestOxToField := w.ClosestEntityFilter(

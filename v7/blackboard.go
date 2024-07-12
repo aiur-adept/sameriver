@@ -8,6 +8,7 @@ import (
 type Blackboard struct {
 	Name   string
 	State  map[string]any
+	Ints   map[string]bool
 	Events *EventBus `json:"-"`
 }
 
@@ -15,6 +16,7 @@ func NewBlackboard(name string) Blackboard {
 	return Blackboard{
 		Name:   name,
 		State:  make(map[string]any),
+		Ints:   make(map[string]bool),
 		Events: NewEventBus("blackboard-" + name),
 	}
 }
@@ -28,27 +30,14 @@ func (b Blackboard) Get(k string) any {
 	return b.State[k]
 }
 
-func (b Blackboard) GetInt(k string) int {
-	v, ok := b.State[k].(float64)
-	if !ok {
-		return -1
-	}
-	return int(v)
-}
-
 func (b Blackboard) Set(k string, v any) {
 	// cast to float if v is of type int
 	if _, ok := v.(int); ok {
 		b.State[k] = float64(v.(int))
+		b.Ints[k] = true
 	} else if _, ok := v.([]int); ok {
-		// cast to []float if v is of type []int
-		if ints, ok := v.([]int); ok {
-			floats := make([]float64, len(ints))
-			for i, v := range ints {
-				floats[i] = float64(v)
-			}
-			b.State[k] = floats
-		}
+		b.State[k] = v
+		b.Ints[k] = true
 	} else {
 		b.State[k] = v
 	}
@@ -56,12 +45,16 @@ func (b Blackboard) Set(k string, v any) {
 
 func (b Blackboard) Remove(k string) {
 	delete(b.State, k)
+	if _, ok := b.Ints[k]; ok {
+		delete(b.Ints, k)
+	}
 }
 
 func (bb *Blackboard) UnmarshalJSON(data []byte) error {
 	var aux struct {
 		Name  string
 		State map[string]interface{}
+		Ints  map[string]bool
 	}
 	if err := json.Unmarshal(data, &aux); err != nil {
 		return err
@@ -109,6 +102,19 @@ func (bb *Blackboard) UnmarshalJSON(data []byte) error {
 			} else {
 				return fmt.Errorf("value under key %s is not a valid-typed value", key)
 			}
+		}
+	}
+
+	for i, _ := range aux.Ints {
+		if value, ok := bb.State[i].([]float64); ok {
+			ints := make([]int, len(value))
+			for j, item := range value {
+				ints[j] = int(item)
+			}
+			bb.State[i] = ints
+		}
+		if value, ok := bb.State[i].(float64); ok {
+			bb.State[i] = int(value)
 		}
 	}
 

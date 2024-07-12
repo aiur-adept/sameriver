@@ -79,8 +79,9 @@ func EFDSLPredicatesBase(e *EFDSLEvaluator) EFDSLPredicateMap {
 		),
 
 		"Is": e.Predicate(
-			"IdentResolve<*Entity>",
-			func(y *Entity) func(*Entity) bool {
+			"IdentResolve<int>",
+			func(yID int) func(*Entity) bool {
+				y := e.w.GetEntity(yID)
 				return func(x *Entity) bool {
 					return x == y
 				}
@@ -88,8 +89,9 @@ func EFDSLPredicatesBase(e *EFDSLEvaluator) EFDSLPredicateMap {
 		),
 
 		"WithinDistance": e.Predicate(
-			"IdentResolve<*Entity>, float64",
-			func(y *Entity, d float64) func(*Entity) bool {
+			"IdentResolve<int>, float64",
+			func(yID int, d float64) func(*Entity) bool {
+				y := e.w.GetEntity(yID)
 				return func(x *Entity) bool {
 					pos := e.w.GetVec2D(x, POSITION_)
 					box := e.w.GetVec2D(x, BOX_)

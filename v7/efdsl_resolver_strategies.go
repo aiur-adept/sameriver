@@ -120,7 +120,7 @@ func (er *EntityResolver) Resolve(identifier string) any {
 		if len(parts) > 1 {
 			return valueOrEntityAccess(er.w, er.e, identifier)
 		}
-		return er.e
+		return er.e.ID
 	case "mind":
 		if len(parts) > 1 {
 			key := parts[1]

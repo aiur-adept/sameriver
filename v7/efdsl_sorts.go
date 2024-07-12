@@ -14,11 +14,12 @@ func EFDSLSortsBase(e *EFDSLEvaluator) EFDSLSortMap {
 	return EFDSLSortMap{
 
 		"Closest": func(args []string, resolver IdentifierResolver) func(xs []*Entity) func(i, j int) bool {
-			argsTyped, err := DSLAssertArgTypes("IdentResolve<*Entity>", args, resolver)
+			argsTyped, err := DSLAssertArgTypes("IdentResolve<int>", args, resolver)
 			if err != nil {
 				logDSLError("%s", err)
 			}
-			pole := argsTyped[0].(*Entity)
+			poleID := argsTyped[0].(int)
+			pole := e.w.GetEntity(poleID)
 			return func(xs []*Entity) func(i, j int) bool {
 				return func(i, j int) bool {
 					return e.w.EntityDistanceFrom(xs[i], pole) < e.w.EntityDistanceFrom(xs[j], pole)

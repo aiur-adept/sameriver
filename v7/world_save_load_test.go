@@ -34,7 +34,7 @@ func TestWorldSaveLoad(t *testing.T) {
 		t.Fatalf("entity %d not found in world", e.ID)
 	}
 
-	if e2.Mind.GetInt("test") != e.ID {
+	if e2.Mind.Get("test") != e.ID {
 		t.Fatalf("entity %d mind not found in world", e.ID)
 	}
 
@@ -46,7 +46,7 @@ func TestWorldSaveLoad(t *testing.T) {
 	}
 
 	// try to get "test" key from blackboard "testbb"
-	if w2.Blackboards["testbb"].GetInt("test") != e.ID {
+	if w2.Blackboards["testbb"].Get("test") != e.ID {
 		t.Fatalf("test key not found in blackboard")
 	}
 

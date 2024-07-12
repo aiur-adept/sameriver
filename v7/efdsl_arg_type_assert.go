@@ -21,7 +21,6 @@ func AssertT[T any](x interface{}, expectedTypeStr string) (T, error) {
 
 var typeResolveFuncs = map[string]map[string]DSLArgTypeAssertionFunc{
 	"IdentResolve": IdentResolveTypeAssertMap,
-	// Add other rules for other parametrized types than IdentResolve<T> here...
 }
 
 func ExtractTypesFromSignature(signature string) ([]string, error) {
@@ -70,9 +69,9 @@ assertion is successful.
 
 a signature is a string like
 
-IdentResolve<*Entity>, int
+IdentResolve<int>, int
 IdentResolve<[]*Vec2D>
-IdentResolve<*Entity>
+IdentResolve<int>
 IdentResolve<*Vec2D>,IdentResolve<*Vec2D>
 */
 func DSLAssertArgTypes(signature string, args []string, resolver IdentifierResolver) ([]any, error) {
@@ -93,6 +92,9 @@ func DSLAssertArgTypes(signature string, args []string, resolver IdentifierResol
 		parts := strings.Split(expectedTypes[i], "<")
 		if typeResolveFuncsMap, ok := typeResolveFuncs[parts[0]]; ok && len(parts) > 1 {
 			typeName := strings.TrimSuffix(parts[1], ">")
+			if arg == "self" {
+				typeName = "int"
+			}
 			if typeResolveFunc, ok := typeResolveFuncsMap[typeName]; ok {
 				value, err := typeResolveFunc(arg, resolver)
 				if err != nil {
