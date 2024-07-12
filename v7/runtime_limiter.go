@@ -27,6 +27,7 @@ import (
 
 // TODO: export fields so you can just poll the stats directly
 type RuntimeLimiter struct {
+
 	// used to degrade gracefully under time pressure, by picking up where we
 	// left off in the iteration of logicUnits to run in the case that we can't
 	// get to all of them within the milliseconds allotted; used for round-robin
@@ -40,6 +41,8 @@ type RuntimeLimiter struct {
 
 	// used so we can iterate the added logicUnits in order
 	logicUnits []*LogicUnit
+	// used to keep track of how many times each logic unit has been run in the current frame
+	ranThisFrame map[*LogicUnit]int
 	// logicUnits sorted by hotness ascending, which is an int incremented every time
 	// the func gets run. this is used when, in round-robin scheduling according to
 	// runIx, we reach the first unit that can't run in the budget. then we look
@@ -111,6 +114,7 @@ func NewRuntimeLimiter() *RuntimeLimiter {
 	return &RuntimeLimiter{
 		logicUnits:                    make([]*LogicUnit, 0),
 		logicUnitsMap:                 make(map[string]*LogicUnit),
+		ranThisFrame:                  make(map[*LogicUnit]int),
 		removed:                       make(map[*LogicUnit]bool),
 		addRemoveChannel:              make(chan (AddRemoveLogicEvent), ADD_REMOVE_LOGIC_CHANNEL_CAPACITY),
 		ascendingHotness:              make([]*LogicUnit, 0),
@@ -154,6 +158,19 @@ func (r *RuntimeLimiter) Run(allowance_ms float64, shareLoop int) {
 	worstOverheadThisTime := 0.0
 	remaining_ms := poll_remaining_ms()
 	for remaining_ms > 0 && (shareLoop > 0 || !r.finished) {
+
+		// break if all logicunits ran this frame
+		allRanThisFrame := true
+		for _, l := range r.logicUnits {
+			if r.ranThisFrame[l] < RUNTIME_LIMIT_SHARER_MAX_RUNNER_RUNS {
+				allRanThisFrame = false
+				break
+			}
+		}
+		if allRanThisFrame {
+			break
+		}
+
 		logRuntimeLimiter("[\\] remaining_ms: %f", remaining_ms)
 		tLoop := time.Now()
 
@@ -194,6 +211,9 @@ func (r *RuntimeLimiter) loopZero() {
 	r.oppIx = 0
 	r.iterated = 0
 	r.starvation = 1
+	for _, l := range r.logicUnits {
+		r.ranThisFrame[l] = 0
+	}
 	r.initShouldRun()
 }
 
@@ -347,6 +367,7 @@ func (r *RuntimeLimiter) runLogic(logic *LogicUnit, mode IterMode) (func_ms floa
 	}
 	r.lastRun[logic] = time.Now()
 	logic.f(dt_ms)
+	r.ranThisFrame[logic]++
 	func_ms = float64(time.Since(t0).Nanoseconds()) / 1.0e6
 	logic.ran = true
 	logic.hotness++
@@ -534,6 +555,7 @@ func (r *RuntimeLimiter) removeLogicImmediately(l *LogicUnit) {
 	r.refreshAscendingHotnessLightestAfter()
 
 	delete(r.logicUnitsMap, l.name)
+	delete(r.ranThisFrame, l)
 	delete(r.removed, l)
 	delete(r.runtimeEstimates, l)
 	delete(r.lastRun, l)
