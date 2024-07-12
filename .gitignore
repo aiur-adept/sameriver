@@ -33,3 +33,4 @@ sameriver-generate
 engine/CUSTOM_*
 
 **/test.json
+**/__debug_bin*
