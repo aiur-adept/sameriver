@@ -561,6 +561,7 @@ func (r *RuntimeLimiter) removeLogicImmediately(l *LogicUnit) {
 	delete(r.runtimeEstimates, l)
 	delete(r.lastRun, l)
 	delete(r.lastEnd, l)
+	delete(r.lastScheduleTick, l)
 	delete(r.indexes, l)
 
 	// update runIx - if we removed an entity earlier in the list,

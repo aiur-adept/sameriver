@@ -3,6 +3,7 @@ package sameriver
 import (
 	"encoding/json"
 	"fmt"
+	"math/rand"
 	"testing"
 	"time"
 )
@@ -316,6 +317,71 @@ func TestRuntimeLimiterRemove(t *testing.T) {
 	}
 	if len(r.logicUnits) != 0 {
 		t.Fatal("did not remove from logicUnits list")
+	}
+}
+
+func TestRuntimeLimiterRemoveMany(t *testing.T) {
+	r := NewRuntimeLimiter()
+	x := 0
+	createLogicUnit := func(namePrefix string, id int, f func(float64)) *LogicUnit {
+		return &LogicUnit{
+			name:        fmt.Sprintf("%s-%d", namePrefix, id),
+			worldID:     id,
+			f:           f,
+			active:      true,
+			runSchedule: nil,
+		}
+	}
+
+	LUs := make([]*LogicUnit, 0)
+	for i := 0; i < 32; i++ {
+		logic := createLogicUnit("l", i, func(dt_ms float64) { x += 1 })
+		r.Add(logic)
+		LUs = append(LUs, logic)
+	}
+
+	// run logic a few times so that it has runtimeEstimate data
+	for i := 0; i < 32; i++ {
+		r.Run(FRAME_MS, 0)
+		r.Run(FRAME_MS, 1)
+	}
+	// remove them after permuting LUs
+	rand.Shuffle(len(LUs), func(i, j int) { LUs[i], LUs[j] = LUs[j], LUs[i] })
+	for _, logic := range LUs {
+		Logger.Printf("Removing logic: %s", logic.name)
+		r.Remove(logic)
+	}
+
+	y := x
+	r.Run(FRAME_MS, 0)
+	if x != y {
+		t.Fatal("x should be equal to y")
+	}
+
+	// test if removed
+	if len(r.runtimeEstimates) != 0 {
+		t.Fatal("did not delete runtimeEstimates data")
+	}
+	if len(r.indexes) != 0 {
+		t.Fatal("did not delete runtimeEstimates data")
+	}
+	if len(r.logicUnits) != 0 {
+		t.Fatal("did not remove from logicUnits list")
+	}
+	if len(r.logicUnits) != 0 {
+		t.Fatal("did not remove from logicUnits list")
+	}
+	if len(r.ranThisFrame) != 0 {
+		t.Fatal("did not remove from ranThisFrame list")
+	}
+	if len(r.lastRun) != 0 {
+		t.Fatal("did not remove from lastRun list")
+	}
+	if len(r.lastScheduleTick) != 0 {
+		t.Fatal("did not remove from lastScheduleTick list")
+	}
+	if len(r.lastEnd) != 0 {
+		t.Fatal("did not remove from lastEnd list")
 	}
 }
 
