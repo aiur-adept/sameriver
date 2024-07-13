@@ -72,6 +72,14 @@ func valueOrEntityAccess(w *World, value any, identifier string) any {
 	case strings.ContainsRune(identifier, '<'):
 		bracket = "<"
 	default:
+		// if identifier matches bb.* return the value from the blackboard
+		if strings.HasPrefix(identifier, "bb.") {
+			accessor := identifier[3:]
+			split := strings.SplitN(accessor, ".", 2)
+			bbname := split[0]
+			key := split[1]
+			return w.Blackboards[bbname].Get(key)
+		}
 		return value
 	}
 

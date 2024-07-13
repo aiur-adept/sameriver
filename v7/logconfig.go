@@ -3,6 +3,7 @@ package sameriver
 import (
 	"fmt"
 	"os"
+	"runtime"
 	"time"
 
 	"github.com/TwiN/go-color"
@@ -46,7 +47,11 @@ var logError = SubLogFunction(
 // the red bold log is right there, with the greppable prefix [ERROR] :)
 var logDSLError = SubLogFunction(
 	"ERROR", true,
-	func(s string) string { return color.InRed("[Entity Filter DSL]" + s) })
+	func(s string) string {
+		stack := make([]byte, 4096)
+		length := runtime.Stack(stack, false)
+		return color.InRed("[Entity Filter DSL]" + s + "\n" + string(stack[:length]))
+	})
 
 var logWarning = SubLogFunction(
 	"WARNING", true,

@@ -33,9 +33,11 @@ func (b Blackboard) Get(k string) any {
 func (b Blackboard) Set(k string, v any) {
 	// cast to float if v is of type int
 	if _, ok := v.(int); ok {
-		b.State[k] = float64(v.(int))
+		b.Ints[k] = true
+		b.State[k] = v
 		b.Ints[k] = true
 	} else if _, ok := v.([]int); ok {
+		b.Ints[k] = true
 		b.State[k] = v
 		b.Ints[k] = true
 	} else {
