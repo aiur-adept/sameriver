@@ -164,8 +164,8 @@ func TestBlackboardSaveLoad(t *testing.T) {
 		t.Fatal("roles array not in bb2 or type mismatch")
 	}
 
-	number1, ok1 := bb.Get("number").(float64)
-	number2, ok2 := bb2.Get("number").(float64)
+	number1, ok1 := bb.Get("number").(int)
+	number2, ok2 := bb2.Get("number").(int)
 	fmt.Printf("Type of number1: %T, Type of number2: %T\n", bb.Get("number"), bb2.Get("number"))
 	fmt.Printf("number1: %v, number2: %v\n", number1, number2)
 	fmt.Printf("Type assertion ok1: %v, ok2: %v\n", ok1, ok2)
@@ -179,8 +179,8 @@ func TestBlackboardSaveLoad(t *testing.T) {
 		t.Fatal("bool not in bb2 or type mismatch")
 	}
 
-	numbers1, ok1 := bb.Get("numbers").([]float64)
-	numbers2, ok2 := bb2.Get("numbers").([]float64)
+	numbers1, ok1 := bb.Get("numbers").([]int)
+	numbers2, ok2 := bb2.Get("numbers").([]int)
 	fmt.Printf("Type of numbers1: %T, Type of numbers2: %T\n", bb.Get("numbers"), bb2.Get("numbers"))
 	fmt.Printf("numbers1: %v, numbers2: %v\n", numbers1, numbers2)
 	fmt.Printf("Type assertion ok1: %v, ok2: %v\n", ok1, ok2)
