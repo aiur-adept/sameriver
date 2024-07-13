@@ -9,7 +9,9 @@ jobs:
         with:
           go-version: 'stable'
       - name: Gather dependencies
-        run: install_deps.sh
+        run: ./install_deps.sh
+      - name: go mod tidy
+        run: cd v7 && go mod tidy
       - name: Run coverage
         run: make test
       - name: Upload coverage to Codecov
