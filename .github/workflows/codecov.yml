@@ -9,7 +9,7 @@ jobs:
         with:
           go-version: 'stable'
       - name: Gather dependencies
-        run: go mod download
+        run: install_deps.sh
       - name: Run coverage
         run: make test
       - name: Upload coverage to Codecov
