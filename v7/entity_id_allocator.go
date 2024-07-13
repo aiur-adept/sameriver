@@ -64,7 +64,7 @@ func (a *EntityIDAllocator) deallocate(e *Entity) {
 	// guards against false deallocation (edge case, but hey)
 	if a.Entities[e.ID].NonNil {
 		a.AvailableIDs = append(a.AvailableIDs, e.ID)
-		a.Entities[e.ID] = Entity{ID: e.ID, NonNil: false}
+		a.Entities[e.ID].NonNil = false
 		delete(a.AllocatedEntities, e.ID)
 		a.Allocated--
 	}

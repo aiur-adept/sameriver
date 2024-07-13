@@ -175,6 +175,7 @@ func TestItemSystemDespawnItemEntity(t *testing.T) {
 	i.LoadArchetypesFile("test_data/basic_archetypes.json")
 	coin := i.CreateItemSimple("coin_copper")
 	coinEntity := i.SpawnItemEntity(Vec2D{10, 10}, coin)
+
 	Logger.Println(coinEntity)
 	// draw the entity
 	w.Update(FRAME_MS / 2)
