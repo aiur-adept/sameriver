@@ -7,4 +7,4 @@ ignore:
   - "engine/logger.go"
   - "engine/math.go"
   - "engine/sdl.go"
-  - "engine/GENERATED_entity_components_get_methods.go"
+  - "engine/GENERATED_*.go"
