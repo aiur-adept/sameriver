@@ -298,6 +298,14 @@ func TestWorldGetCurrentEntitiesSet(t *testing.T) {
 	if !(len(w.GetCurrentEntitiesSet()) == 0) {
 		t.Fatal("after despawn, len(GetCurrentEntitiesSet()) should be 0")
 	}
+
+	for i := 0; i < 100; i++ {
+		testingSpawnSimple(w)
+	}
+	entities := w.GetCurrentEntitiesSet()
+	if len(entities) != 100 {
+		t.Fatal("GetCurrentEntitiesSet() should return 100 entities")
+	}
 }
 
 func TestWorldString(t *testing.T) {

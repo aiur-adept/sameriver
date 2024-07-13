@@ -889,8 +889,8 @@ func TestGOAPPlanFarmer2000(t *testing.T) {
 			})
 		if closestOxToField != nil {
 			Logger.Printf("closest ox to field: (position: %v)%v", *w.GetVec2D(closestOxToField, POSITION_), closestOxToField)
+			e.Mind.Set("plan.ox", closestOxToField.ID)
 		}
-		e.Mind.Set("plan.ox", closestOxToField.ID)
 	}
 	tillPlanBindEntities := func() {
 		p.BindEntitySelectors(map[string]any{

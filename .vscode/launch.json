@@ -5,6 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "TestGOAPPlanFarmer2000",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/v7/",
+            "args": [
+                "-test.run",
+                "TestGOAPPlanFarmer2000"
+            ],
+            "env": {
+                "DEBUG_GOAP": "true"
+            }
+        },
+        {
             "name": "TestSpriteSystemBasic",
             "type": "go",
             "request": "launch",
