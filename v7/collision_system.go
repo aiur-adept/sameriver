@@ -71,6 +71,10 @@ func (s *CollisionSystem) checkEntities(entities []*Entity) {
 		i := entities[ix]
 		for jx := ix + 1; jx < len(entities); jx++ {
 			j := entities[jx]
+			if i.ID == j.ID {
+				continue
+			}
+			logCollision("checking collision between %d and %d", i.ID, j.ID)
 			// required that i.ID < j.ID for the rate limiter array
 			if j.ID < i.ID {
 				j, i = i, j
@@ -85,6 +89,7 @@ func (s *CollisionSystem) checkEntities(entities []*Entity) {
 }
 
 func (s *CollisionSystem) DoCollide(i *Entity, j *Entity) {
+	logCollision("colliding between %d and %d", i.ID, j.ID)
 	s.rateLimiterArray.Do(i.ID, j.ID,
 		func() {
 			s.w.Events.Publish("collision",

@@ -98,7 +98,17 @@ func TestCollisionRateLimit(t *testing.T) {
 }
 
 func TestCollisionFilter(t *testing.T) {
-	w, cs, _, e := testingSetupCollision()
+
+	w := testingWorld()
+	cs := NewCollisionSystem(FRAME_DURATION / 2)
+	ps := NewPhysicsSystem()
+	w.RegisterSystems(
+		NewSpatialHashSystem(1, 1),
+		cs,
+		ps,
+	)
+	e := testingSpawnCollision(w)
+
 	coin := w.Spawn(map[string]any{
 		"tags": []string{"coin"},
 		"components": map[ComponentID]any{
@@ -109,7 +119,9 @@ func TestCollisionFilter(t *testing.T) {
 		c := ev.Data.(CollisionData)
 		return (c.This == e && c.Other == coin) || (c.This == coin && c.Other == e)
 	}
+
 	ec := cs.w.Events.Subscribe(PredicateEventFilter("collision", predicate))
+
 	w.Update(FRAME_MS)
 	time.Sleep(2 * FRAME_DURATION)
 	select {

@@ -45,6 +45,12 @@ var logError = SubLogFunction(
 // the error in red, but *try* to continue to function. SOmething is broken and
 // probably/possibly might lead to a panic, but we keep moving and if it does happen,
 // the red bold log is right there, with the greppable prefix [ERROR] :)
+
+var DEBUG_COLLISION = os.Getenv("DEBUG_COLLISION") == "true"
+var logCollision = SubLogFunction(
+	"COLLISION", DEBUG_COLLISION,
+	func(s string) string { return s })
+
 var logDSLError = SubLogFunction(
 	"ERROR", true,
 	func(s string) string {

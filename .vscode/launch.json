@@ -13,7 +13,10 @@
             "args": [
                 "-test.run",
                 "TestCollisionFilter"
-            ]
+            ],
+            "env": {
+                "DEBUG_COLLISION": "true"
+            }
         },
         {
             "name": "TestGOAPPlanFarmer2000",
