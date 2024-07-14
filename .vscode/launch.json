@@ -5,6 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "TestCollisionFilter",
+            "type": "go",
+            "request": "launch",
+            "mode": "test",
+            "program": "${workspaceFolder}/v7/",
+            "args": [
+                "-test.run",
+                "TestCollisionFilter"
+            ]
+        },
+        {
             "name": "TestGOAPPlanFarmer2000",
             "type": "go",
             "request": "launch",

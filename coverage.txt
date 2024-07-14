@@ -954,7 +954,7 @@ github.com/aiur-adept/sameriver/v7/collision_system.go:96.68,103.2 6 1
 github.com/aiur-adept/sameriver/v7/collision_system.go:107.52,113.2 1 1
 github.com/aiur-adept/sameriver/v7/collision_system.go:115.47,133.29 4 1
 github.com/aiur-adept/sameriver/v7/collision_system.go:133.29,134.42 1 1
-github.com/aiur-adept/sameriver/v7/collision_system.go:134.42,136.5 1 0
+github.com/aiur-adept/sameriver/v7/collision_system.go:134.42,136.5 1 1
 github.com/aiur-adept/sameriver/v7/collision_system.go:140.2,140.36 1 1
 github.com/aiur-adept/sameriver/v7/collision_system.go:154.49,160.34 2 1
 github.com/aiur-adept/sameriver/v7/collision_system.go:160.34,161.35 1 1
@@ -3369,7 +3369,7 @@ github.com/aiur-adept/sameriver/v7/updated_entity_list.go:75.14,77.3 1 1
 github.com/aiur-adept/sameriver/v7/updated_entity_list.go:77.8,78.49 1 1
 github.com/aiur-adept/sameriver/v7/updated_entity_list.go:78.49,80.4 1 1
 github.com/aiur-adept/sameriver/v7/updated_entity_list.go:85.47,87.14 1 1
-github.com/aiur-adept/sameriver/v7/updated_entity_list.go:87.14,89.3 1 0
+github.com/aiur-adept/sameriver/v7/updated_entity_list.go:87.14,89.3 1 1
 github.com/aiur-adept/sameriver/v7/updated_entity_list.go:89.8,91.3 1 1
 github.com/aiur-adept/sameriver/v7/updated_entity_list.go:96.31,99.2 1 1
 github.com/aiur-adept/sameriver/v7/updated_entity_list.go:102.42,104.2 1 1
