@@ -110,8 +110,8 @@ func TestCollisionFilter(t *testing.T) {
 		return c.This == e && c.Other == coin
 	}
 	ec := cs.w.Events.Subscribe(PredicateEventFilter("collision", predicate))
-	w.Update(1)
-	time.Sleep(100 * FRAME_DURATION)
+	w.Update(FRAME_MS)
+	time.Sleep(2 * FRAME_DURATION)
 	select {
 	case ev := <-ec.C:
 		Logger.Printf("ev: %v", ev)
