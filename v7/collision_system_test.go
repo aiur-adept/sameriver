@@ -107,7 +107,7 @@ func TestCollisionFilter(t *testing.T) {
 		}})
 	predicate := func(ev Event) bool {
 		c := ev.Data.(CollisionData)
-		return c.This == e && c.Other == coin
+		return (c.This == e && c.Other == coin) || (c.This == coin && c.Other == e)
 	}
 	ec := cs.w.Events.Subscribe(PredicateEventFilter("collision", predicate))
 	w.Update(FRAME_MS)
