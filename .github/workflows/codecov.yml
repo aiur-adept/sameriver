@@ -1,8 +1,5 @@
 name: codecov
 on: [push, pull_request]
-env:
-  DEBUG_COLLISION: true
-  DEBUG_EVENTS: true
 jobs:
   build:
     runs-on: ubuntu-latest
