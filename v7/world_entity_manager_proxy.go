@@ -95,3 +95,7 @@ func (w *World) GetCurrentEntitiesSet() map[int]*Entity {
 func (w *World) DumpEntities() string {
 	return w.Em.DumpEntities()
 }
+
+func (w *World) AddDespawnCallback(cb func(e *Entity)) {
+	w.Em.AddDespawnCallback(cb)
+}

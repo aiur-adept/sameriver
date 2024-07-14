@@ -57,14 +57,14 @@ func TestSpriteSystemBasic(t *testing.T) {
 		// for loop 100 times
 		animationFPS := 0.2
 		animation_accum := NewTimeAccumulator(animationFPS * 1000)
-		animation_logic := func(dt_ms float64) {
+		animation_controller := func(e *Entity, dt_ms float64) {
 			if animation_accum.Tick(dt_ms) {
 				sprite := w.GetSprite(e, BASESPRITE_)
 				sprite.FrameX += 1
 				sprite.FrameX %= sprite.DimX
 			}
 		}
-		w.AddEntityLogic(e, "animation", animation_logic)
+		ss.AddSpriteController(e, NewSpriteController(animation_controller))
 		for i := 0; i < 100; i++ {
 			w.Update(FRAME_MS)
 			renderer.SetDrawColor(255, 255, 255, 255)

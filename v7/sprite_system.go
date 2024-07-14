@@ -10,19 +10,26 @@ import (
 )
 
 type SpriteSystem struct {
-	w              *World
-	SpriteEntities *UpdatedEntityList
+	w                 *World
+	SpriteEntities    *UpdatedEntityList
+	spriteControllers map[int]*SpriteController
 
 	tm         *TextureManager
 	NilTexture *sdl.Texture
 }
 
 func NewSpriteSystem(renderer *sdl.Renderer, tm *TextureManager) *SpriteSystem {
-	s := &SpriteSystem{}
+	s := &SpriteSystem{
+		spriteControllers: make(map[int]*SpriteController),
+	}
 	s.tm = tm
 	s.LoadFiles(renderer)
 	s.generateNilTexture(renderer)
 	return s
+}
+
+func (s *SpriteSystem) AddSpriteController(e *Entity, sc *SpriteController) {
+	s.spriteControllers[e.ID] = sc
 }
 
 func (s *SpriteSystem) GetSprite(name string, dimX, dimY int) Sprite {
@@ -137,10 +144,17 @@ func (s *SpriteSystem) LinkWorld(w *World) {
 	s.w = w
 
 	s.SpriteEntities = w.GetUpdatedEntityListByComponents([]ComponentID{BASESPRITE_})
+	w.AddDespawnCallback(func(e *Entity) {
+		delete(s.spriteControllers, e.ID)
+	})
 }
 
 func (s *SpriteSystem) Update(dt_ms float64) {
-	// nil?
+	for _, e := range s.SpriteEntities.entities {
+		if s.spriteControllers[e.ID] != nil {
+			s.spriteControllers[e.ID].Update(e, dt_ms)
+		}
+	}
 }
 
 func (s *SpriteSystem) Expand(n int) {

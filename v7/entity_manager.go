@@ -22,6 +22,8 @@ type EntityManager struct {
 	Lists map[string]*UpdatedEntityList `json:"-"`
 	// updated entity lists of entities with given tags
 	entitiesWithTag map[string]*UpdatedEntityList
+	// callbacks to call when an entity is despawned
+	despawnCallbacks []func(e *Entity)
 	// entities which have been tagged uniquely
 	uniqueEntities map[string]*Entity
 	// entities that are active

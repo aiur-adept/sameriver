@@ -20,5 +20,12 @@ func (m *EntityManager) Despawn(e *Entity) {
 		e.Despawned = true
 		m.EntityIDAllocator.deallocate(e)
 		m.setActiveState(e, false)
+		for _, cb := range m.despawnCallbacks {
+			cb(e)
+		}
 	}
+}
+
+func (m *EntityManager) AddDespawnCallback(cb func(e *Entity)) {
+	m.despawnCallbacks = append(m.despawnCallbacks, cb)
 }
