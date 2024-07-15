@@ -21,4 +21,7 @@ type Sprite struct {
 
 	Visible bool
 	Flip    sdl.RendererFlip
+
+	// the name of the sprite controller to use
+	SpriteController string
 }

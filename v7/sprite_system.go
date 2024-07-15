@@ -12,7 +12,7 @@ import (
 type SpriteSystem struct {
 	w                 *World
 	SpriteEntities    *UpdatedEntityList
-	spriteControllers map[int]*SpriteController
+	spriteControllers map[string]*SpriteController
 
 	tm         *TextureManager
 	NilTexture *sdl.Texture
@@ -20,7 +20,7 @@ type SpriteSystem struct {
 
 func NewSpriteSystem(renderer *sdl.Renderer, tm *TextureManager) *SpriteSystem {
 	s := &SpriteSystem{
-		spriteControllers: make(map[int]*SpriteController),
+		spriteControllers: make(map[string]*SpriteController),
 	}
 	s.tm = tm
 	s.LoadFiles(renderer)
@@ -28,8 +28,8 @@ func NewSpriteSystem(renderer *sdl.Renderer, tm *TextureManager) *SpriteSystem {
 	return s
 }
 
-func (s *SpriteSystem) AddSpriteController(e *Entity, sc *SpriteController) {
-	s.spriteControllers[e.ID] = sc
+func (s *SpriteSystem) RegisterSpriteController(name string, sc *SpriteController) {
+	s.spriteControllers[name] = sc
 }
 
 func (s *SpriteSystem) GetSprite(name string, dimX, dimY int) Sprite {
@@ -144,15 +144,13 @@ func (s *SpriteSystem) LinkWorld(w *World) {
 	s.w = w
 
 	s.SpriteEntities = w.GetUpdatedEntityListByComponents([]ComponentID{BASESPRITE_})
-	w.AddDespawnCallback(func(e *Entity) {
-		delete(s.spriteControllers, e.ID)
-	})
 }
 
 func (s *SpriteSystem) Update(dt_ms float64) {
 	for _, e := range s.SpriteEntities.entities {
-		if s.spriteControllers[e.ID] != nil {
-			s.spriteControllers[e.ID].Update(e, dt_ms)
+		sc := s.spriteControllers[s.w.GetSprite(e, BASESPRITE_).SpriteController]
+		if sc != nil {
+			sc.Update(e, dt_ms)
 		}
 	}
 }

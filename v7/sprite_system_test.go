@@ -66,7 +66,9 @@ func TestSpriteSystemBasic(t *testing.T) {
 				sprite.FrameX %= sprite.DimX
 			}
 		}
-		ss.AddSpriteController(e, NewSpriteController(animation_controller))
+		ss.RegisterSpriteController("test", NewSpriteController(animation_controller))
+		w.GetSprite(e, BASESPRITE_).SpriteController = "test"
+
 		for i := 0; i < 100; i++ {
 			w.Update(FRAME_MS)
 			renderer.SetDrawColor(255, 255, 255, 255)
@@ -181,7 +183,9 @@ func TestSpriteSystemWander(t *testing.T) {
 				}
 			}
 		}
-		ss.AddSpriteController(e, NewSpriteController(animation_controller))
+		ss.RegisterSpriteController("test", NewSpriteController(animation_controller))
+
+		w.GetSprite(e, BASESPRITE_).SpriteController = "test"
 
 		for i := 0; i < 200; i++ {
 			w.Update(FRAME_MS)
